@@ -89,33 +89,36 @@ Kratak sažetak: [README – Uporaba umjetne inteligencije](../README_PREDLOZAK.
 
 | Alat | Inačica ili model | Koristio/la | Glavna svrha |
 | --- | --- | --- | --- |
-| [Naziv alata] | [Inačica ili model, ako je poznat] | [Član/članovi tima] | [npr. izrada nacrta dokumentacije, generiranje izvora dijagrama] |
+| Claude (Anthropic) | Claude | Fabijan Pitlović | Pomoć pri planiranju zadataka (GitHub Issues), strukturiranju dokumentacije i izradi nacrta PlantUML dijagrama |
 
 ### Opseg doprinosa umjetne inteligencije
 
 | Stranica, datoteka ili artefakt | Vrsta pomoći | Što je alat proizveo | Što je tim zadao i promijenio | Lokacija |
 | --- | --- | --- | --- | --- |
-| [npr. 3. Obrasci uporabe, UC-002] | [Izrada nacrta / preoblikovanje / prijevod / izvor dijagrama / sažimanje] | [Kratak opis] | [Ulaz zadan alatu; dodane, ispravljene ili uklonjene činjenice] | [Stranica dokumentacije, `.puml` datoteka, PR] |
+| GitHub Issues #1–#17, milestones M0 i M1 | Planiranje zadataka | Prijedlog popisa zadataka prema planu rada kolegija | Fabijan je odabrao zadatke, skratio opise i dodijelio zadatke za M0; ostale zadatke preuzimaju članovi tima | [Issues](https://github.com/frenki1004/Menzory/issues) |
+| 1. Opseg projekta | Strukturiranje i jezično uređivanje | Nacrt odjeljaka 1.1 do 1.4 prema zadatku G07 | Opseg i granice uskladio je Fabijan s projektnim zadatkom i zahtjevima tima | `docs/1-Projekt.md` |
+| 3. Obrasci uporabe, UC-01 do UC-07 | Izrada nacrta | Nacrt glavnih i alternativnih tokova te izvor dijagrama | Odabir obrazaca, veza sa zahtjevima (FZ, autor Lovro) i pregled tokova: Fabijan | `docs/3-Obrasci-uporabe.md`, `docs/puml/3-1-spasizalogaj-system-UC.puml` |
 
-Stranice i artefakti koji nisu navedeni iznad izrađeni su bez pomoći generativne umjetne inteligencije. [Po želji: kao dodatne retke navedite kod ili ispitivanja izrađena uz pomoć umjetne inteligencije.]
+Stranice i artefakti koji nisu navedeni iznad izrađeni su bez pomoći generativne umjetne inteligencije.
 
 ### Provjera generiranog sadržaja
 
 | Provjera | Kako je provedena | Dokaz |
 | --- | --- | --- |
-| Činjenična točnost | [Svaka tvrdnja o funkcionalnostima, ponašanju ili arhitekturi uspoređena je s pokrenutom aplikacijom i kodom] | [Imena pregledavatelja; poveznice na zahtjev za uključivanje promjena (PR) ili zadatak] |
-| Nema tvrdnji o neostvarenim funkcionalnostima | [Provjereno je da opisane funkcionalnosti, ispitivanja i rezultati stvarno postoje; planirani rad označen je kao planiran] | [Usporedba s odjeljkom 5.4 (Ispitivanje) i odjeljkom 7.1 (Zaključak)] |
-| Dosljednost s drugim stranicama | [Nazivi, ID-ovi i dijagrami provjereni su prema Analizi zahtjeva, Obrascima uporabe, Arhitekturi i oblikovanju te Ispitivanju] | [Kontrolni popis ili bilješka pregleda] |
-| Izvori dijagrama | [Generirani PlantUML je iscrtan, ispravljen i odgovara implementiranom sustavu] | [`.puml` datoteka i izrađena slika] |
-| Povjerljivi sadržaj | [Kako je tim osigurao da u upite ili dokumentaciju nisu unesene tajne, pristupni podaci ni osobni podaci] | [Primijenjeni postupak] |
+| Usklađenost sa zadatkom | Obrasci uporabe i opseg uspoređeni su s tekstom zadatka G07 | Zadatak G07 (Iva Sović) |
+| Dosljednost sa zahtjevima | Svaki obrazac uporabe poziva se samo na postojeće FZ oznake iz analize zahtjeva | `docs/2-Analiza-zahtjeva.md`, `docs/3-Obrasci-uporabe.md` |
+| Izvori dijagrama | PlantUML izvor iscrtan je i pregledan | `.puml` datoteka i izrađena slika |
+| Povjerljivi sadržaj | U alat nisu uneseni pristupni podaci ni osobni podaci | – |
 
 ### Pogreške pronađene u izlazu umjetne inteligencije
 
 | Problem | Kako je pronađen | Rješenje |
 | --- | --- | --- |
-| [Netočna, izmišljena ili iz predloška preuzeta tvrdnja] | [Pregled, ispitivanje ili usporedba s aplikacijom] | [Ispravak s poveznicom] |
+| Nisu utvrđene | – | – |
 
-<!-- UPUTA: Zabilježite stvarne ispravke ili napišite „Nisu utvrđene”. Općenita tvrdnja poput „sav tekst je pregledan” nije dokaz; dokaz su prethodne tablice. Tim mora moći objasniti svaku rečenicu koju objavi. -->
+### Otvoreno pitanje za asistenticu
+
+Uporabu alata umjetne inteligencije pri planiranju zadataka (GitHub Issues) i strukturiranju dokumentacije provjerit ćemo s asistenticom kako bismo bili sigurni da je u skladu s pravilima kolegija. Ovaj odjeljak ažurirat ćemo prema njezinu odgovoru.
 
 <details>
 <summary><strong>Primjer zapisa uporabe umjetne inteligencije</strong></summary>

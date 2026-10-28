@@ -13,10 +13,119 @@ Primjeri koriste temu projekta CrisisMap. Neki namjerno sadrže korisne nedostat
 
 **Cilj:** Navesti što aplikacija mora omogućiti korisnicima, odakle pojedina mogućnost proizlazi i koji se opažljivi rezultat smatra prihvaćanjem.
 
+Prioritet: **Visok** (nužno za osnovnu vrijednost), **Srednji**, **Nizak**. Zahtjevi označeni s ❓ ovise o otvorenim pitanjima koja tim još treba razjasniti.
+
+### 2.1.1 Registracija, prijava i uloge
+
 | ID | Opis | Prioritet | Izvor | Kriteriji prihvaćanja |
 | --- | --- | --- | --- | --- |
-| F-001 | [Funkcijski zahtjev/ponašanje sustava] | [Visok/Srednji/Nizak] | [Odobreni zadatak / zahtjev dionika / povratna informacija] | [Opažljivi rezultat] |
-|  |  |  |  |  |
+| FZ-01 | Korisnik se registrira i prijavljuje preko vanjskog OAuth 2.0 pružatelja. | Visok | Odobreni zadatak |  |
+| FZ-02 | Pri registraciji korisnik odabire ulogu: kupac, prodajno mjesto ili humanitarna organizacija. | Visok | Odobreni zadatak |  |
+| FZ-03 | Profil humanitarne organizacije postaje aktivan tek nakon odobrenja administratora. | Visok | Odobreni zadatak |  |
+| FZ-04 | Prodajno mjesto može objavljivati ponude tek s aktivnom (plaćenom) članarinom. ❓ | Visok | Odobreni zadatak |  |
+| FZ-05 | Korisnik se može odjaviti i urediti osnovne podatke svog profila. | Srednji | Odobreni zadatak |  |
+
+### 2.1.2 Profili
+
+| ID | Opis | Prioritet | Izvor | Kriteriji prihvaćanja |
+| --- | --- | --- | --- | --- |
+| FZ-06 | Prodajno mjesto ima javni profil: naziv, vrsta objekta, adresa, kontakt, radno vrijeme, fotografija ili logo, popis trenutno dostupnih ponuda. | Visok | Odobreni zadatak |  |
+| FZ-07 | Humanitarna organizacija ima javni profil: naziv, kontakt podaci, područje djelovanja. | Visok | Odobreni zadatak |  |
+| FZ-08 | Javni profil prodajnog mjesta prikazuje prosječnu ocjenu i komentare. | Srednji | Odobreni zadatak |  |
+
+### 2.1.3 Članarine
+
+| ID | Opis | Prioritet | Izvor | Kriteriji prihvaćanja |
+| --- | --- | --- | --- | --- |
+| FZ-09 | Prodajno mjesto plaća mjesečnu ili godišnju članarinu putem PayPala ili kartice preko vanjskog servisa. | Visok | Odobreni zadatak |  |
+| FZ-10 | Administrator određuje i mijenja cijene mjesečne i godišnje članarine. | Visok | Odobreni zadatak |  |
+| FZ-11 | Sustav prati trajanje članarine i obavještava prodajno mjesto prije isteka. ❓ | Srednji | Odobreni zadatak |  |
+
+### 2.1.4 Ponude
+
+| ID | Opis | Prioritet | Izvor | Kriteriji prihvaćanja |
+| --- | --- | --- | --- | --- |
+| FZ-12 | Prodajno mjesto objavljuje proizvod: naziv, kategorija, količina, redovna cijena, snižena cijena **ili** oznaka donacije, rok upotrebe, krajnje vrijeme preuzimanja, fotografije (neobavezno). | Visok | Odobreni zadatak |  |
+| FZ-13 | Prodajno mjesto objavljuje paket iznenađenja: približna vrsta sadržaja, ukupna vrijednost, prodajna cijena, broj paketa, interval preuzimanja, fotografije (neobavezno). | Visok | Odobreni zadatak |  |
+| FZ-14 | Prodajno mjesto proizvod može označiti kao „samo za donaciju“; takav proizvod vide samo humanitarne organizacije. | Visok | Odobreni zadatak |  |
+| FZ-15 | Prodajno mjesto uređuje i povlači svoje ponude. | Visok | Odobreni zadatak |  |
+| FZ-16 | Sustav automatski skida ponudu kad istekne vrijeme preuzimanja ili dostupna količina padne na 0. | Visok | Odobreni zadatak |  |
+
+### 2.1.5 Pretraživanje i karta
+
+| ID | Opis | Prioritet | Izvor | Kriteriji prihvaćanja |
+| --- | --- | --- | --- | --- |
+| FZ-17 | Kupac pretražuje i filtrira ponude prema kategoriji, lokaciji (udaljenosti), cijeni i vremenu preuzimanja. | Visok | Odobreni zadatak |  |
+| FZ-18 | Lokacije prodajnih mjesta i udaljenost od korisnika prikazuju se vanjskom kartografskom uslugom. | Visok | Odobreni zadatak |  |
+| FZ-19 | Kupac otvara detalje ponude i profil prodajnog mjesta. | Visok | Odobreni zadatak |  |
+
+### 2.1.6 Rezervacija, plaćanje i preuzimanje
+
+| ID | Opis | Prioritet | Izvor | Kriteriji prihvaćanja |
+| --- | --- | --- | --- | --- |
+| FZ-20 | Kupac rezervira jedan ili više dostupnih proizvoda ili paketa, uz odabranu količinu. ❓ | Visok | Odobreni zadatak |  |
+| FZ-21 | Kupac plaća rezervaciju PayPalom ili karticom preko vanjskog servisa. | Visok | Odobreni zadatak |  |
+| FZ-22 | Nakon uspješnog plaćanja sustav smanjuje dostupnu količinu, izdaje potvrdu i jedinstveni kod za preuzimanje (tekst i QR). | Visok | Odobreni zadatak |  |
+| FZ-23 | Kupac otkazuje rezervaciju najkasnije 1 sat prije isteka predviđenog vremena preuzimanja; količina se vraća u ponudu. ❓ | Visok | Odobreni zadatak |  |
+| FZ-24 | Zaposlenik prodajnog mjesta potvrđuje preuzimanje unosom ili skeniranjem koda. | Visok | Odobreni zadatak |  |
+| FZ-25 | Kupac pregledava svoje aktivne i prošle rezervacije. | Srednji | Odobreni zadatak |  |
+| FZ-26 | Prodajno mjesto pregledava rezervacije za svoje ponude. | Srednji | Odobreni zadatak |  |
+| FZ-27 | Sustav rezervaciju koja nije preuzeta u roku označava kao nepreuzetu. ❓ | Srednji | Odobreni zadatak |  |
+
+### 2.1.7 Ocjene i komentari
+
+| ID | Opis | Prioritet | Izvor | Kriteriji prihvaćanja |
+| --- | --- | --- | --- | --- |
+| FZ-28 | Nakon potvrđenog preuzimanja kupac može ocijeniti prodajno mjesto i ostaviti komentar. | Srednji | Odobreni zadatak |  |
+| FZ-29 | Prodajno mjesto odgovara na komentare. | Srednji | Odobreni zadatak |  |
+
+### 2.1.8 Donacije humanitarnim organizacijama
+
+| ID | Opis | Prioritet | Izvor | Kriteriji prihvaćanja |
+| --- | --- | --- | --- | --- |
+| FZ-30 | Aktivna humanitarna organizacija pregledava donacijske ponude. | Visok | Odobreni zadatak |  |
+| FZ-31 | Humanitarna organizacija šalje zahtjev za preuzimanje određene količine donacijske ponude. | Visok | Odobreni zadatak |  |
+| FZ-32 | Prodajno mjesto odobrava ili odbija zahtjev; organizacija dobiva obavijest. | Visok | Odobreni zadatak |  |
+| FZ-33 | Odobreni zahtjev rezervira količinu i ima način potvrde preuzimanja. ❓ | Srednji | Odobreni zadatak |  |
+
+### 2.1.9 Akcije prikupljanja hrane
+
+| ID | Opis | Prioritet | Izvor | Kriteriji prihvaćanja |
+| --- | --- | --- | --- | --- |
+| FZ-34 | Prodajno mjesto ili humanitarna organizacija kreira akciju: naziv, opis, lokacija, datum početka i završetka, popis potrebnih vrsta proizvoda. | Srednji | Odobreni zadatak |  |
+| FZ-35 | Kupac se prijavljuje na akciju i označava proizvode koje planira donirati. | Srednji | Odobreni zadatak |  |
+| FZ-36 | Organizator akcije evidentira stvarno zaprimljenu donaciju. | Srednji | Odobreni zadatak |  |
+| FZ-37 | Korisnici pregledavaju aktivne i nadolazeće akcije. | Srednji | Odobreni zadatak |  |
+
+### 2.1.10 Pretplate i obavijesti
+
+| ID | Opis | Prioritet | Izvor | Kriteriji prihvaćanja |
+| --- | --- | --- | --- | --- |
+| FZ-38 | Korisnik se pretplaćuje i odjavljuje s obavijesti o novim ponudama odabranih prodajnih mjesta ili kategorija hrane. | Srednji | Odobreni zadatak |  |
+| FZ-39 | Sustav šalje obavijest pretplatnicima kad se objavi odgovarajuća ponuda. ❓ kanal | Srednji | Odobreni zadatak |  |
+
+### 2.1.11 Administracija
+
+| ID | Opis | Prioritet | Izvor | Kriteriji prihvaćanja |
+| --- | --- | --- | --- | --- |
+| FZ-40 | Administrator odobrava ili odbija nove profile. ❓ koje uloge | Visok | Odobreni zadatak |  |
+| FZ-41 | Administrator pregledava, blokira i briše korisničke račune. | Srednji | Odobreni zadatak |  |
+| FZ-42 | Administrator uklanja neprimjeren sadržaj (ponude, komentare, akcije). | Srednji | Odobreni zadatak |  |
+| FZ-43 | Administrator upravlja popisom kategorija hrane. ❓ | Nizak | Odobreni zadatak |  |
+
+### 2.1.12 Dodatne funkcionalnosti (nizak prioritet)
+
+Ovi zahtjevi nisu izričito navedeni u zadatku, ali povećavaju vrijednost sustava. Implementiraju se ako ostane vremena.
+
+| ID | Opis | Prioritet | Izvor | Kriteriji prihvaćanja |
+| --- | --- | --- | --- | --- |
+| FZ-44 | Kupac sprema prodajna mjesta u popis omiljenih. | Nizak | Prijedlog tima |  |
+| FZ-45 | Kupac sortira rezultate pretrage prema udaljenosti, cijeni ili vremenu isteka preuzimanja. | Nizak | Prijedlog tima |  |
+| FZ-46 | Prodajno mjesto uz proizvod navodi alergene, a kupac prema njima filtrira. | Nizak | Prijedlog tima |  |
+| FZ-47 | Sustav kupca podsjeća na nepreuzetu rezervaciju 1 sat prije isteka preuzimanja. | Nizak | Prijedlog tima |  |
+| FZ-48 | Prodajno mjesto ponovno objavljuje raniju ponudu kao predložak. | Nizak | Prijedlog tima |  |
+| FZ-49 | Prodajno mjesto pregledava osnovnu statistiku: prodane, donirane i nepreuzete ponude. | Nizak | Prijedlog tima |  |
+| FZ-50 | Korisnik prijavljuje neprimjeren komentar ili ponudu administratoru. | Nizak | Prijedlog tima |  |
 
 <details>
 <summary><strong>Izvori zahtjeva i kriteriji prihvaćanja</strong></summary>
@@ -51,10 +160,24 @@ Za složenu interakciju kratak scenarij *Given / When / Then* može pojasniti kr
 
 **Cilj:** Odrediti važna svojstva kvalitete i uvjete rada odobrene aplikacije na način koji tim može razumno provjeriti.
 
-| ID | Opis | Prioritet | Izvor | Način provjere |
-| --- | --- | --- | --- | --- |
-| NF-01 | [Konkretan zahtjev (npr. odziv, sigurnost, pristupačnost)] | Visok / Srednji / Nizak | [Sigurnost / Uputa / SLA] | [Mjerenje / Testni scenarij / Pregled] |
-|  |  |  |  |  |
+Brojčane vrijednosti su prijedlozi tima i treba ih potvrditi.
+
+| ID | Kategorija | Opis | Prioritet | Izvor | Način provjere |
+| --- | --- | --- | --- | --- | --- |
+| NFZ-01 | Sigurnost | Sva komunikacija ide preko HTTPS-a; autentifikacija isključivo preko OAuth 2.0. |  |  |  |
+| NFZ-02 | Sigurnost | Sustav ne pohranjuje podatke platnih kartica; plaćanje obavlja vanjski servis. |  |  |  |
+| NFZ-03 | Sigurnost | Pristup funkcijama kontrolira se prema ulogama; korisnik vidi i mijenja samo podatke za koje ima ovlasti. |  |  |  |
+| NFZ-04 | Sigurnost | Kod za preuzimanje je jedinstven, nepredvidiv i vrijedi samo za jedno preuzimanje. |  |  |  |
+| NFZ-05 | Privatnost | Osobni podaci obrađuju se u skladu s GDPR-om; lokacija korisnika koristi se samo uz njegovo dopuštenje. |  |  |  |
+| NFZ-06 | Konzistentnost | Istovremene rezervacije ne smiju prodati više od dostupne količine (transakcije ili zaključavanje). |  |  |  |
+| NFZ-07 | Konzistentnost | Rezervacija se potvrđuje tek nakon uspješnog plaćanja; neuspjelo plaćanje ne zauzima količinu trajno. |  |  |  |
+| NFZ-08 | Performanse | Pretraga ponuda vraća rezultate za manje od 2 s uz do 1000 aktivnih ponuda. |  |  |  |
+| NFZ-09 | Upotrebljivost | Sučelje je responzivno i upotrebljivo na mobitelu (zaposlenik skenira kod kamerom). |  |  |  |
+| NFZ-10 | Upotrebljivost | Sučelje je na hrvatskom jeziku; vremena se prikazuju u zoni Europe/Zagreb, cijene u eurima. |  |  |  |
+| NFZ-11 | Dostupnost | Sustav je dostupan javno putem interneta; ciljna dostupnost 99 % tijekom demonstracije. |  |  |  |
+| NFZ-12 | Pouzdanost | Ispadi vanjskih servisa (plaćanje, karte, e-mail) prikazuju jasnu poruku i ne ruše aplikaciju. |  |  |  |
+| NFZ-13 | Održavanje | Kod je u Git repozitoriju, uz README s uputama za pokretanje i automatizirane testove ključnih funkcija. |  |  |  |
+| NFZ-14 | Testabilnost | Plaćanja se razvijaju i testiraju u sandbox okruženju vanjskog servisa. |  |  |  |
 
 <details>
 <summary><strong>Nefunkcijski zahtjevi za analizu</strong></summary>

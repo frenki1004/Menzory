@@ -1,208 +1,84 @@
 # 2. Analiza zahtjeva
 
-**Cilj:** Iz odobrenog opsega projekta izvesti prepoznatljive, prioritetizirane i provjerljive zahtjeve. Zahtjevi se mogu mijenjati; pri završnoj predaji moraju odražavati dogovorenu aplikaciju. Izvori, odluke i poveznice u primjerima kolegija nastavni su scenariji, a ne projektni zapisi.
-
-<details>
-<summary><strong>Održavanje zahtjeva ažurnima</strong></summary>
-
-Primjeri koriste temu projekta CrisisMap. Neki namjerno sadrže korisne nedostatke za raspravu. Izvori, odluke i poveznice na provjere u tim primjerima **nastavni su scenariji**, a ne zapisi rada stvarnog studentskog tima. Zamijenite ih zahtjevima i dokazima svojeg odobrenog projekta. Značajne promjene zabilježite u odjeljku 2.5.
-
-</details>
+**Cilj:** Iz odobrenog opsega projekta izvesti prepoznatljive, prioritetizirane i provjerljive zahtjeve. Zahtjevi se mogu mijenjati; pri završnoj predaji moraju odražavati dogovorenu aplikaciju.
 
 ## 2.1 Funkcijski zahtjevi
 
 **Cilj:** Navesti što aplikacija mora omogućiti korisnicima, odakle pojedina mogućnost proizlazi i koji se opažljivi rezultat smatra prihvaćanjem.
 
-Prioritet: **Visok** (nužno za osnovnu vrijednost), **Srednji**, **Nizak**. Zahtjevi označeni s ❓ ovise o otvorenim pitanjima koja tim još treba razjasniti.
-
-### 2.1.1 Registracija, prijava i uloge
-
 | ID | Opis | Prioritet | Izvor | Kriteriji prihvaćanja |
 | --- | --- | --- | --- | --- |
-| FZ-01 | Korisnik se registrira i prijavljuje preko vanjskog OAuth 2.0 pružatelja. | Visok | Odobreni zadatak |  |
-| FZ-02 | Pri registraciji korisnik odabire ulogu: kupac, prodajno mjesto ili humanitarna organizacija. | Visok | Odobreni zadatak |  |
-| FZ-03 | Profil humanitarne organizacije postaje aktivan tek nakon odobrenja administratora. | Visok | Odobreni zadatak |  |
-| FZ-04 | Prodajno mjesto može objavljivati ponude tek s aktivnom (plaćenom) članarinom. ❓ | Visok | Odobreni zadatak |  |
-| FZ-05 | Korisnik se može odjaviti i urediti osnovne podatke svog profila. | Srednji | Odobreni zadatak |  |
-
-### 2.1.2 Profili
-
-| ID | Opis | Prioritet | Izvor | Kriteriji prihvaćanja |
-| --- | --- | --- | --- | --- |
-| FZ-06 | Prodajno mjesto ima javni profil: naziv, vrsta objekta, adresa, kontakt, radno vrijeme, fotografija ili logo, popis trenutno dostupnih ponuda. | Visok | Odobreni zadatak |  |
-| FZ-07 | Humanitarna organizacija ima javni profil: naziv, kontakt podaci, područje djelovanja. | Visok | Odobreni zadatak |  |
-| FZ-08 | Javni profil prodajnog mjesta prikazuje prosječnu ocjenu i komentare. | Srednji | Odobreni zadatak |  |
-
-### 2.1.3 Članarine
-
-| ID | Opis | Prioritet | Izvor | Kriteriji prihvaćanja |
-| --- | --- | --- | --- | --- |
-| FZ-09 | Prodajno mjesto plaća mjesečnu ili godišnju članarinu putem PayPala ili kartice preko vanjskog servisa. | Visok | Odobreni zadatak |  |
-| FZ-10 | Administrator određuje i mijenja cijene mjesečne i godišnje članarine. | Visok | Odobreni zadatak |  |
-| FZ-11 | Sustav prati trajanje članarine i obavještava prodajno mjesto prije isteka. ❓ | Srednji | Odobreni zadatak |  |
-
-### 2.1.4 Ponude
-
-| ID | Opis | Prioritet | Izvor | Kriteriji prihvaćanja |
-| --- | --- | --- | --- | --- |
-| FZ-12 | Prodajno mjesto objavljuje proizvod: naziv, kategorija, količina, redovna cijena, snižena cijena **ili** oznaka donacije, rok upotrebe, krajnje vrijeme preuzimanja, fotografije (neobavezno). | Visok | Odobreni zadatak |  |
-| FZ-13 | Prodajno mjesto objavljuje paket iznenađenja: približna vrsta sadržaja, ukupna vrijednost, prodajna cijena, broj paketa, interval preuzimanja, fotografije (neobavezno). | Visok | Odobreni zadatak |  |
-| FZ-14 | Prodajno mjesto proizvod može označiti kao „samo za donaciju“; takav proizvod vide samo humanitarne organizacije. | Visok | Odobreni zadatak |  |
-| FZ-15 | Prodajno mjesto uređuje i povlači svoje ponude. | Visok | Odobreni zadatak |  |
-| FZ-16 | Sustav automatski skida ponudu kad istekne vrijeme preuzimanja ili dostupna količina padne na 0. | Visok | Odobreni zadatak |  |
-
-### 2.1.5 Pretraživanje i karta
-
-| ID | Opis | Prioritet | Izvor | Kriteriji prihvaćanja |
-| --- | --- | --- | --- | --- |
-| FZ-17 | Kupac pretražuje i filtrira ponude prema kategoriji, lokaciji (udaljenosti), cijeni i vremenu preuzimanja. | Visok | Odobreni zadatak |  |
-| FZ-18 | Lokacije prodajnih mjesta i udaljenost od korisnika prikazuju se vanjskom kartografskom uslugom. | Visok | Odobreni zadatak |  |
-| FZ-19 | Kupac otvara detalje ponude i profil prodajnog mjesta. | Visok | Odobreni zadatak |  |
-
-### 2.1.6 Rezervacija, plaćanje i preuzimanje
-
-| ID | Opis | Prioritet | Izvor | Kriteriji prihvaćanja |
-| --- | --- | --- | --- | --- |
-| FZ-20 | Kupac rezervira jedan ili više dostupnih proizvoda ili paketa, uz odabranu količinu. ❓ | Visok | Odobreni zadatak |  |
-| FZ-21 | Kupac plaća rezervaciju PayPalom ili karticom preko vanjskog servisa. | Visok | Odobreni zadatak |  |
-| FZ-22 | Nakon uspješnog plaćanja sustav smanjuje dostupnu količinu, izdaje potvrdu i jedinstveni kod za preuzimanje (tekst i QR). | Visok | Odobreni zadatak |  |
-| FZ-23 | Kupac otkazuje rezervaciju najkasnije 1 sat prije isteka predviđenog vremena preuzimanja; količina se vraća u ponudu. ❓ | Visok | Odobreni zadatak |  |
-| FZ-24 | Zaposlenik prodajnog mjesta potvrđuje preuzimanje unosom ili skeniranjem koda. | Visok | Odobreni zadatak |  |
-| FZ-25 | Kupac pregledava svoje aktivne i prošle rezervacije. | Srednji | Odobreni zadatak |  |
-| FZ-26 | Prodajno mjesto pregledava rezervacije za svoje ponude. | Srednji | Odobreni zadatak |  |
-| FZ-27 | Sustav rezervaciju koja nije preuzeta u roku označava kao nepreuzetu. ❓ | Srednji | Odobreni zadatak |  |
-
-### 2.1.7 Ocjene i komentari
-
-| ID | Opis | Prioritet | Izvor | Kriteriji prihvaćanja |
-| --- | --- | --- | --- | --- |
-| FZ-28 | Nakon potvrđenog preuzimanja kupac može ocijeniti prodajno mjesto i ostaviti komentar. | Srednji | Odobreni zadatak |  |
-| FZ-29 | Prodajno mjesto odgovara na komentare. | Srednji | Odobreni zadatak |  |
-
-### 2.1.8 Donacije humanitarnim organizacijama
-
-| ID | Opis | Prioritet | Izvor | Kriteriji prihvaćanja |
-| --- | --- | --- | --- | --- |
-| FZ-30 | Aktivna humanitarna organizacija pregledava donacijske ponude. | Visok | Odobreni zadatak |  |
-| FZ-31 | Humanitarna organizacija šalje zahtjev za preuzimanje određene količine donacijske ponude. | Visok | Odobreni zadatak |  |
-| FZ-32 | Prodajno mjesto odobrava ili odbija zahtjev; organizacija dobiva obavijest. | Visok | Odobreni zadatak |  |
-| FZ-33 | Odobreni zahtjev rezervira količinu i ima način potvrde preuzimanja. ❓ | Srednji | Odobreni zadatak |  |
-
-### 2.1.9 Akcije prikupljanja hrane
-
-| ID | Opis | Prioritet | Izvor | Kriteriji prihvaćanja |
-| --- | --- | --- | --- | --- |
-| FZ-34 | Prodajno mjesto ili humanitarna organizacija kreira akciju: naziv, opis, lokacija, datum početka i završetka, popis potrebnih vrsta proizvoda. | Srednji | Odobreni zadatak |  |
-| FZ-35 | Kupac se prijavljuje na akciju i označava proizvode koje planira donirati. | Srednji | Odobreni zadatak |  |
-| FZ-36 | Organizator akcije evidentira stvarno zaprimljenu donaciju. | Srednji | Odobreni zadatak |  |
-| FZ-37 | Korisnici pregledavaju aktivne i nadolazeće akcije. | Srednji | Odobreni zadatak |  |
-
-### 2.1.10 Pretplate i obavijesti
-
-| ID | Opis | Prioritet | Izvor | Kriteriji prihvaćanja |
-| --- | --- | --- | --- | --- |
-| FZ-38 | Korisnik se pretplaćuje i odjavljuje s obavijesti o novim ponudama odabranih prodajnih mjesta ili kategorija hrane. | Srednji | Odobreni zadatak |  |
-| FZ-39 | Sustav šalje obavijest pretplatnicima kad se objavi odgovarajuća ponuda. ❓ kanal | Srednji | Odobreni zadatak |  |
-
-### 2.1.11 Administracija
-
-| ID | Opis | Prioritet | Izvor | Kriteriji prihvaćanja |
-| --- | --- | --- | --- | --- |
-| FZ-40 | Administrator odobrava ili odbija nove profile. ❓ koje uloge | Visok | Odobreni zadatak |  |
-| FZ-41 | Administrator pregledava, blokira i briše korisničke račune. | Srednji | Odobreni zadatak |  |
-| FZ-42 | Administrator uklanja neprimjeren sadržaj (ponude, komentare, akcije). | Srednji | Odobreni zadatak |  |
-| FZ-43 | Administrator upravlja popisom kategorija hrane. ❓ | Nizak | Odobreni zadatak |  |
-
-### 2.1.12 Dodatne funkcionalnosti (nizak prioritet)
-
-Ovi zahtjevi nisu izričito navedeni u zadatku, ali povećavaju vrijednost sustava. Implementiraju se ako ostane vremena.
-
-| ID | Opis | Prioritet | Izvor | Kriteriji prihvaćanja |
-| --- | --- | --- | --- | --- |
-| FZ-44 | Kupac sprema prodajna mjesta u popis omiljenih. | Nizak | Prijedlog tima |  |
-| FZ-45 | Kupac sortira rezultate pretrage prema udaljenosti, cijeni ili vremenu isteka preuzimanja. | Nizak | Prijedlog tima |  |
-| FZ-46 | Prodajno mjesto uz proizvod navodi alergene, a kupac prema njima filtrira. | Nizak | Prijedlog tima |  |
-| FZ-47 | Sustav kupca podsjeća na nepreuzetu rezervaciju 1 sat prije isteka preuzimanja. | Nizak | Prijedlog tima |  |
-| FZ-48 | Prodajno mjesto ponovno objavljuje raniju ponudu kao predložak. | Nizak | Prijedlog tima |  |
-| FZ-49 | Prodajno mjesto pregledava osnovnu statistiku: prodane, donirane i nepreuzete ponude. | Nizak | Prijedlog tima |  |
-| FZ-50 | Korisnik prijavljuje neprimjeren komentar ili ponudu administratoru. | Nizak | Prijedlog tima |  |
-
-<details>
-<summary><strong>Izvori zahtjeva i kriteriji prihvaćanja</strong></summary>
-
-Svaki zahtjev treba imati stabilan ID. **Izvor označava odakle zahtjev potječe**, primjerice iz odobrenog projektnog zadatka, zahtjeva dionika ili povratne informacije koja je promijenila zahtjev. Opišite opažljivo ponašanje umjesto naziva zaslona ili programskog okvira. U cijeloj dokumentaciji koristite istu ljestvicu prioriteta. Složenu korisničku interakciju objasnite u odgovarajućem obrascu uporabe umjesto kopiranja cijelog tijeka u ovu tablicu.
-
-**Primjer — funkcijski zahtjevi za aplikaciju CrisisMap:**
-
-Kategorije izvora pokazuju različite načine na koje zahtjev može nastati.
-
-| ID | Opis | Prioritet | Izvor | Kriteriji prihvaćanja |
-| --- | --- | --- | --- | --- |
-| F-001 | Sustav omogućuje korisniku registraciju računa pomoću adrese e-pošte. | Visok | Zahtjev dionika | Korisnik se može registrirati adresom e-pošte, primiti poruku za potvrdu i aktivirati račun slijedeći poveznicu. |
-| F-002 | Sustav omogućuje oporavak lozinke putem e-pošte. | Srednji | Zahtjev dionika | Korisnik može zatražiti ponovno postavljanje lozinke, primiti poveznicu i uspješno postaviti novu lozinku. |
-| F-003 | Sustav prikazuje popis dostupnih resursa povezanih s kriznim događajima. | Visok | Postojeći sustav | Korisnik može pregledati ažurirani popis resursa relevantnih za vrstu kriznog događaja, lokaciju i raspoloživost. |
-| F-004 | Sustav omogućuje korisnicima podnošenje prijave kriznog događaja s lokacijom. | Visok | Dokument sa zahtjevima | Korisnik može podnijeti prijavu s vrstom kriznog događaja, razinom ozbiljnosti i lokacijom te dobiti potvrdu o zaprimanju. Ako odbije pristup geolokaciji preglednika, može lokaciju odabrati ručno.|
-| F-005 | Sustav šalje korisnicima obavijesti o relevantnim promjenama u njihovoj blizini. | Visok | Povratna informacija korisnika | Korisnici dobivaju obavijest unutar jedne minute od relevantne promjene za njihovu lokaciju. |
-| F-006 | Sustav prikazuje dostupne resurse prema lokaciji. | Visok | Analiza dokumentacije | Prikazuje se ažurirani popis resursa prilagođen vrsti kriznog događaja, lokaciji i raspoloživosti. |
-| F-007 | Sustav prikazuje prijave kriznih događaja s lokacijom kao oznake na karti. | Visok | Odobreni zadatak | Prijava s valjanom lokacijom prikazuje se kao oznaka na karti; odabirom oznake korisnik može otvoriti pripadajuću prijavu. |
-| F-008 | Sustav omogućuje moderatoru odobravanje ili odbijanje podnesenih prijava. | Visok | Zahtjev dionika | Moderator može odobriti ili odbiti prijavu koja čeka pregled; korisnik bez moderatorskih ovlasti ne može izvršiti te radnje. |
-
-**Kriteriji prihvaćanja i podrijetlo zahtjeva:** Primjer prikazuje registraciju, oporavak lozinke, resurse, prijavu kriznog događaja i obavijesti te nekoliko vrsta izvora i opažljivih kriterija. Istodobno otvara korisna pitanja: opisuju li F-003 i F-006 istu funkcionalnost resursa? Je li obećanje od jedne minute u F-005 dogovoreno i moguće ispitati? Treba li aplikaciji koja koristi isključivo OAuth uopće F-001 i F-002? Retke koristite kao materijal za analizu; u svojem projektu navedite vlastite zahtjeve. U stvarnom projektu stupac Izvor bilježi odakle su doista potekli njegovi zahtjevi.
-
-**Primjer prilagodbe kada odobreni zadatak koristi OAuth i kartu:** Umjesto kopiranja registracije e-poštom i oporavka lozinke formulirajte relevantni zahtjev za prijavu, primjerice: „F-001: Korisnici se prijavljuju putem odobrenog OAuth pružatelja identiteta; uspješna prijava omogućuje radnje rezervirane za prijavljene korisnike, a odustajanje od prijave ostavlja te radnje nedostupnima.” Zaseban zahtjev za kartu može glasiti: „F-007 : Prijave s lokacijom prikazuju se kao oznake na karti; odabirom oznake otvara se pripadajuća prijava.” Izvor treba biti stvarni odobreni zadatak ili dogovoreni zahtjev dionika. Ova je prilagodba zamjena za neodgovarajuće retke, a ne dodatna tablica koju svaki tim mora ispuniti.
-
-Za složenu interakciju kratak scenarij *Given / When / Then* može pojasniti kriterij. Primjerice: *Given* prijava bez lokacije, *when* građanin je podnese, *then* sustav objašnjava da lokacija nedostaje i ne pohranjuje prijavu. Nemojte jednostavan kriterij ponavljati i u prozi i u Gherkinu niti pisati Gherkin za svaki zahtjev.
-
-</details>
-
+| F-001 | Korisnik se registrira i prijavljuje preko vanjskog OAuth 2.0 pružatelja. | Visok | Odobreni zadatak | Korisnik se prijavljuje preko OAuth pružatelja i dobiva pristup funkcijama svoje uloge; odustajanjem od prijave te funkcije ostaju nedostupne. |
+| F-002 | Pri registraciji korisnik odabire ulogu: kupac, prodajno mjesto ili humanitarna organizacija. | Visok | Odobreni zadatak | Pri prvoj prijavi korisnik mora odabrati jednu od tri uloge; nakon odabira prikazuje mu se sučelje te uloge. |
+| F-003 | Profil humanitarne organizacije postaje aktivan tek nakon odobrenja administratora. | Visok | Odobreni zadatak | Nova humanitarna organizacija ima status „na čekanju” i ne vidi donacijske ponude dok je administrator ne odobri. |
+| F-004 | Prodajno mjesto može objavljivati ponude tek s aktivnom (plaćenom) članarinom. | Visok | Odobreni zadatak | Prodajno mjesto bez aktivne članarine ne može objaviti ponudu i dobiva uputu za plaćanje; nakon plaćanja objava je moguća. Vidi P-01. |
+| F-005 | Korisnik se može odjaviti i urediti osnovne podatke svog profila. | Srednji | Odobreni zadatak | Nakon odjave zaštićene funkcije nisu dostupne; spremljene izmjene profila odmah su vidljive. |
+| F-006 | Prodajno mjesto ima javni profil: naziv, vrsta objekta, adresa, kontakt, radno vrijeme, fotografija ili logo, popis trenutno dostupnih ponuda. | Visok | Odobreni zadatak | Javni profil prikazuje sve navedene podatke i samo ponude koje su trenutno dostupne. |
+| F-007 | Humanitarna organizacija ima javni profil: naziv, kontakt podaci, područje djelovanja. | Visok | Odobreni zadatak | Javni profil organizacije prikazuje naziv, kontakt podatke i područje djelovanja. |
+| F-008 | Javni profil prodajnog mjesta prikazuje prosječnu ocjenu i komentare. | Srednji | Odobreni zadatak | Profil prikazuje prosječnu ocjenu i popis komentara; nova ocjena mijenja prikazani prosjek. |
+| F-009 | Prodajno mjesto plaća mjesečnu ili godišnju članarinu putem PayPala ili kartice preko vanjskog servisa. | Visok | Odobreni zadatak | Nakon uspješnog plaćanja u sandbox okruženju prodajno mjesto ima aktivnu članarinu s prikazanim datumom isteka. |
+| F-010 | Administrator određuje i mijenja cijene mjesečne i godišnje članarine. | Visok | Odobreni zadatak | Nova cijena prikazuje se pri sljedećem plaćanju; već plaćene članarine ostaju nepromijenjene. |
+| F-011 | Sustav prati trajanje članarine i obavještava prodajno mjesto prije isteka. | Srednji | Odobreni zadatak | Prodajno mjesto dobiva obavijest prije isteka članarine; nakon isteka članarina više nije aktivna. Vidi P-02. |
+| F-012 | Prodajno mjesto objavljuje proizvod: naziv, kategorija, količina, redovna cijena, snižena cijena **ili** oznaka donacije, rok upotrebe, krajnje vrijeme preuzimanja, fotografije (neobavezno). | Visok | Odobreni zadatak | Ponuda se ne može spremiti bez obaveznih polja; snižena cijena mora biti manja od redovne; objavljena ponuda vidljiva je u pretrazi. |
+| F-013 | Prodajno mjesto objavljuje paket iznenađenja: približna vrsta sadržaja, ukupna vrijednost, prodajna cijena, broj paketa, interval preuzimanja, fotografije (neobavezno). | Visok | Odobreni zadatak | Objavljeni paket prikazuje se u pretrazi s brojem dostupnih paketa i intervalom preuzimanja. |
+| F-014 | Prodajno mjesto proizvod može označiti kao „samo za donaciju”; takav proizvod vide samo humanitarne organizacije. | Visok | Odobreni zadatak | Donacijsku ponudu vidi aktivna humanitarna organizacija; kupac je ne vidi u pretrazi ni na profilu prodajnog mjesta. |
+| F-015 | Prodajno mjesto uređuje i povlači svoje ponude. | Visok | Odobreni zadatak | Izmjene su odmah vidljive; povučena ponuda više se ne prikazuje i ne može se rezervirati. |
+| F-016 | Sustav automatski skida ponudu kad istekne vrijeme preuzimanja ili dostupna količina padne na 0. | Visok | Odobreni zadatak | Nakon isteka vremena preuzimanja ili rezervacije posljednjeg komada ponuda se više ne prikazuje u pretrazi. |
+| F-017 | Kupac pretražuje i filtrira ponude prema kategoriji, lokaciji (udaljenosti), cijeni i vremenu preuzimanja. | Visok | Odobreni zadatak | Rezultati sadrže samo ponude koje zadovoljavaju sve odabrane filtre. |
+| F-018 | Lokacije prodajnih mjesta i udaljenost od korisnika prikazuju se vanjskom kartografskom uslugom. | Visok | Odobreni zadatak | Karta prikazuje oznake prodajnih mjesta; uz rezultat je prikazana udaljenost od korisnikove lokacije. |
+| F-019 | Kupac otvara detalje ponude i profil prodajnog mjesta. | Visok | Odobreni zadatak | Odabirom ponude otvaraju se njezini detalji s poveznicom na profil prodajnog mjesta. |
+| F-020 | Kupac rezervira jedan ili više dostupnih proizvoda ili paketa, uz odabranu količinu. | Visok | Odobreni zadatak | Kupac ne može rezervirati količinu veću od dostupne; rezervacija sadrži odabrane stavke i količine. Vidi P-03. |
+| F-021 | Kupac plaća rezervaciju PayPalom ili karticom preko vanjskog servisa. | Visok | Odobreni zadatak | Plaćanje se uspješno izvršava u sandbox okruženju; neuspjelo plaćanje prikazuje poruku i ne potvrđuje rezervaciju. |
+| F-022 | Nakon uspješnog plaćanja sustav smanjuje dostupnu količinu, izdaje potvrdu i jedinstveni kod za preuzimanje (tekst i QR). | Visok | Odobreni zadatak | Nakon plaćanja kupac vidi potvrdu s kodom u tekstualnom i QR obliku, a dostupna količina smanjena je za rezerviranu. |
+| F-023 | Kupac otkazuje rezervaciju najkasnije 1 sat prije isteka predviđenog vremena preuzimanja; količina se vraća u ponudu. | Visok | Odobreni zadatak | Otkazivanje do 1 h prije isteka preuzimanja vraća količinu u ponudu; nakon toga otkazivanje nije moguće. Vidi P-04. |
+| F-024 | Zaposlenik prodajnog mjesta potvrđuje preuzimanje unosom ili skeniranjem koda. | Visok | Odobreni zadatak | Ispravan kod označava rezervaciju preuzetom; neispravan ili već iskorišten kod sustav odbija. |
+| F-025 | Kupac pregledava svoje aktivne i prošle rezervacije. | Srednji | Odobreni zadatak | Kupac vidi svoje rezervacije podijeljene na aktivne i prošle, uz status svake. |
+| F-026 | Prodajno mjesto pregledava rezervacije za svoje ponude. | Srednji | Odobreni zadatak | Prodajno mjesto vidi rezervacije samo za vlastite ponude, uz njihov status. |
+| F-027 | Sustav rezervaciju koja nije preuzeta u roku označava kao nepreuzetu. | Srednji | Odobreni zadatak | Nakon isteka vremena preuzimanja nepreuzeta rezervacija dobiva status „nepreuzeto”. Vidi P-05. |
+| F-028 | Nakon potvrđenog preuzimanja kupac može ocijeniti prodajno mjesto i ostaviti komentar. | Srednji | Odobreni zadatak | Ocjenjivanje je moguće samo nakon potvrđenog preuzimanja i samo jednom po rezervaciji. |
+| F-029 | Prodajno mjesto odgovara na komentare. | Srednji | Odobreni zadatak | Odgovor prodajnog mjesta prikazuje se uz komentar na javnom profilu. |
+| F-030 | Aktivna humanitarna organizacija pregledava donacijske ponude. | Visok | Odobreni zadatak | Aktivna organizacija vidi popis dostupnih donacijskih ponuda; organizacija na čekanju ih ne vidi. |
+| F-031 | Humanitarna organizacija šalje zahtjev za preuzimanje određene količine donacijske ponude. | Visok | Odobreni zadatak | Zahtjev s količinom do dostupne vidljiv je prodajnom mjestu i organizaciji sa statusom „na čekanju”. |
+| F-032 | Prodajno mjesto odobrava ili odbija zahtjev; organizacija dobiva obavijest. | Visok | Odobreni zadatak | Nakon odluke prodajnog mjesta organizacija dobiva obavijest, a zahtjev ima status „odobren” ili „odbijen”. |
+| F-033 | Odobreni zahtjev rezervira količinu i ima način potvrde preuzimanja. | Srednji | Odobreni zadatak | Odobrena količina oduzima se od dostupne; preuzimanje se potvrđuje kao u F-024. Vidi P-06. |
+| F-034 | Prodajno mjesto ili humanitarna organizacija kreira akciju: naziv, opis, lokacija, datum početka i završetka, popis potrebnih vrsta proizvoda. | Srednji | Odobreni zadatak | Akcija sa svim obaveznim podacima prikazuje se u popisu akcija. |
+| F-035 | Kupac se prijavljuje na akciju i označava proizvode koje planira donirati. | Srednji | Odobreni zadatak | Organizator vidi prijavljenog kupca i proizvode koje planira donirati. |
+| F-036 | Organizator akcije evidentira stvarno zaprimljenu donaciju. | Srednji | Odobreni zadatak | Evidentirana donacija prikazuje se u pregledu akcije uz sudionika. |
+| F-037 | Korisnici pregledavaju aktivne i nadolazeće akcije. | Srednji | Odobreni zadatak | Popis prikazuje samo akcije čiji datum završetka nije prošao. |
+| F-038 | Korisnik se pretplaćuje i odjavljuje s obavijesti o novim ponudama odabranih prodajnih mjesta ili kategorija hrane. | Srednji | Odobreni zadatak | Korisnik dodaje i uklanja pretplate; trenutačne pretplate vidljive su u postavkama. |
+| F-039 | Sustav šalje obavijest pretplatnicima kad se objavi odgovarajuća ponuda. | Srednji | Odobreni zadatak | Nakon objave ponude koja odgovara pretplati pretplatnik dobiva obavijest; korisnik bez te pretplate ne dobiva. Vidi P-07. |
+| F-040 | Administrator odobrava ili odbija nove profile. | Visok | Odobreni zadatak | Profil na čekanju vidljiv je administratoru; odobreni profil postaje aktivan, a odbijeni ne. Vidi P-08. |
+| F-041 | Administrator pregledava, blokira i briše korisničke račune. | Srednji | Odobreni zadatak | Blokirani korisnik ne može se prijaviti; obrisani račun više se ne prikazuje. |
+| F-042 | Administrator uklanja neprimjeren sadržaj (ponude, komentare, akcije). | Srednji | Odobreni zadatak | Uklonjeni sadržaj više nije vidljiv korisnicima. |
+| F-043 | Administrator upravlja popisom kategorija hrane. | Nizak | Odobreni zadatak | Dodana kategorija dostupna je pri objavi ponude i u filtru pretrage. Vidi P-09. |
+| F-044 | Kupac sprema prodajna mjesta u popis omiljenih. | Nizak | Prijedlog tima | Kupac dodaje i uklanja prodajno mjesto s popisa omiljenih i vidi taj popis. |
+| F-045 | Kupac sortira rezultate pretrage prema udaljenosti, cijeni ili vremenu isteka preuzimanja. | Nizak | Prijedlog tima | Rezultati su poredani prema odabranom kriteriju. |
+| F-046 | Prodajno mjesto uz proizvod navodi alergene, a kupac prema njima filtrira. | Nizak | Prijedlog tima | Uz filtar za određeni alergen ne prikazuju se ponude koje ga sadrže. |
+| F-047 | Sustav kupca podsjeća na nepreuzetu rezervaciju 1 sat prije isteka preuzimanja. | Nizak | Prijedlog tima | Kupac s nepreuzetom rezervacijom dobiva podsjetnik 1 h prije isteka preuzimanja. |
+| F-048 | Prodajno mjesto ponovno objavljuje raniju ponudu kao predložak. | Nizak | Prijedlog tima | Odabirom ranije ponude otvara se obrazac popunjen njezinim podacima. |
+| F-049 | Prodajno mjesto pregledava osnovnu statistiku: prodane, donirane i nepreuzete ponude. | Nizak | Prijedlog tima | Statistika prikazuje broj prodanih, doniranih i nepreuzetih ponuda prodajnog mjesta. |
+| F-050 | Korisnik prijavljuje neprimjeren komentar ili ponudu administratoru. | Nizak | Prijedlog tima | Prijavljeni sadržaj pojavljuje se u administratorskom pregledu prijava. |
 
 ## 2.2 Nefunkcijski zahtjevi
 
 **Cilj:** Odrediti važna svojstva kvalitete i uvjete rada odobrene aplikacije na način koji tim može razumno provjeriti.
 
-Brojčane vrijednosti su prijedlozi tima i treba ih potvrditi.
-
-| ID | Kategorija | Opis | Prioritet | Izvor | Način provjere |
-| --- | --- | --- | --- | --- | --- |
-| NFZ-01 | Sigurnost | Sva komunikacija ide preko HTTPS-a; autentifikacija isključivo preko OAuth 2.0. |  |  |  |
-| NFZ-02 | Sigurnost | Sustav ne pohranjuje podatke platnih kartica; plaćanje obavlja vanjski servis. |  |  |  |
-| NFZ-03 | Sigurnost | Pristup funkcijama kontrolira se prema ulogama; korisnik vidi i mijenja samo podatke za koje ima ovlasti. |  |  |  |
-| NFZ-04 | Sigurnost | Kod za preuzimanje je jedinstven, nepredvidiv i vrijedi samo za jedno preuzimanje. |  |  |  |
-| NFZ-05 | Privatnost | Osobni podaci obrađuju se u skladu s GDPR-om; lokacija korisnika koristi se samo uz njegovo dopuštenje. |  |  |  |
-| NFZ-06 | Konzistentnost | Istovremene rezervacije ne smiju prodati više od dostupne količine (transakcije ili zaključavanje). |  |  |  |
-| NFZ-07 | Konzistentnost | Rezervacija se potvrđuje tek nakon uspješnog plaćanja; neuspjelo plaćanje ne zauzima količinu trajno. |  |  |  |
-| NFZ-08 | Performanse | Pretraga ponuda vraća rezultate za manje od 2 s uz do 1000 aktivnih ponuda. |  |  |  |
-| NFZ-09 | Upotrebljivost | Sučelje je responzivno i upotrebljivo na mobitelu (zaposlenik skenira kod kamerom). |  |  |  |
-| NFZ-10 | Upotrebljivost | Sučelje je na hrvatskom jeziku; vremena se prikazuju u zoni Europe/Zagreb, cijene u eurima. |  |  |  |
-| NFZ-11 | Dostupnost | Sustav je dostupan javno putem interneta; ciljna dostupnost 99 % tijekom demonstracije. |  |  |  |
-| NFZ-12 | Pouzdanost | Ispadi vanjskih servisa (plaćanje, karte, e-mail) prikazuju jasnu poruku i ne ruše aplikaciju. |  |  |  |
-| NFZ-13 | Održavanje | Kod je u Git repozitoriju, uz README s uputama za pokretanje i automatizirane testove ključnih funkcija. |  |  |  |
-| NFZ-14 | Testabilnost | Plaćanja se razvijaju i testiraju u sandbox okruženju vanjskog servisa. |  |  |  |
-
-<details>
-<summary><strong>Nefunkcijski zahtjevi za analizu</strong></summary>
-
-Relevantna svojstva mogu se odnositi na uporabljivost, pristupačnost, sigurnost, performanse ili pouzdanost. Odaberite svojstva specifična za projekt i opišite kako ih je moguće provjeriti. Zahtjev navodi što se očekuje; stvarna opažanja i dokazi pripadaju rezultatima ispitivanja, a ne drugom stupcu s rezultatima u ovoj tablici.
-
-**Primjer — nefunkcijski zahtjevi za aplikaciju CrisisMap:**
-
-| ID | Opis | Prioritet | Izvor |
-| --- | --- | --- | --- |
-| NF-1.1 | Sustav mora podržati 1.000 istodobnih korisnika uz vrijeme odziva kraće od 1 s. | Visok | SLA | Opteretiti sustav zadanim brojem istodobnih korisnika i izmjeriti vrijeme odziva. |
-| NF-1.2 | Svi osjetljivi podaci moraju biti šifrirani algoritmom AES-256. | Visok | Sigurnosna politika | Pregledati način pohrane i konfiguraciju šifriranja za podatke na koje se zahtjev odnosi. |
-| NF-1.3 | Korisničko sučelje mora podržavati engleski i španjolski jezik. | Srednji | Povratna informacija dionika | Pregledati reprezentativne korisničke tijekove u oba jezika. |
-| NF-1.4 | Dostupnost sustava mora iznositi najmanje 99,5 % mjesečno. | Visok | SLA | Izračunati mjesečnu dostupnost iz zapisa sustava za nadzor, ako takvi podaci postoje.|
-| NF-3.1.7 | Sustav treba imati odgovarajuću dokumentaciju. | Visok | Pravila dokumentiranja | Pregledati zahtijevane dokumentaciju prema obavezama.|
-| NF-3.1.7.1 | Kod sustava treba biti dokumentiran prema „Code Conventions for the Java Programming Language”. | Visok | Pravila dokumentiranja | Pregledati kod. |
-| NF-3.1.7.2 | Sustav treba biti opisan projektnim dokumentom/SRS-om. | Visok | Pravila dokumentiranja | Pregledati strukturu dokumenta  |
-| NF-3.1.7.3 | Sustav treba imati „Operativni priručnik” koji opisuje pravilnu uporabu. | Visok | Pravila dokumentiranja | Pregledati postoji li priručnik i mogu li se prema njemu izvršiti opisane radnje. |
-| NF-3.1.7.4 | Sustav treba imati „Plan implementacije” za pravilno postavljanje. | Visok | Smjernice za postavljanje | Pregledati odgovara li opisani postupak stvarnom postupku postavljanja.|
-
-**Provjerljivost i opseg:** Primjer uvodi performanse, sigurnost, lokalizaciju, dostupnost i dokumentaciju, uključujući hijerarhijski ID zahtjeva. Navedeni izvori primjeri su podrijetla zahtjeva, a ne dokaz da za studentski projekt stvarno postoji SLA ili sigurnosna politika. Vrijednosti poput 1.000 korisnika, 99,5 % mjesečne dostupnosti i AES-256 moraju imati odobren izvor i izvediv način provjere prije nego što postanu zahtjevi tima. Skup zahtjeva o dokumentaciji ilustrira razlaganje zahtjeva, ali zahtjevi za izradu *ove dokumentacije kolegija* u pravilu pripadaju uputama zadatka, a ne zahtjevima kvalitete web-aplikacije.
-
-**Primjer prilagodbe:** Ako je pristupačnost zahtjevana za  projekt, projektno specifičan zahtjev može glasiti: „NF-01: Sve obavezne radnje u obrascu za podnošenje prijave moguće je izvršiti samo tipkovnicom, uz vidljiv fokus na aktivnoj kontroli.” Provjera: navigirati kroz obrazac bez pokazivačkog uređaja, odabrati ili unijeti lokaciju, poslati prijavu i provjeriti može li se pročitati rezultat. To je provjerljivo svojstvo kvalitete, a ne dodatna funkcionalnost koju svaki projekt mora implementirati.
-
-</details>
+| ID | Opis | Prioritet | Izvor | Način provjere |
+| --- | --- | --- | --- | --- |
+| NF-01 | Sva komunikacija ide preko HTTPS-a; autentifikacija isključivo preko OAuth 2.0. | Visok | Odobreni zadatak | Pregled konfiguracije: HTTP zahtjev preusmjerava se na HTTPS; ne postoji prijava lozinkom. |
+| NF-02 | Sustav ne pohranjuje podatke platnih kartica; plaćanje obavlja vanjski servis. | Visok | Odobreni zadatak | Pregled sheme baze i tijeka plaćanja: nijedna tablica ne sadrži podatke kartice. |
+| NF-03 | Pristup funkcijama kontrolira se prema ulogama; korisnik vidi i mijenja samo podatke za koje ima ovlasti. | Visok | Procjena tima | Testni scenarij: zahtjev prema tuđim podacima ili administratorskoj funkciji bez ovlasti sustav odbija. |
+| NF-04 | Kod za preuzimanje je jedinstven, nepredvidiv i vrijedi samo za jedno preuzimanje. | Visok | Procjena tima | Testni scenarij: ponovna uporaba koda je odbijena; pregled koda: kod se generira kriptografski sigurnim generatorom. |
+| NF-05 | Osobni podaci obrađuju se u skladu s GDPR-om; lokacija korisnika koristi se samo uz njegovo dopuštenje. | Srednji | GDPR | Testni scenarij: bez dopuštenja za lokaciju pretraga radi uz ručno unesenu lokaciju; pregled prikupljanih osobnih podataka. |
+| NF-06 | Istovremene rezervacije ne smiju prodati više od dostupne količine (transakcije ili zaključavanje). | Visok | Procjena tima | Testni scenarij: istovremena rezervacija posljednjeg komada iz dvaju klijenata; uspijeva samo jedna. |
+| NF-07 | Rezervacija se potvrđuje tek nakon uspješnog plaćanja; neuspjelo plaćanje ne zauzima količinu trajno. | Visok | Procjena tima | Testni scenarij: odbijeno plaćanje u sandboxu vraća količinu u ponudu. |
+| NF-08 | Pretraga ponuda vraća rezultate za manje od 2 s uz do 1000 aktivnih ponuda. | Srednji | Procjena tima | Mjerenje: izmjeriti vrijeme odziva pretrage nad 1000 oglednih ponuda. Vidi P-10. |
+| NF-09 | Sučelje je responzivno i upotrebljivo na mobitelu (zaposlenik skenira kod kamerom). | Visok | Procjena tima | Pregled: ključni tijekovi izvršeni na mobitelu, uključujući skeniranje QR koda kamerom. |
+| NF-10 | Sučelje je na hrvatskom jeziku; vremena se prikazuju u zoni Europe/Zagreb, cijene u eurima. | Srednji | Procjena tima | Pregled reprezentativnih zaslona: tekstovi, vremena i cijene u zadanom obliku. |
+| NF-11 | Sustav je dostupan javno putem interneta; ciljna dostupnost 99 % tijekom demonstracije. | Visok | Procjena tima | Pregled: aplikacija je dostupna na javnoj adresi; dostupnost se prati tijekom razdoblja demonstracije. Vidi P-10. |
+| NF-12 | Ispadi vanjskih servisa (plaćanje, karte, e-mail) prikazuju jasnu poruku i ne ruše aplikaciju. | Srednji | Procjena tima | Testni scenarij: simulirati nedostupnost svakog vanjskog servisa i provjeriti poruku i rad ostatka aplikacije. |
+| NF-13 | Kod je u Git repozitoriju, uz README s uputama za pokretanje i automatizirane testove ključnih funkcija. | Srednji | Pravila kolegija | Pregled repozitorija: aplikacija se pokreće prema README-u, a automatizirani testovi prolaze. |
+| NF-14 | Plaćanja se razvijaju i testiraju u sandbox okruženju vanjskog servisa. | Visok | Procjena tima | Pregled konfiguracije: razvojno i testno okruženje koriste sandbox ključeve servisa za plaćanje. |
 
 ## 2.3 Dionici i akteri
 
@@ -210,24 +86,15 @@ Relevantna svojstva mogu se odnositi na uporabljivost, pristupačnost, sigurnost
 
 | ID uloge ili aktera | Odnos prema sustavu | Relevantni zahtjevi |
 | --- | --- | --- |
-|  |  |  |
-
-<details>
-<summary><strong>Akteri i povezani zahtjevi</strong></summary>
-
-**Primjer — akteri aplikacije CrisisMap:**
-
-| ID aktera | Uloga | Obuhvaćeni funkcijski zahtjevi |
-| --- | --- | --- |
-| A-01 | Koordinator pomoći | F-003: Pregled resursa; F-004: Podnošenje prijave kriznog događaja. |
-| A-02 | Građanin | F-001: Izrada računa; F-005: Primanje obavijesti. |
-| A-03 | Administrator sustava | NF-1.2: Provođenje sigurnosnih pravila; upravljanje korisnicima. |
-| A-04 | Posjetitelj | F-007: Pregled prijava na karti. |
-| A-05 | Moderator | F-008: Odobravanje ili odbijanje prijava. |
-
-**Odgovornosti aktera:** Uloga aktera treba biti povezana s interakcijom, a ne samo s nazivom. Provjerite podnosi li koordinator pomoći u odobrenom zadatku doista prijave kriznih događaja. Poveznica administratora s NF-1.2 navodi sigurnosni aspekt, ali sama po sebi ne opisuje obrazac uporabe; navedite stvarnu radnju administratora ili izostavite ulogu ako je nema. Nastavnici zainteresirani za rezultat mogu biti dionici, a da nisu akteri aplikacije. Tablica je polazište za razmišljanje, a ne potvrđen opis ovlasti u CrisisMapu.
-
-</details>
+| A-01 Kupac | Primarni akter: pretražuje ponude, rezervira i plaća, preuzima, ocjenjuje, sudjeluje u akcijama. | F-001, F-002, F-005, F-017 – F-023, F-025, F-028, F-035, F-037 – F-039, F-044 – F-047, F-050 |
+| A-02 Prodajno mjesto | Primarni akter: plaća članarinu, objavljuje ponude i donacije, upravlja rezervacijama i zahtjevima. | F-002, F-004 – F-006, F-009, F-011 – F-016, F-026, F-029, F-032, F-034, F-036, F-048, F-049 |
+| A-03 Zaposlenik prodajnog mjesta | Primarni akter: potvrđuje preuzimanje kodom (koristi račun prodajnog mjesta). | F-024, NF-09 |
+| A-04 Humanitarna organizacija | Primarni akter: pregledava donacijske ponude, šalje zahtjeve, organizira akcije. | F-002, F-003, F-007, F-030 – F-034, F-036, F-037 |
+| A-05 Administrator | Primarni akter: odobrava profile, upravlja računima, sadržajem, kategorijama i cijenama članarina. | F-003, F-010, F-040 – F-043, F-050 |
+| A-06 OAuth pružatelj identiteta | Vanjski sustav: autentificira korisnike. | F-001, NF-01 |
+| A-07 Servis za plaćanje | Vanjski sustav: obrađuje plaćanje članarina i rezervacija. | F-009, F-021, NF-02, NF-07, NF-14 |
+| A-08 Kartografska usluga | Vanjski sustav: prikazuje lokacije i udaljenosti. | F-018 |
+| D-01 Nastavnici i asistent kolegija | Dionik, nije akter: odobravaju opseg zadatka i pregledavaju rezultat. | Svi zahtjevi s izvorom „Odobreni zadatak” |
 
 ---
 
@@ -237,24 +104,26 @@ Relevantna svojstva mogu se odnositi na uporabljivost, pristupačnost, sigurnost
 
 | ID | Tip | Opis ograničenja ili pretpostavke | Izvor | Inženjerska posljedica / Provjera |
 | --- | --- | --- | --- | --- |
-| C-01 | Ograničenje | [Fiksni tehnički ili procesni uvjet] | [Zadatak / Pravila] | [Utjecaj na arhitekturu i oblikovanje] |
-| AS-01 | Pretpostavka | [Očekivani uvjet, npr. o podacima ili okolini] | [Procjena tima] | [Kako i kada će se provjeriti valjanost] |
-|  |  |  |  |  |
-<details>
-<summary><strong>Ograničenja nasuprot pretpostavkama</strong></summary>
+| C-01 | Ograničenje | Autentifikacija se obavlja isključivo preko vanjskog OAuth 2.0 pružatelja. | Odobreni zadatak | Sustav ne pohranjuje lozinke; uloga korisnika vodi se u vlastitoj bazi uz OAuth identitet. |
+| C-02 | Ograničenje | Plaćanje (PayPal ili kartica) obavlja vanjski servis. | Odobreni zadatak | Integracija sa servisom za plaćanje i obrada njegovih povratnih poziva; podaci kartice ne prolaze kroz sustav. |
+| C-03 | Ograničenje | Lokacije i udaljenosti prikazuju se vanjskom kartografskom uslugom. | Odobreni zadatak | Integracija s kartografskom uslugom; prodajna mjesta moraju imati koordinate. |
 
-Ograničenje je uvjet koji tim mora poštovati; pretpostavka je uvjet na koji se tim oslanja i koji treba ponovno provjeravati.
+### Otvorena pitanja
 
-**Primjer — projektni kontekst CrisisMapa:**
+Pitanja koja tim treba razjasniti s asistentom. Dok se ne razriješe, tim radi prema navedenoj radnoj pretpostavci.
 
-| ID | Ograničenje ili pretpostavka | Izvor | Posljedica ili način provjere |
-| --- | --- | --- | --- |
-| C-01 | Odobreni zadatak zahtijeva OAuth prijavu u sustav za uređivanje vlastitih prijava korisnika. | Odobreni zadatak  | Zaštićeno uređivanje projektirati oko odabranog pružatelja identiteta; provjeriti autorizirane i neautorizirane zahtjeve. |
-| AS-01 | Prijave koje se prikazuju na karti imaju uporabive koordinate. | Pretpostavka o podacima  | Pregledati ogledne i uvezene prijave; planirati prikaz prijava bez valjanih koordinata. |
-
-**Ograničenje nasuprot pretpostavci:** C-01 navodi obvezujuću odluku i njezin arhitekturni učinak; AS-01 je moguće provjeriti i može se pokazati netočnim. Nemojte kopirati C-01 ako OAuth nije dio stvarnog odobrenog zadatka. Projektni odgovor objasnite u arhitekturi bez prepisivanja ove tablice.
-
-</details>
+| ID | Tema | Pitanje | Radna pretpostavka | Povezani zahtjevi |
+| --- | --- | --- | --- | --- |
+| P-01 | Članarine | Je li aktivna članarina uvjet za objavu ponuda i što se događa s ponudama nakon isteka? | Bez aktivne članarine nije moguće objaviti novu ponudu. | F-004, F-011 |
+| P-02 | Članarine | Koliko ranije i kojim kanalom obavijestiti prodajno mjesto o isteku članarine? | Obavijest unutar aplikacije 7 dana prije isteka. | F-011 |
+| P-03 | Rezervacije i plaćanje | Može li jedna rezervacija sadržavati ponude više prodajnih mjesta? | Jedna rezervacija odnosi se na jedno prodajno mjesto, uz više stavki. | F-020 |
+| P-04 | Rezervacije i plaćanje | Vrijedi li rok otkazivanja od 1 h i vraća li se novac pri otkazivanju? | Rok je 1 h, uz puni povrat preko servisa za plaćanje. | F-023 |
+| P-05 | Rezervacije i plaćanje | Što se događa s plaćenim iznosom nepreuzete rezervacije? | Nema povrata novca, a količina se ne vraća u ponudu. | F-027 |
+| P-06 | Donacije | Kako se potvrđuje preuzimanje donacije? | Istim kodom za preuzimanje kao kod rezervacija. | F-024, F-033 |
+| P-07 | Obavijesti | Kojim kanalom se šalju obavijesti pretplatnicima? | E-poštom. | F-039 |
+| P-08 | Administracija | Koje uloge trebaju odobrenje administratora? | Samo humanitarne organizacije; prodajno mjesto aktivira se plaćanjem članarine. | F-003, F-040 |
+| P-09 | Administracija | Je li popis kategorija hrane fiksan ili ga uređuje administrator? | Administrator uređuje unaprijed definiran početni popis. | F-043 |
+| P-10 | Nefunkcijski zahtjevi | Jesu li prihvatljive brojčane vrijednosti 2 s za pretragu uz 1000 ponuda i 99 % dostupnosti? | Vrijednosti su prijedlog tima. | NF-08, NF-11 |
 
 ---
 
@@ -265,19 +134,6 @@ Ograničenje je uvjet koji tim mora poštovati; pretpostavka je uvjet na koji se
 | Datum | ID zahtjeva | Promjena i razlog | Dogovoreno s / dokaz |
 | --- | --- | --- | --- |
 |  |  |  |  |
-
-<details>
-<summary><strong>Primjer značajne promjene</strong></summary>
-
-**Primjer scenarija — odluka tijekom pregleda CrisisMapa:**
-
-| Datum | ID zahtjeva | Promjena i razlog | Dogovoreno s / dokaz |
-| --- | --- | --- | --- |
-| [Datum pregleda] | F-004, NF-01 | Dodati ručni odabir lokacije kada korisnik odbije geolokaciju preglednika; bez toga građanin ne može podnijeti prijavu kriznog događaja s lokacijom. | [Poveznica na stvarnu bilješku pregleda ili zadatak tima] |
-
-**Razlog promjene:** Zapis navodi zahvaćene stavke i objašnjava razlog iz perspektive korisnika, a zatim upućuje na dokaz odluke.  Nakon stvarne odluke ažurirajte trenutačne zahtjeve; stilska izmjena teksta ne zahtijeva zapis u dnevniku promjena. Trenutačni red zadataka držite u alatu za praćenje zadataka.
-
-</details>
 
 ---
 
@@ -290,20 +146,6 @@ Ograničenje je uvjet koji tim mora poštovati; pretpostavka je uvjet na koji se
 | F-001 | [UC-001] | [Komponenta, modul ili drugo mjesto realizacije] | [ST-01, CT-01 ili druga provjera] |
 |  |  |  |  |
 
-<details>
-<summary><strong>Sljedivost zahtjeva do obrazaca uporabe i ispitivanja</strong></summary>
-
-**Primjer — poveznice zahtjeva CrisisMapa:**
-
-| ID zahtjeva | Obrazac uporabe / ponašanje | Arhitekturna realizacija | Ispitivanje / provjera |
-| --- | --- | --- | --- |
-| F-004 | UC-002 Podnošenje prijave kriznog događaja | Web-klijent; API za prijave; usluga za prijave | ST-01 Valjano podnošenje prijave; ST-02 Nedostaje obavezna lokacija; ST-03 Dopuštenje geolokacije odbijeno |
-| F-005 | Odabir primatelja obavijesti | Proces za obavijesti | CT-06 Primatelji obavijesti; potpuna dostava obavijesti nije pokrivena ovom provjerom |
-
-**Pokrivenost i dokazi:** CT-06 provjerava odabir primatelja za F-005, ali sam po sebi ne dokazuje da je obavijest stvarno dostavljena; ako projekt zahtijeva potpunu dostavu od početka do kraja, za taj dio treba postojati zasebna provjera. Svaki redak pokazuje gdje je zahtjev opisan kao ponašanje, gdje je ostvaren u sustavu i gdje se nalazi dokaz njegove provjere. Zahtjev ne mora imati zaseban obrazac uporabe ako ne opisuje korisničku interakciju; tada navedite relevantno ponašanje, arhitekturni element ili drugi prikladan način realizacije. U svojem projektu koristite stvarne nazive komponenata, modula i provjera iz dokumentacije i implementacije. Nedostajuću poveznicu ostavite praznom ili označite kao *na čekanju* uz kratak razlog. Stvarni rezultati ispitivanja bilježe se uz ispitne slučajeve; ova tablica pokazuje gdje ih pronaći.
-
-</details>
-
 ---
 
 ## 2.7 Pregled zahtjeva
@@ -315,19 +157,6 @@ Ograničenje je uvjet koji tim mora poštovati; pretpostavka je uvjet na koji se
 | Iteracija 1 | [Povratna informacija] | [Odluka; vidi odjeljak 2.5] |
 | Demo 2  | [Povratna informacija] | [Odluka; vidi odjeljak 2.5] |
 | Završni pregled | [Povratna informacija] | [Odluka; vidi odjeljak 2.5] |
-
-<details>
-<summary><strong>Odluke o zahtjevima nakon pregleda</strong></summary>
-
-**Primjer scenarija — pregled zahtjeva CrisisMapa:**
-
-| Kontrolna točka | Povratna informacija ili nalaz | Odluka o zahtjevu ili opsegu |
-| --- | --- | --- |
-| Iteracija 1 | Demonstracija pokazuje da odbijanje pristupa lokaciji preglednika onemogućuje podnošenje prijave. | Dogovoriti ručni odabir lokacije; ažurirati F-004 i primjer NF-01 te razlog zabilježiti u odjeljku 2.5. |
-
-**Odluka povezana s povratnom informacijom:** Zapis povezuje opaženo ponašanje s konkretnom promjenom zahtjeva i izbjegava zapisnik cijelog sastanka. Zapišite samo stvarne povratne informacije i odluke za kontrolne točke. Konzultacije u nekom drugom tjednu ne stvaraju dodatnu obaveznu predaju.
-
-</details>
 
 ---
 

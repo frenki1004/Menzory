@@ -1,140 +1,111 @@
 # 3. Obrasci uporabe
 
-**Cilj:** Prikazati glavne interakcije između aktera aplikacije i sustava. Opišite kako akter ostvaruje cilj i što se događa kada važan korak ne uspije. Interakcije temeljite na odobrenim zahtjevima i ažurirajte ih kako se aplikacija razvija.
+Obrasci uporabe opisuju glavne interakcije aktera sa sustavom SpasiZalogaj. Temelje se na funkcijskim zahtjevima iz [analize zahtjeva](2-Analiza-zahtjeva.md) (oznake FZ-xx). Ključni obrasci (UC-01 do UC-07) pokrivaju osnovni tok sustava: prijavu, objavu ponude, rezervaciju, preuzimanje, otkazivanje, donacije i odobravanje profila. Ostali obrasci prikazani su na dijagramu i bit će detaljnije razrađeni u sljedećim iteracijama.
 
 ## 3.1 Dijagram obrazaca uporabe
 
-**Cilj:** Prikazati granicu sustava, relevantne aktere i njihove glavne ciljeve u **preglednom UML dijagramu obrazaca uporabe**. Ako je za razumijevanje pojedinog dijela sustava potrebno prikazati više detalja, taj dio izdvojite u dodatni usmjereni dijagram. Dodatni dijagrami trebaju produbiti dio preglednog modela, a ne stvarati nepovezane ili duplicirane prikaze istog sustava.
+![Dijagram obrazaca uporabe sustava SpasiZalogaj](./assets/diagrams/3-1-spasizalogaj-system-UC.svg)
 
-![Dijagram obrazaca uporabe sustava CrisisMap](./assets/diagrams/3-1-crisismap-system-UC.svg)
+**Slika 3.1. Dijagram obrazaca uporabe sustava SpasiZalogaj**
 
-**Slika 3.1. Dijagram obrazaca uporabe sustava CrisisMap**
+**PlantUML izvor:** [izvor](./puml/3-1-spasizalogaj-system-UC.puml)
 
-**PlantUML izvor:** [izvor](./puml/3-1-crisismap-system-UC.puml)
-
-**Provjera dijagrama:** Prikažite prepoznate uloge koje **komuniciraju s aplikacijom**, a ne dionike koji s njom nemaju interakciju. Svaki glavni korisnički cilj mora imati pridruženog aktera; uključeni obrazac uporabe može se dosegnuti preko drugog obrasca uporabe bez vlastite izravne veze s akterom. `<<include>>` i `<<extend>>` koristite samo kada odnos odgovara stvarnom ponašanju.
-
-<details>
-<summary><strong>Primjer aktera i granica sustava</strong></summary>
-
-**Opis primjera — CrisisMap:**
-
-Dijagram prikazuje **ogledni scenarij** s građaninom, posjetiteljem i koordinatorom pomoći te vanjskim pružateljem identiteta. Pružatelj identiteta sudjeluje u obrascu uporabe „Prijava u sustav” kao sekundarni akter: korisnik pokreće prijavu u aplikaciji, a vanjski sustav provodi autentikaciju. Budući da projekt koristi vanjskog pružatelja identiteta, ta se ovisnost prikazuje i u dijagramu obrazaca uporabe; tehnički detalji integracije pripadaju arhitekturnoj dokumentaciji.
-
-**Odabir aktera i ciljeva:** Granica pokazuje što aplikacija nudi, akteri imaju različite ciljeve, a nijedan akter ni obrazac uporabe ne tvrdi da ova studentska aplikacija angažira hitne službe. Dijagram usporedite s odobrenim funkcijskim zahtjevima i akterima.
-
-
-**Pet pitanja za odabir sadržaja dijagrama** (ne pet dijagrama za predaju):
-
-| Fokus | Pitanje |
-| --- | --- |
-| Cijeli sustav | Koji korisnički ciljevi najbolje objašnjavaju čemu ova aplikacija služi? |
-| Ključne funkcionalnosti | Koje ciljeve treba detaljnije opisati ili, ako je potrebno, prikazati zasebnim usmjerenim dijagramom? |
-| Korisničke uloge | Koji akteri mogu sudjelovati u pojedinom cilju i kako se njihove ovlasti razlikuju? |
-| Ključni procesi | Koji cilj ima važne alternative koje treba opisati u obrascu uporabe? |
-| Vanjske integracije | Sudjeluje li drugi sustav u obrascu uporabe kao **sekundarni akter**, primjerice odobreni pružatelj identiteta pri prijavi? |
-
-Vanjski sustav može biti sekundarni akter obrasca uporabe kada sudjeluje u ostvarenju korisničkog cilja; tehničke veze opisuju se u arhitekturi. Nemojte stvarati dodatni obavezni dijagram obrazaca uporabe samo radi popisa integracija. Prenatrpan dijagram podijelite prema povezanim akterima ili ciljevima samo kada time postaje čitljiviji.
-
-</details>
+**Akteri:**
+- **Kupac** pretražuje, rezervira, plaća, otkazuje i ocjenjuje.
+- **Prodajno mjesto** objavljuje ponude, plaća članarinu i odlučuje o zahtjevima za donaciju.
+- **Zaposlenik prodajnog mjesta** potvrđuje preuzimanje kodom.
+- **Humanitarna organizacija** pregledava donacijske ponude i šalje zahtjeve.
+- **Administrator** odobrava profile, određuje cijene članarine i upravlja sadržajem.
+- **Vanjski sustavi** (sekundarni akteri): OAuth pružatelj identiteta (prijava), servis za plaćanje (rezervacije i članarine), kartografska usluga (prikaz lokacija i udaljenosti).
 
 ## 3.2 Specifikacije obrazaca uporabe
 
-**Cilj:** Za svaki obrazac uporabe iz dijagrama objasniti cilj aktera, uobičajenu interakciju s aplikacijom i važne alternative. Jednostavne obrasce uporabe opišite kratko; proširite one kod kojih alternative, vanjske ovisnosti ili posljedice zahtijevaju dodatno objašnjenje.
-
-**Za svaki obrazac uporabe koristite jednu okomitu tablicu.** Navedite samo onoliko pojedinosti koliko interakcija zahtijeva; neprimjenjivu alternativu izostavite umjesto da je popunjavate samo radi forme.
-
-### UC-[ID]: [Naziv usmjeren na cilj]
+### UC-01: Prijava i odabir uloge
 
 | Element specifikacije | Opis |
 | :--- | :--- |
-| **Primarni akter** | [Uloga definirana u analizi zahtjeva] |
-| **Povezani zahtjevi** | [Identifikatori funkcijskih zahtjeva, npr. F-001, F-004] |
-| **Preduvjeti** | [Stanje sustava koje mora biti zadovoljeno prije početka izvođenja] |
-| **Glavni uspješni tok** | 1. Akter pokreće akciju.<br>2. Program obrađuje unos i vraća povratnu informaciju.<br>3. [Koračni prikaz interakcije do ostvarenja cilja] |
-| **Alternativni tokovi / Iznimke** | **[Korak]a — [Naziv iznimke]:** [Uvjet nastanka, reakcija programa i nastavak toka] |
-| **Posljedice (ishod)** | [Promjena stanja podataka ili potvrda nakon uspješnog završetka] |
+| **Primarni akter** | Kupac, prodajno mjesto ili humanitarna organizacija (neprijavljeni korisnik) |
+| **Sekundarni akter** | OAuth pružatelj identiteta |
+| **Povezani zahtjevi** | FZ-01, FZ-02, FZ-03 |
+| **Preduvjeti** | Korisnik ima račun kod podržanog vanjskog pružatelja identiteta. |
+| **Glavni uspješni tok** | 1. Korisnik odabire „Prijava”.<br>2. Sustav preusmjerava korisnika na vanjskog pružatelja identiteta.<br>3. Korisnik se prijavljuje kod pružatelja i dopušta dijeljenje osnovnih podataka (ime, e-pošta).<br>4. Pružatelj vraća korisnika u sustav s potvrdom identiteta.<br>5. Sustav utvrđuje da je riječ o novom korisniku i traži odabir uloge: kupac, prodajno mjesto ili humanitarna organizacija.<br>6. Korisnik odabire ulogu i unosi osnovne podatke profila.<br>7. Sustav sprema korisnika i prikazuje početnu stranicu za odabranu ulogu. |
+| **Alternativni tokovi / Iznimke** | **3a — Korisnik odustane ili pružatelj odbije prijavu:** sustav prikazuje poruku da prijava nije uspjela i korisnik ostaje neprijavljen.<br>**4a — Pružatelj identiteta nije dostupan:** sustav prikazuje poruku o privremenoj nedostupnosti prijave; ostale javne stranice i dalje rade.<br>**5a — Korisnik već postoji:** sustav preskače odabir uloge i prikazuje početnu stranicu prema postojećoj ulozi.<br>**6a — Odabrana uloga je humanitarna organizacija:** profil se sprema kao neaktivan i čeka odobrenje administratora (UC-07); korisnik vidi obavijest da profil čeka odobrenje. |
+| **Posljedice (ishod)** | Korisnik je prijavljen i ima dodijeljenu ulogu; profil humanitarne organizacije čeka odobrenje. |
 
-<details>
-<summary><strong>Primjeri specifikacija: Registracija i prijava kriznog događaja</strong></summary>
+### UC-02: Objava ponude ili paketa iznenađenja
 
-**Primjer — CrisisMap:**
+| Element specifikacije | Opis |
+| :--- | :--- |
+| **Primarni akter** | Prodajno mjesto |
+| **Povezani zahtjevi** | FZ-04, FZ-12, FZ-13, FZ-14 |
+| **Preduvjeti** | Prodajno mjesto je prijavljeno i ima aktivnu članarinu. |
+| **Glavni uspješni tok** | 1. Prodajno mjesto odabire „Nova ponuda”.<br>2. Sustav nudi izbor: pojedinačni proizvod ili paket iznenađenja.<br>3. Prodajno mjesto odabire pojedinačni proizvod i unosi naziv, kategoriju, količinu, redovnu cijenu, sniženu cijenu, rok upotrebe, krajnje vrijeme preuzimanja i po želji fotografiju.<br>4. Sustav provjerava obavezna polja i vrijednosti (npr. snižena cijena manja od redovne, vrijeme preuzimanja u budućnosti).<br>5. Sustav sprema ponudu i prikazuje je na javnom profilu prodajnog mjesta i u pretrazi. |
+| **Alternativni tokovi / Iznimke** | **1a — Članarina nije aktivna:** sustav ne dopušta objavu i upućuje na plaćanje članarine.<br>**2a — Paket iznenađenja:** prodajno mjesto unosi približnu vrstu sadržaja, ukupnu vrijednost, prodajnu cijenu, broj paketa i interval preuzimanja; tok se nastavlja u koraku 4.<br>**3a — Proizvod se donira:** prodajno mjesto umjesto snižene cijene označava „donacija” i može odabrati „samo za humanitarne organizacije”; takvu ponudu vide samo humanitarne organizacije (UC-06).<br>**4a — Neispravni podaci:** sustav označava neispravna polja, zadržava unesene podatke i ne sprema ponudu dok se podaci ne isprave. |
+| **Posljedice (ishod)** | Nova ponuda je vidljiva kupcima (ili samo humanitarnim organizacijama) do isteka vremena preuzimanja ili dok se količina ne potroši. |
 
-**UC-001: Registracija računa.** Ovaj kratki primjer odnosi se na projekt čiji odobreni zadatak uključuje račune s adresom e-pošte i lozinkom.
+### UC-03: Pretraga na karti i rezervacija s plaćanjem
 
-| Polje | Opis |
-| --- | --- |
-| Primarni akter | Građanin (A-02 u primjeru) |
-| ID zahtjeva | F-001 |
-| Preduvjeti, ako postoje | Nema. |
-| Glavni tijek | Građanin unosi adresu e-pošte; aplikacija šalje poveznicu za potvrdu; građanin potvrđuje račun. |
-| Alternativni ili neuspješni tijekovi, ako postoje | Adresa e-pošte već postoji → aplikacija objašnjava zašto se registracija ne može nastaviti. |
-| Rezultat | Račun je aktivan nakon potvrde. |
+| Element specifikacije | Opis |
+| :--- | :--- |
+| **Primarni akter** | Kupac |
+| **Sekundarni akteri** | Kartografska usluga, servis za plaćanje |
+| **Povezani zahtjevi** | FZ-17, FZ-18, FZ-19, FZ-20, FZ-21, FZ-22 |
+| **Preduvjeti** | Kupac je prijavljen. Postoji barem jedna aktivna ponuda. |
+| **Glavni uspješni tok** | 1. Kupac otvara pretragu; sustav prikazuje popis aktivnih ponuda i kartu s prodajnim mjestima.<br>2. Kupac dopušta pristup lokaciji; sustav prikazuje udaljenost prodajnih mjesta.<br>3. Kupac filtrira ponude prema kategoriji, udaljenosti, cijeni i vremenu preuzimanja.<br>4. Kupac otvara detalje ponude i odabire količinu.<br>5. Kupac potvrđuje rezervaciju i odabire način plaćanja (PayPal ili kartica).<br>6. Sustav preusmjerava kupca na vanjski servis za plaćanje; kupac plaća.<br>7. Servis za plaćanje potvrđuje uspješno plaćanje.<br>8. Sustav smanjuje dostupnu količinu, sprema rezervaciju i prikazuje potvrdu s jedinstvenim kodom za preuzimanje (tekst i QR). |
+| **Alternativni tokovi / Iznimke** | **1a — Kartografska usluga nije dostupna:** sustav prikazuje samo popis ponuda s adresama i poruku da karta trenutno nije dostupna.<br>**2a — Kupac ne dopušta lokaciju:** sustav prikazuje kartu bez udaljenosti, a kupac može ručno upisati adresu ili pomaknuti kartu.<br>**3a — Nema ponuda za odabrane filtre:** sustav prikazuje poruku i nudi uklanjanje filtara.<br>**5a — Količina više nije dostupna:** sustav javlja da je ponuda u međuvremenu rezervirana ili da je dostupna manja količina; rezervacija se ne stvara.<br>**6a — Plaćanje nije uspjelo ili je kupac odustao:** sustav ne stvara rezervaciju, količina ostaje dostupna i kupac može pokušati ponovno. |
+| **Posljedice (ishod)** | Postoji plaćena rezervacija s jedinstvenim kodom, a dostupna količina ponude je umanjena. |
 
-Ako odobreni zadatak umjesto toga koristi isključivo OAuth prijavu, zamijenite ovaj primjer odgovarajućim ponašanjem prijave; nemojte dodavati registraciju lokalnom lozinkom samo radi podudaranja s primjerom.
+### UC-04: Potvrda preuzimanja kodom
 
-**UC-002: Podnošenje prijave kriznog događaja.** Ista polja mogu opisati dulji tijek u kojem odabir lokacije, provjera valjanosti i pohrana mogu ne uspjeti.
+| Element specifikacije | Opis |
+| :--- | :--- |
+| **Primarni akter** | Zaposlenik prodajnog mjesta |
+| **Povezani zahtjevi** | FZ-24 |
+| **Preduvjeti** | Zaposlenik je prijavljen u ime prodajnog mjesta. Kupac ima rezervaciju za to prodajno mjesto. |
+| **Glavni uspješni tok** | 1. Kupac dolazi u prodajno mjesto i pokazuje kod (tekst ili QR).<br>2. Zaposlenik otvara „Potvrda preuzimanja” i skenira QR kod ili ručno unosi kod.<br>3. Sustav pronalazi rezervaciju i prikazuje stavke i količine.<br>4. Zaposlenik predaje hranu i potvrđuje preuzimanje.<br>5. Sustav označava rezervaciju kao preuzetu i kod postaje nevažeći. |
+| **Alternativni tokovi / Iznimke** | **2a — Kamera nije dostupna:** zaposlenik ručno unosi kod; tok se nastavlja u koraku 3.<br>**3a — Kod ne postoji ili pripada drugom prodajnom mjestu:** sustav javlja da kod nije valjan i ništa se ne mijenja.<br>**3b — Rezervacija je već preuzeta ili otkazana:** sustav prikazuje status rezervacije i ne dopušta ponovno preuzimanje.<br>**3c — Vrijeme preuzimanja je isteklo:** sustav prikazuje da je rezervacija istekla; postupak u tom slučaju ovisi o pravilima prodajnog mjesta (otvoreno pitanje uz FZ-27). |
+| **Posljedice (ishod)** | Rezervacija je označena kao preuzeta; kupac može ocijeniti prodajno mjesto (FZ-28). |
 
-| Polje | Opis |
-| --- | --- |
-| Primarni akter | Građanin |
-| ID zahtjeva | F-004 |
-| Preduvjeti, ako postoje | Obrazac za prijavu dostupan je. Ako odobreni zadatak zahtijeva prijavu u sustav, građanin je prijavljen. |
-| Glavni tijek | 1. Građanin otvara obrazac za prijavu; aplikacija prikazuje polja za vrstu kriznog događaja, razinu ozbiljnosti, opis i lokaciju.<br>2. Građanin unosi podatke i odabire lokaciju na karti ili drugim podržanim načinom.<br>3. Građanin podnosi obrazac; aplikacija provjerava obavezna polja i lokaciju.<br>4. Aplikacija pohranjuje prijavu i prikazuje potvrdu s referencom na nju. |
-| Alternativni ili neuspješni tijekovi, ako postoje | **1a — Prijava u sustav nije uspjela:** Ako je prijava obavezna, a pružatelj identiteta je ne dovrši, prijava kriznog događaja ostaje nepodnesena i aplikacija objašnjava kako pokušati ponovno.<br>**2a — Odbijen pristup lokaciji:** Ako aplikacija nudi geolokaciju, ali je korisnik odbije, građanin ručno odabire lokaciju ako ta mogućnost postoji; tijek se nastavlja u koraku 3.<br>**3a — Nevaljana ili nedostajuća lokacija:** Aplikacija objašnjava problem, po mogućnosti zadržava unesene podatke i ne pohranjuje prijavu; građanin ispravlja lokaciju i ponavlja korak 3.<br>**3b — Pohrana nije uspjela:** Aplikacija prijavljuje neuspjeh i ne prikazuje lažnu potvrdu o podnošenju. |
-| Rezultat | Aplikacija pohranjuje prijavu kriznog događaja i potvrđuje njezino podnošenje. |
+### UC-05: Otkazivanje rezervacije
 
-**Odabir razine detalja:** Oba primjera koriste ista polja. UC-001 je kratak jer je glavna iznimka jasna; UC-002 zahtijeva numerirane korake i alternative jer oni mijenjaju ishod i mogu usmjeravati ispitivanje.Pri prilagodbi primjera koristite ID-ove zahtjeva i ponašanje vlastite aplikacije.
+| Element specifikacije | Opis |
+| :--- | :--- |
+| **Primarni akter** | Kupac |
+| **Sekundarni akter** | Servis za plaćanje |
+| **Povezani zahtjevi** | FZ-23, FZ-25 |
+| **Preduvjeti** | Kupac je prijavljen i ima aktivnu (nepreuzetu) rezervaciju. |
+| **Glavni uspješni tok** | 1. Kupac otvara popis svojih rezervacija.<br>2. Kupac odabire rezervaciju i odabire „Otkaži”.<br>3. Sustav provjerava da je do isteka vremena preuzimanja ostalo više od jednog sata.<br>4. Sustav traži potvrdu otkazivanja.<br>5. Kupac potvrđuje.<br>6. Sustav označava rezervaciju kao otkazanu, vraća količinu u ponudu i pokreće povrat novca preko servisa za plaćanje. |
+| **Alternativni tokovi / Iznimke** | **3a — Do isteka je ostalo manje od jednog sata:** sustav ne dopušta otkazivanje i objašnjava razlog.<br>**5a — Kupac odustane:** rezervacija ostaje aktivna.<br>**6a — Povrat novca nije uspio:** rezervacija je otkazana, a povrat se bilježi za ponovni pokušaj; kupac dobiva obavijest. |
+| **Posljedice (ishod)** | Rezervacija je otkazana, količina je ponovno dostupna, a kupcu je pokrenut povrat novca. |
 
-**UC-005: Moderiranje prijave kriznog događaja.** Ovaj primjer vrijedi samo za projekt u kojem odobreni opseg uključuje moderatorski pregled prijava.
+### UC-06: Zahtjev humanitarne organizacije za donaciju
 
-| Polje | Opis |
-| --- | --- |
-| Primarni akter | Moderator (A-05 u primjeru) |
-| ID zahtjeva | F-008 |
-| Preduvjeti, ako postoje | Moderator je prijavljen i ima moderatorske ovlasti; postoji prijava koja čeka pregled. |
-| Glavni tijek | 1. Moderator otvara prijavu koja čeka pregled.<br>2. Aplikacija prikazuje podatke prijave i dostupne moderatorske radnje.<br>3. Moderator odabire odobravanje ili odbijanje.<br>4. Aplikacija provjerava ovlasti, mijenja status prijave i prikazuje novi status. |
-| Alternativni ili neuspješni tijekovi, ako postoje | **3a — Radnja nije potvrđena:** Moderator odustaje od promjene i prijava ostaje nepromijenjena.<br>**4a — Ovlasti nisu valjane:** Aplikacija odbija promjenu i status prijave ostaje nepromijenjen. |
-| Rezultat | Prijava ima novi status ako je moderatorska radnja uspješno provedena; inače ostaje nepromijenjena. |
-</details>
+| Element specifikacije | Opis |
+| :--- | :--- |
+| **Primarni akter** | Humanitarna organizacija |
+| **Ostali akteri** | Prodajno mjesto (odobrava ili odbija zahtjev) |
+| **Povezani zahtjevi** | FZ-14, FZ-30, FZ-31, FZ-32, FZ-33 |
+| **Preduvjeti** | Profil humanitarne organizacije je odobren (aktivan). Postoji donacijska ponuda. |
+| **Glavni uspješni tok** | 1. Humanitarna organizacija otvara popis donacijskih ponuda.<br>2. Organizacija odabire ponudu i unosi traženu količinu.<br>3. Sustav sprema zahtjev sa statusom „na čekanju” i obavještava prodajno mjesto.<br>4. Prodajno mjesto otvara zahtjev i odobrava ga.<br>5. Sustav rezervira odobrenu količinu, mijenja status zahtjeva u „odobren” i obavještava organizaciju. |
+| **Alternativni tokovi / Iznimke** | **1a — Profil organizacije nije odobren:** sustav ne prikazuje donacijske ponude i upućuje na čekanje odobrenja (UC-07).<br>**2a — Tražena količina veća je od dostupne:** sustav javlja dostupnu količinu i ne sprema zahtjev.<br>**4a — Prodajno mjesto odbija zahtjev:** sustav mijenja status u „odbijen”, količina ostaje dostupna, a organizacija dobiva obavijest.<br>**4b — Ponuda istekne prije odluke:** zahtjev se automatski zatvara kao neostvaren. |
+| **Posljedice (ishod)** | Zahtjev je odobren ili odbijen; odobrena količina rezervirana je za organizaciju. Način potvrde preuzimanja donacije otvoreno je pitanje (FZ-33). |
 
----
+### UC-07: Odobravanje profila
+
+| Element specifikacije | Opis |
+| :--- | :--- |
+| **Primarni akter** | Administrator |
+| **Povezani zahtjevi** | FZ-03, FZ-40 |
+| **Preduvjeti** | Administrator je prijavljen. Postoji barem jedan profil koji čeka odobrenje. |
+| **Glavni uspješni tok** | 1. Administrator otvara popis profila koji čekaju odobrenje.<br>2. Administrator otvara profil i pregledava podatke (naziv, kontakt, područje djelovanja).<br>3. Administrator odobrava profil.<br>4. Sustav aktivira profil i obavještava korisnika. |
+| **Alternativni tokovi / Iznimke** | **3a — Administrator odbija profil:** unosi razlog odbijanja; sustav profil označava kao odbijen i obavještava korisnika s razlogom.<br>**3b — Nedostaju podaci:** administrator traži dopunu; profil ostaje na čekanju. |
+| **Posljedice (ishod)** | Profil je aktivan i organizacija može koristiti donacijske funkcionalnosti, ili je odbijen uz razlog. Koje uloge osim humanitarnih organizacija trebaju odobrenje otvoreno je pitanje (FZ-40). |
 
 ## 3.3 Provjera dosljednosti obrazaca uporabe
 
-**Cilj:** Provjeriti međusobnu usklađenost obrazaca uporabe, aktera, zahtjeva i ispitnih slučajeva. Cjelovito mapiranje održava se isključivo u **[matrici sljedivosti zahtjeva](2-Analiza-zahtjeva.md#26-sljedivost-zahtjeva)**.
-
-| Provjera | Pitanje za tim |
+| Provjera | Stanje |
 | --- | --- |
-| Zahtjev | Je li svaki važan obrazac uporabe povezan s postojećim zahtjevom? |
-| Akter | Odgovara li akter naveden ovdje prethodno utvrđenoj ulozi i dopuštenoj interakciji? |
-| Aplikacija | Može li tim demonstrirati opisani glavni rezultat i važnu alternativu ili je opis jasno označen kao trenutačno oblikovanje? |
-
----
-
-Povezivanje zahtjev → obrazac uporabe → ispitivanje održavajte **samo jednom, u [tablici sljedivosti zahtjeva](./2-Analiza-zahtjeva.md)**. Ovdje nemojte održavati drugu projektnu tablicu mapiranja ni stupac sa statusom implementacije. Ako važan zahtjev nema interakciju s ljudskim akterom, objasnite gdje se obrađuje umjesto izmišljanja aktera.
-
-<details>
-<summary><strong>Provjera pokrivenosti zahtjeva</strong></summary>
-
-**Primjer — CrisisMap:** Tablica pokrivenosti obrazaca uporabe koju treba analizirati:
-
-| Broj obrasca uporabe | Naziv obrasca uporabe | Obuhvaćeni funkcijski zahtjevi |
-| --- | --- | --- |
-| UC-001 | Registracija računa | F-001: Registracija računa putem e-pošte |
-| UC-002 | Prijava kriznog događaja | F-022: Prijava i provjera kriznog događaja |
-| UC-003 | Sustav upozorenja | F-045: Slanje upozorenja korisnicima i timovima |
-| UC-004 | Koordinacija spašavanja | F-067: Koordinacija s hitnim službama |
-
----
-
-**Problemi pokrivenosti koje treba riješiti:**
-
-- **Pogrešan ID zahtjeva:** ova tablica povezuje UC-002 s F-022, dok se opis UC-002 u odjeljku 3.2 poziva na F-004, zahtjev za podnošenje prijave iz odjeljka 2.1.
-- **Zahtjevi koji ne postoje:** F-022, F-045 i F-067 nisu definirani u oglednim zahtjevima u 2.1.
-- **Obrasci uporabe bez opisa:** UC-003 i UC-004 nemaju opis u 3.2. UC-004 (koordinacija s hitnim službama) ujedno je mogućnost s vanjskim posljedicama koju opseg dopušta samo ako je uključena u odobreni zadatak.
-- **Nesklad aktera:** primjer aktera u odjeljku 2.3 navodi da koordinator pomoći podnosi prijave (F-004), dok UC-002 kao primarnog aktera navodi građanina.
-
-</details>
-
-**Završna provjera:** Dijagram, specifikacije obrazaca uporabe i matrica sljedivosti međusobno su usklađeni. Svaki važan obrazac uporabe povezan je s postojećim zahtjevom, akteri odgovaraju stvarnim ulogama u aplikaciji, a opisani glavni i alternativni tijekovi odgovaraju ponašanju koje sustav stvarno podržava.
+| Zahtjev | Svaki obrazac UC-01 do UC-07 povezan je s postojećim FZ zahtjevima iz [analize zahtjeva](2-Analiza-zahtjeva.md). Cjelovita veza zahtjev → obrazac uporabe → ispitivanje održava se u [tablici sljedivosti](2-Analiza-zahtjeva.md#26-sljedivost-zahtjeva). |
+| Akter | Akteri odgovaraju ulogama iz zadatka: kupac, prodajno mjesto (i zaposlenik), humanitarna organizacija, administrator te vanjski sustavi kao sekundarni akteri. |
+| Otvorena pitanja | Ponašanje koje ovisi o otvorenim pitanjima (FZ-04 članarina, FZ-23 računanje roka otkazivanja, FZ-27 nepreuzete rezervacije, FZ-33 potvrda preuzimanja donacije, FZ-40 koje uloge traže odobrenje) označeno je u alternativnim tokovima i bit će usklađeno nakon dogovora s asistenticom. |
+| Aplikacija | Opisani tokovi predstavljaju trenutačno oblikovanje; implementacija još nije započeta. |

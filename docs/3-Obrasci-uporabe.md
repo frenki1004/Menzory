@@ -11,6 +11,7 @@ Obrasci uporabe opisuju glavne interakcije aktera sa sustavom SpasiZalogaj. Teme
 **PlantUML izvor:** [izvor](./puml/3-1-spasizalogaj-system-UC.puml)
 
 **Akteri:**
+- **Korisnik** je opći akter za registrirane korisnike: kupac, prodajno mjesto i humanitarna organizacija nasljeđuju njegove obrasce uporabe (prijava i odabir uloge, pretplata na obavijesti).
 - **Kupac** pretražuje, rezervira, plaća, otkazuje i ocjenjuje.
 - **Prodajno mjesto** objavljuje ponude, plaća članarinu i odlučuje o zahtjevima za donaciju.
 - **Zaposlenik prodajnog mjesta** potvrđuje preuzimanje kodom.

@@ -1,0 +1,70 @@
+' ==============================================================================
+' 3-3-spasizalogaj-offers-donations-UC.puml
+'
+' Svrha:    Usmjereni dijagram obrazaca uporabe za objavu ponuda i donacije:
+'           članarina prodajnog mjesta, objava ponude ili paketa, donacijske
+'           ponude, zahtjevi humanitarnih organizacija i odobravanje profila.
+' Zahtjevi: UC-02, UC-06, UC-07 (docs/3-Obrasci-uporabe.md);
+'           F-002, F-004 – F-008, F-015, F-016 (docs/2-Analiza-zahtjeva.md).
+'
+' Diagram level: System Requirements
+' Diagram type:  Use Case Diagram
+' ==============================================================================
+
+@startuml
+title SpasiZalogaj – ponude i donacije
+left to right direction
+
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam ArrowColor #212529
+skinparam actor {
+    BackgroundColor #F8F9FA
+    BorderColor #212529
+    BackgroundColor<<vanjski sustav>> #FFF3CD
+}
+skinparam usecase {
+    BackgroundColor #FFFFFF
+    BorderColor #212529
+}
+skinparam rectangle {
+    BorderColor #6C757D
+}
+
+actor "Prodajno mjesto" as Prodavac
+actor "Humanitarna\norganizacija" as Org
+actor "Administrator" as Admin
+
+rectangle "SpasiZalogaj" {
+    usecase "Plaćanje članarine" as UCClan
+    usecase "UC-02 Objava ponude ili\npaketa iznenađenja" as UC02
+    usecase "Provjera aktivne\nčlanarine" as UCProvjera
+    usecase "Označavanje ponude\nkao donacije" as UCDonacija
+    usecase "Uređivanje i\npovlačenje ponude" as UCUredi
+
+    usecase "UC-06 Zahtjev\nza donaciju" as UC06
+    usecase "Pregled donacijskih\nponuda" as UCPregledDon
+    usecase "Odobravanje ili\nodbijanje zahtjeva" as UCOdluka
+
+    usecase "UC-07 Odobravanje\nprofila" as UC07
+    usecase "Određivanje cijena\nčlanarine" as UCCijene
+}
+
+actor "Servis za\nplaćanje" as Placanje <<vanjski sustav>>
+
+Prodavac --> UCClan
+Prodavac --> UC02
+Prodavac --> UCUredi
+Prodavac --> UCOdluka
+
+Org --> UC06
+
+Admin --> UC07
+Admin --> UCCijene
+
+UC02 ..> UCProvjera : <<include>>
+UCDonacija ..> UC02 : <<extend>>\n(proizvod se donira)
+UC06 ..> UCPregledDon : <<include>>
+
+UCClan --> Placanje
+@enduml

@@ -8,14 +8,14 @@
 
 | ID | Opis | Prioritet | Izvor | Kriteriji prihvaćanja |
 | --- | --- | --- | --- | --- |
-| F-001 | Sustav omogućuje prijavu preko OAuth 2.0 pružatelja i odabir uloge pri prvoj prijavi: kupac, prodajno mjesto ili humanitarna organizacija. | Visok | Odobreni zadatak | Bez odabira uloge nema nastavka; nakon odjave zaštićene stranice traže prijavu. |
-| F-002 | Sustav omogućuje administratoru odobravanje ili odbijanje profila humanitarne organizacije. | Visok | Odobreni zadatak | Neodobrena organizacija ne vidi donacije. |
-| F-003 | Sustav omogućuje prodajnom mjestu i humanitarnoj organizaciji uređivanje javnog profila (naziv, adresa, kontakt, radno vrijeme, logo; organizaciji i područje djelovanja). | Visok | Odobreni zadatak | Profil prikazuje podatke, aktivne ponude, prosječnu ocjenu i komentare. |
-| F-004 | Sustav omogućuje prodajnom mjestu plaćanje mjesečne ili godišnje članarine (PayPal ili kartica) i objavu ponuda samo uz aktivnu članarinu. | Visok | Odobreni zadatak | Nakon plaćanja vidi se datum isteka; obavijest 7 dana prije; nakon isteka nema objave. |
-| F-005 | Sustav omogućuje administratoru određivanje cijena mjesečne i godišnje članarine. | Visok | Odobreni zadatak | Nova cijena vrijedi od sljedećeg plaćanja. |
-| F-006 | Sustav omogućuje prodajnom mjestu objavu proizvoda (naziv, kategorija, količina, redovna i snižena cijena, rok upotrebe, vrijeme preuzimanja, fotografija) i njegovo označavanje kao donacije. | Visok | Odobreni zadatak | Ne sprema se bez obaveznih polja ni sa sniženom cijenom ≥ redovne; donaciju vide samo organizacije. |
-| F-007 | Sustav omogućuje prodajnom mjestu objavu paketa iznenađenja (opis sadržaja, ukupna vrijednost, cijena, broj paketa, interval preuzimanja). | Visok | Odobreni zadatak | Ne sprema se ako cijena nije manja od vrijednosti; prikazuje se broj dostupnih paketa. |
-| F-008 | Sustav omogućuje prodajnom mjestu uređivanje i povlačenje ponuda te ih automatski skida nakon isteka vremena preuzimanja ili kad se rasprodaju. | Visok | Odobreni zadatak | Povučena, istekla ili rasprodana ponuda nije vidljiva ni rezervabilna. |
+| F-001 | [UC-001] | [Komponenta, modul ili drugo mjesto realizacije] | [ST-01, CT-01 ili druga provjera] |
+| F-002 | Sustav omogućuje odobravanje humanitarne organizacije. | Visok | Odobreni zadatak | 1. Humanitarna organizacija nakon prijave ima status „na čekanju”.<br>2. Administrator pregledava profil organizacije i odobrava ga ili odbija.<br>3. Odobrena organizacija dobiva pristup donacijama. |
+| F-003 | Sustav omogućuje uređivanje javnog profila. | Visok | Odobreni zadatak | 1. Prodajno mjesto ili humanitarna organizacija otvara uređivanje profila.<br>2. Unosi naziv, adresu, kontakt, radno vrijeme i logo; organizacija i područje djelovanja.<br>3. Nakon spremanja javni profil prikazuje nove podatke. |
+| F-004 | Sustav omogućuje određivanje cijena članarine. | Visok | Odobreni zadatak | 1. Administrator otvara postavke članarine.<br>2. Unosi cijenu mjesečne i godišnje članarine.<br>3. Nova cijena primjenjuje se na sljedeće plaćanje. |
+| F-005 | Sustav omogućuje plaćanje članarine. | Visok | Odobreni zadatak | 1. Prodajno mjesto odabire mjesečnu ili godišnju članarinu.<br>2. Plaća PayPalom ili karticom preko vanjskog servisa.<br>3. Nakon uspješnog plaćanja članarina je aktivna do datuma isteka i prodajno mjesto može objavljivati ponude. |
+| F-006 | Sustav omogućuje objavu proizvoda. | Visok | Odobreni zadatak | 1. Prodajno mjesto s aktivnom članarinom otvara objavu proizvoda.<br>2. Unosi naziv, kategoriju, količinu, redovnu i sniženu cijenu ili označava proizvod kao donaciju, rok upotrebe, vrijeme preuzimanja i fotografiju.<br>3. Nakon spremanja proizvod je vidljiv kupcima, a donacija samo humanitarnim organizacijama. |
+| F-007 | Sustav omogućuje objavu paketa iznenađenja. | Visok | Odobreni zadatak | 1. Prodajno mjesto s aktivnom članarinom otvara objavu paketa iznenađenja.<br>2. Unosi približnu vrstu sadržaja, ukupnu vrijednost, prodajnu cijenu, broj paketa i interval preuzimanja.<br>3. Nakon spremanja paket je vidljiv kupcima s brojem dostupnih paketa, bez točnog sadržaja. |
+| F-008 | Sustav omogućuje upravljanje ponudama. | Visok | Odobreni zadatak | 1. Prodajno mjesto otvara popis svojih aktivnih ponuda.<br>2. Uređuje podatke ponude ili je povlači.<br>3. Povučena, istekla ili rasprodana ponuda više nije vidljiva kupcima i ne može se rezervirati. |
 | F-009 | Sustav omogućuje kupcu pretragu ponuda na popisu i karti te filtriranje po kategoriji, udaljenosti, cijeni i vremenu preuzimanja. | Visok | Odobreni zadatak | Prikazuju se samo ponude koje zadovoljavaju sve filtre, s udaljenošću u km. |
 | F-010 | Sustav omogućuje kupcu rezervaciju ponuda i plaćanje PayPalom ili karticom te mu izdaje kod za preuzimanje (tekst i QR). | Visok | Odobreni zadatak | Nema rezervacije iznad dostupnog ni bez uspješnog plaćanja. |
 | F-011 | Sustav omogućuje kupcu otkazivanje rezervacije najkasnije 1 h prije kraja preuzimanja, uz povrat novca. | Visok | Odobreni zadatak | Otkazivanje vraća količinu; kasnije od 1 h prije kraja nije moguće. |
@@ -46,12 +46,12 @@
 | ID uloge ili aktera | Odnos prema sustavu | Relevantni zahtjevi |
 | --- | --- | --- |
 | A-01 Kupac | Primarni akter: pretražuje ponude, rezervira i plaća, preuzima, ocjenjuje, sudjeluje u akcijama. | F-001, F-009 – F-011, F-013, F-014, F-017 – F-019 |
-| A-02 Prodajno mjesto | Primarni akter: plaća članarinu, objavljuje ponude i donacije, upravlja rezervacijama i zahtjevima. | F-001, F-003, F-004, F-006 – F-008, F-012 – F-014, F-016 – F-019 |
+| A-02 Prodajno mjesto | Primarni akter: plaća članarinu, objavljuje ponude i donacije, upravlja rezervacijama i zahtjevima. | F-001, F-003, F-005, F-006 – F-008, F-012 – F-014, F-016 – F-019 |
 | A-03 Zaposlenik prodajnog mjesta | Primarni akter: potvrđuje preuzimanje kodom (koristi račun prodajnog mjesta). | F-012, NF-03 |
 | A-04 Humanitarna organizacija | Primarni akter: pregledava donacijske ponude, šalje zahtjeve, organizira akcije. | F-001 – F-003, F-015 – F-018 |
-| A-05 Administrator | Primarni akter: odobrava profile, upravlja računima, sadržajem, kategorijama i cijenama članarina. | F-002, F-005, F-020 |
+| A-05 Administrator | Primarni akter: odobrava profile, upravlja računima, sadržajem, kategorijama i cijenama članarina. | F-002, F-004, F-020 |
 | A-06 OAuth pružatelj identiteta | Vanjski sustav: autentificira korisnike. | F-001, C-01 |
-| A-07 Servis za plaćanje | Vanjski sustav: obrađuje plaćanje članarina i rezervacija. | F-004, F-010, F-011 |
+| A-07 Servis za plaćanje | Vanjski sustav: obrađuje plaćanje članarina i rezervacija. | F-005, F-010, F-011 |
 | A-08 Kartografska usluga | Vanjski sustav: prikazuje lokacije i udaljenosti. | F-009 |
 | D-01 Nastavnici i asistent kolegija | Dionik, nije akter: odobravaju opseg zadatka i pregledavaju rezultat. | Svi zahtjevi s izvorom „Odobreni zadatak” |
 

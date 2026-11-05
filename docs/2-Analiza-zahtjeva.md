@@ -8,26 +8,26 @@
 
 | ID | Opis | Prioritet | Izvor | Kriteriji prihvaćanja |
 | --- | --- | --- | --- | --- |
-| F-001 | Sustav omogućuje prijavu preko OAuth 2.0 pružatelja i odabir uloge pri prvoj prijavi: kupac, prodajno mjesto ili humanitarna organizacija. | Visok | Odobreni zadatak | Bez odabira uloge nema nastavka; nakon odjave zaštićene stranice traže prijavu. |
-| F-002 | Sustav omogućuje administratoru odobravanje ili odbijanje profila humanitarne organizacije. | Visok | Odobreni zadatak | Neodobrena organizacija ne vidi donacije. |
-| F-003 | Sustav omogućuje prodajnom mjestu i humanitarnoj organizaciji uređivanje javnog profila (naziv, adresa, kontakt, radno vrijeme, logo; organizaciji i područje djelovanja). | Visok | Odobreni zadatak | Profil prikazuje podatke, aktivne ponude, prosječnu ocjenu i komentare. |
-| F-004 | Sustav omogućuje prodajnom mjestu plaćanje mjesečne ili godišnje članarine (PayPal ili kartica) i objavu ponuda samo uz aktivnu članarinu. | Visok | Odobreni zadatak | Nakon plaćanja vidi se datum isteka; obavijest 7 dana prije; nakon isteka nema objave. |
-| F-005 | Sustav omogućuje administratoru određivanje cijena mjesečne i godišnje članarine. | Visok | Odobreni zadatak | Nova cijena vrijedi od sljedećeg plaćanja. |
-| F-006 | Sustav omogućuje prodajnom mjestu objavu proizvoda (naziv, kategorija, količina, redovna i snižena cijena, rok upotrebe, vrijeme preuzimanja, fotografija) i njegovo označavanje kao donacije. | Visok | Odobreni zadatak | Ne sprema se bez obaveznih polja ni sa sniženom cijenom ≥ redovne; donaciju vide samo organizacije. |
-| F-007 | Sustav omogućuje prodajnom mjestu objavu paketa iznenađenja (opis sadržaja, ukupna vrijednost, cijena, broj paketa, interval preuzimanja). | Visok | Odobreni zadatak | Ne sprema se ako cijena nije manja od vrijednosti; prikazuje se broj dostupnih paketa. |
-| F-008 | Sustav omogućuje prodajnom mjestu uređivanje i povlačenje ponuda te ih automatski skida nakon isteka vremena preuzimanja ili kad se rasprodaju. | Visok | Odobreni zadatak | Povučena, istekla ili rasprodana ponuda nije vidljiva ni rezervabilna. |
-| F-009 | Sustav omogućuje kupcu pretragu ponuda na popisu i karti te filtriranje po kategoriji, udaljenosti, cijeni i vremenu preuzimanja. | Visok | Odobreni zadatak | Prikazuju se samo ponude koje zadovoljavaju sve filtre, s udaljenošću u km. |
-| F-010 | Sustav omogućuje kupcu rezervaciju ponuda i plaćanje PayPalom ili karticom te mu izdaje kod za preuzimanje (tekst i QR). | Visok | Odobreni zadatak | Nema rezervacije iznad dostupnog ni bez uspješnog plaćanja. |
-| F-011 | Sustav omogućuje kupcu otkazivanje rezervacije najkasnije 1 h prije kraja preuzimanja, uz povrat novca. | Visok | Odobreni zadatak | Otkazivanje vraća količinu; kasnije od 1 h prije kraja nije moguće. |
-| F-012 | Sustav omogućuje zaposleniku prodajnog mjesta potvrdu preuzimanja skeniranjem ili unosom koda. | Visok | Odobreni zadatak | Ispravan kod → „preuzeto”; neispravan ili iskorišten se odbija; nakon roka „nepreuzeto”. |
-| F-013 | Sustav omogućuje kupcu pregled svojih rezervacija, a prodajnom mjestu pregled rezervacija svojih ponuda. | Srednji | Odobreni zadatak | Korisnik vidi samo svoje rezervacije sa statusom. |
-| F-014 | Sustav omogućuje kupcu ocjenjivanje (1–5) i komentiranje prodajnog mjesta nakon preuzimanja, a prodajnom mjestu odgovor na komentar. | Srednji | Odobreni zadatak | Jedna ocjena po preuzetoj rezervaciji; prosjek se odmah ažurira. |
-| F-015 | Sustav omogućuje humanitarnoj organizaciji pregled donacija i slanje zahtjeva za određenu količinu. | Visok | Odobreni zadatak | Zahtjev iznad dostupnog se odbija; novi zahtjev je „na čekanju”. |
-| F-016 | Sustav omogućuje prodajnom mjestu odobravanje ili odbijanje zahtjeva za donaciju i obavještava organizaciju o odluci. | Visok | Odobreni zadatak | Odobrenje rezervira količinu i izdaje kod; odbijanje je ostavlja dostupnom. |
-| F-017 | Sustav omogućuje prodajnom mjestu i humanitarnoj organizaciji kreiranje akcije prikupljanja hrane (naziv, opis, lokacija, trajanje, potrebni proizvodi). | Srednji | Odobreni zadatak | Akcija je vidljiva do završetka. |
-| F-018 | Sustav omogućuje kupcu prijavu na akciju uz navođenje planirane donacije, a organizatoru evidentiranje zaprimljenih donacija. | Srednji | Odobreni zadatak | Organizator vidi sudionike, planirane i zaprimljene donacije. |
-| F-019 | Sustav omogućuje kupcu pretplatu na nove ponude odabranih prodajnih mjesta ili kategorija. | Srednji | Odobreni zadatak | Obavijest dobivaju samo pretplatnici. |
-| F-020 | Sustav omogućuje administratoru blokiranje i brisanje računa, uklanjanje neprimjerenog sadržaja i uređivanje kategorija hrane. | Srednji | Odobreni zadatak | Blokirani se ne može prijaviti; uklonjeni sadržaj nije vidljiv; nova kategorija odmah dostupna. |
+| F-001 | Sustav omogućuje prijavu. | Visok | Odobreni zadatak | 1. Korisnik se prijavljuje preko OAuth 2.0 pružatelja.<br>2. Pri prvoj prijavi odabire ulogu: kupac, prodajno mjesto ili humanitarna organizacija.<br>3. Nakon prijave korisnik dolazi na početnu stranicu svoje uloge. |
+| F-002 | Sustav omogućuje odobravanje humanitarne organizacije. | Visok | Odobreni zadatak | 1. Humanitarna organizacija nakon prijave ima status „na čekanju”.<br>2. Administrator pregledava profil organizacije i odobrava ga ili odbija.<br>3. Odobrena organizacija dobiva pristup donacijama. |
+| F-003 | Sustav omogućuje uređivanje javnog profila. | Visok | Odobreni zadatak | 1. Prodajno mjesto ili humanitarna organizacija otvara uređivanje profila.<br>2. Unosi naziv, adresu, kontakt, radno vrijeme i logo; organizacija i područje djelovanja.<br>3. Nakon spremanja javni profil prikazuje nove podatke. |
+| F-004 | Sustav omogućuje određivanje cijena članarine. | Visok | Odobreni zadatak | 1. Administrator otvara postavke članarine.<br>2. Unosi cijenu mjesečne i godišnje članarine.<br>3. Nova cijena primjenjuje se na sljedeće plaćanje. |
+| F-005 | Sustav omogućuje plaćanje članarine. | Visok | Odobreni zadatak | 1. Prodajno mjesto odabire mjesečnu ili godišnju članarinu.<br>2. Plaća PayPalom ili karticom preko vanjskog servisa.<br>3. Nakon uspješnog plaćanja članarina je aktivna do datuma isteka i prodajno mjesto može objavljivati ponude. |
+| F-006 | Sustav omogućuje objavu proizvoda. | Visok | Odobreni zadatak | 1. Prodajno mjesto s aktivnom članarinom otvara objavu proizvoda.<br>2. Unosi naziv, kategoriju, količinu, redovnu i sniženu cijenu ili označava proizvod kao donaciju, rok upotrebe, vrijeme preuzimanja i fotografiju.<br>3. Nakon spremanja proizvod je vidljiv kupcima, a donacija samo humanitarnim organizacijama. |
+| F-007 | Sustav omogućuje objavu paketa iznenađenja. | Visok | Odobreni zadatak | 1. Prodajno mjesto s aktivnom članarinom otvara objavu paketa iznenađenja.<br>2. Unosi približnu vrstu sadržaja, ukupnu vrijednost, prodajnu cijenu, broj paketa i interval preuzimanja.<br>3. Nakon spremanja paket je vidljiv kupcima s brojem dostupnih paketa, bez točnog sadržaja. |
+| F-008 | Sustav omogućuje upravljanje ponudama. | Visok | Odobreni zadatak | 1. Prodajno mjesto otvara popis svojih aktivnih ponuda.<br>2. Uređuje podatke ponude ili je povlači.<br>3. Povučena, istekla ili rasprodana ponuda više nije vidljiva kupcima i ne može se rezervirati. |
+| F-009 | Sustav omogućuje pretragu ponuda. | Visok | Odobreni zadatak | 1. Kupac otvara pretragu i vidi aktivne ponude na popisu i na karti.<br>2. Filtrira ponude po kategoriji, lokaciji, cijeni i vremenu preuzimanja.<br>3. Uz svako prodajno mjesto vidi njegovu lokaciju na karti i udaljenost od sebe. |
+| F-010 | Sustav omogućuje rezervaciju ponude. | Visok | Odobreni zadatak | 1. Kupac odabire jedan ili više proizvoda ili paketa i potvrđuje rezervaciju.<br>2. Plaća PayPalom ili karticom preko vanjskog servisa.<br>3. Nakon uspješnog plaćanja dobiva potvrdu i jedinstveni kod za preuzimanje. |
+| F-011 | Sustav omogućuje otkazivanje rezervacije. | Visok | Odobreni zadatak | 1. Kupac otvara svoju rezervaciju i odabire otkazivanje.<br>2. Otkazivanje je moguće najkasnije 1 h prije kraja vremena preuzimanja.<br>3. Otkazana rezervacija vraća količinu u ponudu. |
+| F-012 | Sustav omogućuje potvrdu preuzimanja. | Visok | Odobreni zadatak | 1. Kupac u prodajnom mjestu pokazuje kod za preuzimanje.<br>2. Zaposlenik prodajnog mjesta skenira ili unosi kod.<br>3. Ispravan kod označava rezervaciju kao preuzetu i više se ne može iskoristiti. |
+| F-013 | Sustav omogućuje pregled rezervacija. | Srednji | Odobreni zadatak | 1. Kupac otvara popis svojih rezervacija.<br>2. Prodajno mjesto otvara popis rezervacija svojih ponuda.<br>3. Uz svaku rezervaciju vidi se njezin status. |
+| F-014 | Sustav omogućuje ocjenjivanje prodajnog mjesta. | Srednji | Odobreni zadatak | 1. Nakon preuzimanja kupac ocjenjuje prodajno mjesto i može ostaviti komentar.<br>2. Ocjena i komentar prikazuju se na javnom profilu prodajnog mjesta.<br>3. Prodajno mjesto može odgovoriti na komentar. |
+| F-015 | Sustav omogućuje zahtjev za donaciju. | Visok | Odobreni zadatak | 1. Odobrena humanitarna organizacija pregledava ponude označene kao donacija.<br>2. Odabire ponudu i šalje zahtjev za određenu količinu.<br>3. Zahtjev je „na čekanju” dok o njemu ne odluči prodajno mjesto. |
+| F-016 | Sustav omogućuje odlučivanje o zahtjevu za donaciju. | Visok | Odobreni zadatak | 1. Prodajno mjesto otvara zahtjev humanitarne organizacije.<br>2. Odobrava ga ili odbija.<br>3. Organizacija dobiva obavijest o odluci, a odobrena količina rezervira se za nju. |
+| F-017 | Sustav omogućuje kreiranje akcije prikupljanja hrane. | Srednji | Odobreni zadatak | 1. Prodajno mjesto ili humanitarna organizacija otvara kreiranje akcije.<br>2. Unosi naziv, opis, lokaciju, početak i kraj akcije te potrebne vrste proizvoda.<br>3. Nakon spremanja akcija je vidljiva kupcima do završetka. |
+| F-018 | Sustav omogućuje sudjelovanje u akciji prikupljanja hrane. | Srednji | Odobreni zadatak | 1. Kupac se prijavljuje na akciju.<br>2. Označava proizvode koje planira donirati.<br>3. Organizator akcije evidentira stvarno zaprimljene donacije. |
+| F-019 | Sustav omogućuje pretplatu na obavijesti. | Srednji | Odobreni zadatak | 1. Kupac odabire prodajna mjesta ili kategorije hrane i pretplaćuje se.<br>2. Kad se objavi nova odgovarajuća ponuda, sustav mu šalje obavijest. |
+| F-020 | Sustav omogućuje administraciju korisnika i sadržaja. | Srednji | Odobreni zadatak | 1. Administrator pregledava korisničke račune i objavljeni sadržaj.<br>2. Može blokirati ili obrisati račun i ukloniti neprimjeren sadržaj.<br>3. Uređuje popis kategorija hrane. |
 
 ## 2.2 Nefunkcijski zahtjevi
 
@@ -35,9 +35,14 @@
 
 | ID | Opis | Prioritet | Izvor | Način provjere |
 | --- | --- | --- | --- | --- |
-| NF-01 | Sustav podržava najmanje 100 istovremenih korisnika uz vrijeme odziva ispod 2 s. | Visok | Procjena tima | Mjerenje: test opterećenja sa 100 simuliranih korisnika. |
-| NF-02 | Pretraga ponuda vraća rezultate za manje od 2 s uz do 1000 aktivnih ponuda. | Srednji | Procjena tima | Mjerenje: vrijeme odziva pretrage nad 1000 oglednih ponuda. |
-| NF-03 | Ključni tijekovi rade na mobitelu širine zaslona 360 px. | Visok | Procjena tima | Pregled: ključni tijekovi izvršeni na mobitelu. |
+| NF-01 | Sva komunikacija ide preko HTTPS-a. | Visok | Procjena tima | Pregled konfiguracije: HTTP zahtjev preusmjerava se na HTTPS. |
+| NF-02 | Pristup funkcijama kontrolira se prema ulogama; korisnik vidi i mijenja samo podatke za koje ima ovlasti. | Visok | Procjena tima | Testni scenarij: zahtjev prema tuđim podacima ili administratorskoj funkciji bez ovlasti sustav odbija. |
+| NF-03 | Sustav ne pohranjuje podatke platnih kartica, a razvoj i testiranje koriste sandbox okruženje servisa za plaćanje. | Visok | Procjena tima | Pregled sheme baze i konfiguracije: nijedna tablica ne sadrži podatke kartice; razvojno i testno okruženje koriste sandbox ključeve. |
+| NF-04 | Kod za preuzimanje je jedinstven, nepredvidiv i vrijedi samo za jedno preuzimanje. | Visok | Procjena tima | Testni scenarij: ponovna uporaba koda je odbijena; pregled koda: kod se generira kriptografski sigurnim generatorom. |
+| NF-05 | Dostupna količina ostaje dosljedna: istovremene rezervacije ne smiju prodati više od dostupnog, a neuspjelo plaćanje ne zauzima količinu trajno. | Visok | Procjena tima | Testni scenariji: istovremena rezervacija posljednjeg komada iz dvaju klijenata (uspijeva samo jedna); odbijeno plaćanje u sandboxu vraća količinu u ponudu. |
+| NF-06 | Pretraga ponuda vraća rezultate za manje od 2 s uz do 1000 aktivnih ponuda. | Srednji | Procjena tima | Mjerenje: vrijeme odziva pretrage nad 1000 oglednih ponuda. Vidi P-10. |
+| NF-07 | Sučelje je responzivno i upotrebljivo na mobitelu (zaposlenik skenira kod kamerom), na hrvatskom jeziku, s vremenima u zoni Europe/Zagreb i cijenama u eurima. | Visok | Procjena tima | Pregled: ključni tijekovi izvršeni na mobitelu, uključujući skeniranje QR koda; tekstovi, vremena i cijene u zadanom obliku. |
+| NF-08 | Nedostupnost vanjskog servisa (plaćanje, karta, e-pošta) prikazuje korisniku jasnu poruku i ne ruši aplikaciju. | Visok | Procjena tima | Testni scenarij: simulirana nedostupnost svakog vanjskog servisa. |
 
 ## 2.3 Dionici i akteri
 
@@ -46,12 +51,12 @@
 | ID uloge ili aktera | Odnos prema sustavu | Relevantni zahtjevi |
 | --- | --- | --- |
 | A-01 Kupac | Primarni akter: pretražuje ponude, rezervira i plaća, preuzima, ocjenjuje, sudjeluje u akcijama. | F-001, F-009 – F-011, F-013, F-014, F-017 – F-019 |
-| A-02 Prodajno mjesto | Primarni akter: plaća članarinu, objavljuje ponude i donacije, upravlja rezervacijama i zahtjevima. | F-001, F-003, F-004, F-006 – F-008, F-012 – F-014, F-016 – F-019 |
-| A-03 Zaposlenik prodajnog mjesta | Primarni akter: potvrđuje preuzimanje kodom (koristi račun prodajnog mjesta). | F-012, NF-03 |
+| A-02 Prodajno mjesto | Primarni akter: plaća članarinu, objavljuje ponude i donacije, upravlja rezervacijama i zahtjevima. | F-001, F-003, F-005, F-006 – F-008, F-012 – F-014, F-016 – F-019 |
+| A-03 Zaposlenik prodajnog mjesta | Primarni akter: potvrđuje preuzimanje kodom (koristi račun prodajnog mjesta). | F-012, NF-07 |
 | A-04 Humanitarna organizacija | Primarni akter: pregledava donacijske ponude, šalje zahtjeve, organizira akcije. | F-001 – F-003, F-015 – F-018 |
-| A-05 Administrator | Primarni akter: odobrava profile, upravlja računima, sadržajem, kategorijama i cijenama članarina. | F-002, F-005, F-020 |
+| A-05 Administrator | Primarni akter: odobrava profile, upravlja računima, sadržajem, kategorijama i cijenama članarina. | F-002, F-004, F-020 |
 | A-06 OAuth pružatelj identiteta | Vanjski sustav: autentificira korisnike. | F-001, C-01 |
-| A-07 Servis za plaćanje | Vanjski sustav: obrađuje plaćanje članarina i rezervacija. | F-004, F-010, F-011 |
+| A-07 Servis za plaćanje | Vanjski sustav: obrađuje plaćanje članarina i rezervacija. | F-005, F-010, F-011, NF-03, NF-05 |
 | A-08 Kartografska usluga | Vanjski sustav: prikazuje lokacije i udaljenosti. | F-009 |
 | D-01 Nastavnici i asistent kolegija | Dionik, nije akter: odobravaju opseg zadatka i pregledavaju rezultat. | Svi zahtjevi s izvorom „Odobreni zadatak” |
 
@@ -67,6 +72,23 @@
 | C-02 | Ograničenje | Plaćanje (PayPal ili kartica) obavlja vanjski servis. | Odobreni zadatak | Integracija sa servisom za plaćanje i obrada njegovih povratnih poziva; podaci kartice ne prolaze kroz sustav. |
 | C-03 | Ograničenje | Lokacije i udaljenosti prikazuju se vanjskom kartografskom uslugom. | Odobreni zadatak | Integracija s kartografskom uslugom; prodajna mjesta moraju imati koordinate. |
 
+### Otvorena pitanja
+
+Pitanja koja tim treba razjasniti s asistentom. Dok se ne razriješe, tim radi prema navedenoj radnoj pretpostavci.
+
+| ID | Tema | Pitanje | Radna pretpostavka | Povezani zahtjevi |
+| --- | --- | --- | --- | --- |
+| P-01 | Članarine | Je li aktivna članarina uvjet za objavu ponuda i što se događa s ponudama nakon isteka? | Bez aktivne članarine nije moguće objaviti novu ponudu. | F-005 |
+| P-02 | Članarine | Koliko ranije i kojim kanalom obavijestiti prodajno mjesto o isteku članarine? | Obavijest unutar aplikacije 7 dana prije isteka. | F-005 |
+| P-03 | Rezervacije i plaćanje | Može li jedna rezervacija sadržavati ponude više prodajnih mjesta? | Jedna rezervacija odnosi se na jedno prodajno mjesto, uz više stavki. | F-010 |
+| P-04 | Rezervacije i plaćanje | Vrijedi li rok otkazivanja od 1 h i vraća li se novac pri otkazivanju? | Rok je 1 h, uz puni povrat preko servisa za plaćanje. | F-011 |
+| P-05 | Rezervacije i plaćanje | Što se događa s plaćenim iznosom nepreuzete rezervacije? | Nema povrata novca, a količina se ne vraća u ponudu. | F-012 |
+| P-06 | Donacije | Kako se potvrđuje preuzimanje donacije? | Istim kodom za preuzimanje kao kod rezervacija. | F-012, F-016 |
+| P-07 | Obavijesti | Kojim kanalom se šalju obavijesti pretplatnicima? | E-poštom. | F-019 |
+| P-08 | Administracija | Koje uloge trebaju odobrenje administratora? | Samo humanitarne organizacije; prodajno mjesto aktivira se plaćanjem članarine. | F-002 |
+| P-09 | Administracija | Je li popis kategorija hrane fiksan ili ga uređuje administrator? | Administrator uređuje unaprijed definiran početni popis. | F-020 |
+| P-10 | Nefunkcijski zahtjevi | Jesu li prihvatljive brojčane vrijednosti 2 s za pretragu uz 1000 ponuda? | Vrijednosti su prijedlog tima. | NF-06 |
+
 ---
 
 ## 2.5 Značajne promjene zahtjeva
@@ -75,7 +97,8 @@
 
 | Datum | ID zahtjeva | Promjena i razlog | Dogovoreno s / dokaz |
 | --- | --- | --- | --- |
-|  |  |  |  |
+| 5. 11. 2026. | F-001 – F-020 | Funkcijski zahtjevi preoblikovani u kraći oblik („Sustav omogućuje …” i numerirani kriteriji prihvaćanja); F-004 i F-005 zamijenili su mjesta. | Asistentica, sastanak 5. 11. 2026.; PR #24 |
+| 5. 11. 2026. | NF-01 – NF-08 | Nefunkcijski zahtjevi pročišćeni: uklonjeno ono što je već u ograničenjima, pravila kolegija i neprovjerljive tvrdnje. | Asistentica, sastanak 5. 11. 2026.; PR #24 |
 
 ---
 

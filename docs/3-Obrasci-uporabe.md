@@ -37,7 +37,7 @@ Dijagram detaljnije prikazuje tok kupca od pretrage do preuzimanja (UC-03, UC-04
 
 **PlantUML izvor:** [izvor](./puml/3-3-spasizalogaj-offers-donations-UC.puml)
 
-Dijagram detaljnije prikazuje rad prodajnog mjesta, humanitarne organizacije i administratora (UC-02, UC-06, UC-07). Objava ponude uvijek uključuje provjeru aktivne članarine (F-004), a ponuda se može označiti kao donacija (F-006). Zahtjev za donaciju može poslati samo organizacija čiji je profil odobren (UC-07, F-002), a o zahtjevu zatim odlučuje prodajno mjesto (F-016). Nova cijena članarine koju odredi administrator vrijedi od sljedećeg plaćanja (F-005).
+Dijagram detaljnije prikazuje rad prodajnog mjesta, humanitarne organizacije i administratora (UC-02, UC-06, UC-07). Objava ponude uvijek uključuje provjeru aktivne članarine (F-005), a ponuda se može označiti kao donacija (F-006). Zahtjev za donaciju može poslati samo organizacija čiji je profil odobren (UC-07, F-002), a o zahtjevu zatim odlučuje prodajno mjesto (F-016). Nova cijena članarine koju odredi administrator vrijedi od sljedećeg plaćanja (F-004).
 
 ## 3.2 Specifikacije obrazaca uporabe
 
@@ -58,7 +58,7 @@ Dijagram detaljnije prikazuje rad prodajnog mjesta, humanitarne organizacije i a
 | Element specifikacije | Opis |
 | :--- | :--- |
 | **Primarni akter** | Prodajno mjesto |
-| **Povezani zahtjevi** | F-004, F-006, F-007 |
+| **Povezani zahtjevi** | F-005, F-006, F-007 |
 | **Preduvjeti** | Prodajno mjesto je prijavljeno i ima aktivnu članarinu. |
 | **Glavni uspješni tok** | 1. Prodajno mjesto odabire „Nova ponuda”.<br>2. Sustav nudi izbor: pojedinačni proizvod ili paket iznenađenja.<br>3. Prodajno mjesto odabire pojedinačni proizvod i unosi naziv, kategoriju, količinu, redovnu cijenu, sniženu cijenu, rok upotrebe, krajnje vrijeme preuzimanja i po želji fotografiju.<br>4. Sustav provjerava obavezna polja i vrijednosti (npr. snižena cijena manja od redovne, vrijeme preuzimanja u budućnosti).<br>5. Sustav sprema ponudu i prikazuje je na javnom profilu prodajnog mjesta i u pretrazi. |
 | **Alternativni tokovi / Iznimke** | **1a — Članarina nije aktivna:** sustav ne dopušta objavu i upućuje na plaćanje članarine.<br>**2a — Paket iznenađenja:** prodajno mjesto unosi približnu vrstu sadržaja, ukupnu vrijednost, prodajnu cijenu, broj paketa i interval preuzimanja; tok se nastavlja u koraku 4.<br>**3a — Proizvod se donira:** prodajno mjesto umjesto snižene cijene označava „donacija” i može odabrati „samo za humanitarne organizacije”; takvu ponudu vide samo humanitarne organizacije (UC-06).<br>**4a — Neispravni podaci:** sustav označava neispravna polja, zadržava unesene podatke i ne sprema ponudu dok se podaci ne isprave. |
@@ -128,5 +128,5 @@ Dijagram detaljnije prikazuje rad prodajnog mjesta, humanitarne organizacije i a
 | --- | --- |
 | Zahtjev | Svaki obrazac UC-01 do UC-07 povezan je s postojećim funkcijskim zahtjevima iz [analize zahtjeva](2-Analiza-zahtjeva.md). Cjelovita veza zahtjev → obrazac uporabe → ispitivanje održava se u [tablici sljedivosti](2-Analiza-zahtjeva.md#26-sljedivost-zahtjeva). |
 | Akter | Akteri odgovaraju ulogama iz zadatka: kupac, prodajno mjesto (i zaposlenik), humanitarna organizacija, administrator te vanjski sustavi kao sekundarni akteri. |
-| Otvorena pitanja | Ponašanje koje ovisi o otvorenim pitanjima (F-004 članarina, F-011 računanje roka otkazivanja, F-012 nepreuzete rezervacije, F-016 potvrda preuzimanja donacije, F-002 koje uloge traže odobrenje) označeno je u alternativnim tokovima i bit će usklađeno nakon dogovora s asistenticom. |
+| Otvorena pitanja | Ponašanje koje ovisi o otvorenim pitanjima (F-005 članarina, F-011 računanje roka otkazivanja, F-012 nepreuzete rezervacije, F-016 potvrda preuzimanja donacije, F-002 koje uloge traže odobrenje) označeno je u alternativnim tokovima i bit će usklađeno nakon dogovora s asistenticom. |
 | Aplikacija | Opisani tokovi predstavljaju trenutačno oblikovanje; implementacija još nije započeta. |

@@ -59,6 +59,7 @@
 | A-07 Servis za plaćanje | Vanjski sustav: obrađuje plaćanje članarina i rezervacija. | F-005, F-010, F-011, NF-03, NF-05 |
 | A-08 Kartografska usluga | Vanjski sustav: prikazuje lokacije i udaljenosti. | F-009 |
 | D-01 Nastavnici i asistent kolegija | Dionik, nije akter: odobravaju opseg zadatka i pregledavaju rezultat. | Svi zahtjevi s izvorom „Odobreni zadatak” |
+| D-02 Razvojni tim | Dionik, nije akter: razvija, ispituje i održava sustav te uz dogovor s asistenticom odlučuje o tehnologijama i arhitekturi. | Svi zahtjevi s izvorom „Procjena tima” |
 
 ---
 

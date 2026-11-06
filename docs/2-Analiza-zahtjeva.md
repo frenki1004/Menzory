@@ -113,8 +113,26 @@ Pitanja koja tim treba razjasniti s asistentom. Dok se ne razriješe, tim radi p
 
 | ID zahtjeva | Obrazac uporabe / modul | Arhitekturna realizacija | Ispitivanje ili provjera |
 | --- | --- | --- | --- |
-| F-001 | [UC-001] | [Komponenta, modul ili drugo mjesto realizacije] | [ST-01, CT-01 ili druga provjera] |
-|  |  |  |  |
+| F-001 | UC-01 | na čekanju | na čekanju |
+| F-002 | UC-01, UC-07 | na čekanju | na čekanju |
+| F-003 | na čekanju | na čekanju | na čekanju |
+| F-004 | na čekanju | na čekanju | na čekanju |
+| F-005 | UC-02 | na čekanju | na čekanju |
+| F-006 | UC-02, UC-06 | na čekanju | na čekanju |
+| F-007 | UC-02 | na čekanju | na čekanju |
+| F-008 | na čekanju | na čekanju | na čekanju |
+| F-009 | UC-03 | na čekanju | na čekanju |
+| F-010 | UC-03 | na čekanju | na čekanju |
+| F-011 | UC-05 | na čekanju | na čekanju |
+| F-012 | UC-04 | na čekanju | na čekanju |
+| F-013 | UC-05 | na čekanju | na čekanju |
+| F-014 | na čekanju | na čekanju | na čekanju |
+| F-015 | UC-06 | na čekanju | na čekanju |
+| F-016 | UC-06 | na čekanju | na čekanju |
+| F-017 | na čekanju | na čekanju | na čekanju |
+| F-018 | na čekanju | na čekanju | na čekanju |
+| F-019 | na čekanju | na čekanju | na čekanju |
+| F-020 | na čekanju | na čekanju | na čekanju |
 
 ---
 

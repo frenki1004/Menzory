@@ -143,9 +143,9 @@ Pitanja koja tim treba razjasniti s asistentom. Dok se ne razriješe, tim radi p
 
 | Kontrolna točka | Povratna informacija ili nalaz | Odluka o zahtjevu ili opsegu |
 | --- | --- | --- |
-| Iteracija 1 | [Povratna informacija] | [Odluka; vidi odjeljak 2.5] |
-| Demo 2  | [Povratna informacija] | [Odluka; vidi odjeljak 2.5] |
-| Završni pregled | [Povratna informacija] | [Odluka; vidi odjeljak 2.5] |
+| Iteracija 1 (M1, 7. tjedan) | na čekanju | na čekanju |
+| Demo 2 | na čekanju | na čekanju |
+| Završni pregled | na čekanju | na čekanju |
 
 ---
 

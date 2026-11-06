@@ -59,6 +59,7 @@
 | A-07 Servis za plaćanje | Vanjski sustav: obrađuje plaćanje članarina i rezervacija. | F-005, F-010, F-011, NF-03, NF-05 |
 | A-08 Kartografska usluga | Vanjski sustav: prikazuje lokacije i udaljenosti. | F-009 |
 | D-01 Nastavnici i asistent kolegija | Dionik, nije akter: odobravaju opseg zadatka i pregledavaju rezultat. | Svi zahtjevi s izvorom „Odobreni zadatak” |
+| D-02 Razvojni tim | Dionik, nije akter: razvija, ispituje i održava sustav te uz dogovor s asistenticom odlučuje o tehnologijama i arhitekturi. | Svi zahtjevi s izvorom „Procjena tima” |
 
 ---
 
@@ -71,6 +72,10 @@
 | C-01 | Ograničenje | Autentifikacija se obavlja isključivo preko vanjskog OAuth 2.0 pružatelja. | Odobreni zadatak | Sustav ne pohranjuje lozinke; uloga korisnika vodi se u vlastitoj bazi uz OAuth identitet. |
 | C-02 | Ograničenje | Plaćanje (PayPal ili kartica) obavlja vanjski servis. | Odobreni zadatak | Integracija sa servisom za plaćanje i obrada njegovih povratnih poziva; podaci kartice ne prolaze kroz sustav. |
 | C-03 | Ograničenje | Lokacije i udaljenosti prikazuju se vanjskom kartografskom uslugom. | Odobreni zadatak | Integracija s kartografskom uslugom; prodajna mjesta moraju imati koordinate. |
+| AS-01 | Pretpostavka | Prodajna mjesta imaju stvarnu adresu koja se može pretvoriti u koordinate i prikazati na karti. | Pretpostavka o podacima | Provjeriti pri unosu adrese u profil (F-003) i na oglednim podacima; planirati prikaz prodajnog mjesta bez valjanih koordinata. |
+| AS-02 | Pretpostavka | Korisnici imaju račun kod podržanog OAuth pružatelja. | Procjena tima | Provjeriti pri odabiru pružatelja identiteta; bez takvog računa prijava nije moguća (C-01). |
+| AS-03 | Pretpostavka | Zaposlenik prodajnog mjesta koristi račun prodajnog mjesta na mobitelu s kamerom. | Procjena tima | Provjeriti skeniranje koda na mobitelu (NF-07); ako kamera nije dostupna, kod se unosi ručno (UC-04, 2a). |
+| AS-04 | Pretpostavka | Servis za plaćanje nudi testno (sandbox) okruženje za razvoj i demonstraciju. | Procjena tima | Provjeriti pri odabiru servisa za plaćanje; razvoj i testiranje koriste sandbox (NF-03). |
 
 ### Otvorena pitanja
 
@@ -97,6 +102,7 @@ Pitanja koja tim treba razjasniti s asistentom. Dok se ne razriješe, tim radi p
 
 | Datum | ID zahtjeva | Promjena i razlog | Dogovoreno s / dokaz |
 | --- | --- | --- | --- |
+| 4. 11. 2026. | F-001 – F-020, NF | Nakon povratne informacije na M0 (29. 10. 2026.) funkcijski zahtjevi smanjeni s 50 na 20 spajanjem povezanih i uklanjanjem prijedloga niskog prioriteta; nefunkcijski s 14 na 10; opisi preoblikovani u oblik „Sustav omogućuje …”. | Asistentica, M0 29. 10. 2026.; PR #22, PR #23 |
 | 5. 11. 2026. | F-001 – F-020 | Funkcijski zahtjevi preoblikovani u kraći oblik („Sustav omogućuje …” i numerirani kriteriji prihvaćanja); F-004 i F-005 zamijenili su mjesta. | Asistentica, sastanak 5. 11. 2026.; PR #24 |
 | 5. 11. 2026. | NF-01 – NF-08 | Nefunkcijski zahtjevi pročišćeni: uklonjeno ono što je već u ograničenjima, pravila kolegija i neprovjerljive tvrdnje. | Asistentica, sastanak 5. 11. 2026.; PR #24 |
 
@@ -108,8 +114,26 @@ Pitanja koja tim treba razjasniti s asistentom. Dok se ne razriješe, tim radi p
 
 | ID zahtjeva | Obrazac uporabe / modul | Arhitekturna realizacija | Ispitivanje ili provjera |
 | --- | --- | --- | --- |
-| F-001 | [UC-001] | [Komponenta, modul ili drugo mjesto realizacije] | [ST-01, CT-01 ili druga provjera] |
-|  |  |  |  |
+| F-001 | UC-01 | na čekanju | na čekanju |
+| F-002 | UC-01, UC-07 | na čekanju | na čekanju |
+| F-003 | na čekanju | na čekanju | na čekanju |
+| F-004 | na čekanju | na čekanju | na čekanju |
+| F-005 | UC-02 | na čekanju | na čekanju |
+| F-006 | UC-02, UC-06 | na čekanju | na čekanju |
+| F-007 | UC-02 | na čekanju | na čekanju |
+| F-008 | na čekanju | na čekanju | na čekanju |
+| F-009 | UC-03 | na čekanju | na čekanju |
+| F-010 | UC-03 | na čekanju | na čekanju |
+| F-011 | UC-05 | na čekanju | na čekanju |
+| F-012 | UC-04 | na čekanju | na čekanju |
+| F-013 | UC-05 | na čekanju | na čekanju |
+| F-014 | na čekanju | na čekanju | na čekanju |
+| F-015 | UC-06 | na čekanju | na čekanju |
+| F-016 | UC-06 | na čekanju | na čekanju |
+| F-017 | na čekanju | na čekanju | na čekanju |
+| F-018 | na čekanju | na čekanju | na čekanju |
+| F-019 | na čekanju | na čekanju | na čekanju |
+| F-020 | na čekanju | na čekanju | na čekanju |
 
 ---
 
@@ -119,9 +143,9 @@ Pitanja koja tim treba razjasniti s asistentom. Dok se ne razriješe, tim radi p
 
 | Kontrolna točka | Povratna informacija ili nalaz | Odluka o zahtjevu ili opsegu |
 | --- | --- | --- |
-| Iteracija 1 | [Povratna informacija] | [Odluka; vidi odjeljak 2.5] |
-| Demo 2  | [Povratna informacija] | [Odluka; vidi odjeljak 2.5] |
-| Završni pregled | [Povratna informacija] | [Odluka; vidi odjeljak 2.5] |
+| Iteracija 1 (M1, 7. tjedan) | na čekanju | na čekanju |
+| Demo 2 | na čekanju | na čekanju |
+| Završni pregled | na čekanju | na čekanju |
 
 ---
 

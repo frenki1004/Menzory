@@ -72,6 +72,10 @@
 | C-01 | Ograničenje | Autentifikacija se obavlja isključivo preko vanjskog OAuth 2.0 pružatelja. | Odobreni zadatak | Sustav ne pohranjuje lozinke; uloga korisnika vodi se u vlastitoj bazi uz OAuth identitet. |
 | C-02 | Ograničenje | Plaćanje (PayPal ili kartica) obavlja vanjski servis. | Odobreni zadatak | Integracija sa servisom za plaćanje i obrada njegovih povratnih poziva; podaci kartice ne prolaze kroz sustav. |
 | C-03 | Ograničenje | Lokacije i udaljenosti prikazuju se vanjskom kartografskom uslugom. | Odobreni zadatak | Integracija s kartografskom uslugom; prodajna mjesta moraju imati koordinate. |
+| AS-01 | Pretpostavka | Prodajna mjesta imaju stvarnu adresu koja se može pretvoriti u koordinate i prikazati na karti. | Pretpostavka o podacima | Provjeriti pri unosu adrese u profil (F-003) i na oglednim podacima; planirati prikaz prodajnog mjesta bez valjanih koordinata. |
+| AS-02 | Pretpostavka | Korisnici imaju račun kod podržanog OAuth pružatelja. | Procjena tima | Provjeriti pri odabiru pružatelja identiteta; bez takvog računa prijava nije moguća (C-01). |
+| AS-03 | Pretpostavka | Zaposlenik prodajnog mjesta koristi račun prodajnog mjesta na mobitelu s kamerom. | Procjena tima | Provjeriti skeniranje koda na mobitelu (NF-07); ako kamera nije dostupna, kod se unosi ručno (UC-04, 2a). |
+| AS-04 | Pretpostavka | Servis za plaćanje nudi testno (sandbox) okruženje za razvoj i demonstraciju. | Procjena tima | Provjeriti pri odabiru servisa za plaćanje; razvoj i testiranje koriste sandbox (NF-03). |
 
 ### Otvorena pitanja
 

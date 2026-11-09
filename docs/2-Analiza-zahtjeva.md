@@ -35,14 +35,13 @@
 
 | ID | Opis | Prioritet | Izvor | Način provjere |
 | --- | --- | --- | --- | --- |
-| NF-01 | Sva komunikacija ide preko HTTPS-a. | Visok | Procjena tima | Pregled konfiguracije: HTTP zahtjev preusmjerava se na HTTPS. |
-| NF-02 | Pristup funkcijama kontrolira se prema ulogama; korisnik vidi i mijenja samo podatke za koje ima ovlasti. | Visok | Procjena tima | Testni scenarij: zahtjev prema tuđim podacima ili administratorskoj funkciji bez ovlasti sustav odbija. |
-| NF-03 | Sustav ne pohranjuje podatke platnih kartica, a razvoj i testiranje koriste sandbox okruženje servisa za plaćanje. | Visok | Procjena tima | Pregled sheme baze i konfiguracije: nijedna tablica ne sadrži podatke kartice; razvojno i testno okruženje koriste sandbox ključeve. |
-| NF-04 | Kod za preuzimanje je jedinstven, nepredvidiv i vrijedi samo za jedno preuzimanje. | Visok | Procjena tima | Testni scenarij: ponovna uporaba koda je odbijena; pregled koda: kod se generira kriptografski sigurnim generatorom. |
-| NF-05 | Dostupna količina ostaje dosljedna: istovremene rezervacije ne smiju prodati više od dostupnog, a neuspjelo plaćanje ne zauzima količinu trajno. | Visok | Procjena tima | Testni scenariji: istovremena rezervacija posljednjeg komada iz dvaju klijenata (uspijeva samo jedna); odbijeno plaćanje u sandboxu vraća količinu u ponudu. |
-| NF-06 | Pretraga ponuda vraća rezultate za manje od 2 s uz do 1000 aktivnih ponuda. | Srednji | Procjena tima | Mjerenje: vrijeme odziva pretrage nad 1000 oglednih ponuda. Vidi P-10. |
-| NF-07 | Sučelje je responzivno i upotrebljivo na mobitelu (zaposlenik skenira kod kamerom), na hrvatskom jeziku, s vremenima u zoni Europe/Zagreb i cijenama u eurima. | Visok | Procjena tima | Pregled: ključni tijekovi izvršeni na mobitelu, uključujući skeniranje QR koda; tekstovi, vremena i cijene u zadanom obliku. |
-| NF-08 | Nedostupnost vanjskog servisa (plaćanje, karta, e-pošta) prikazuje korisniku jasnu poruku i ne ruši aplikaciju. | Visok | Procjena tima | Testni scenarij: simulirana nedostupnost svakog vanjskog servisa. |
+| NF-01 | Komunikacija između korisnika i sustava je sigurna. | Visok | Procjena tima | Pregled konfiguracije: sva komunikacija ide preko HTTPS-a, a HTTP zahtjevi preusmjeravaju se na HTTPS. |
+| NF-02 | Korisnik nema pristup informacijama i funkcijama koje ne bi smio imati (npr. uvid u financijske podatke, tuđe rezervacije ili administraciju). | Visok | Procjena tima | Testni scenarij: zahtjev prema tuđim podacima ili administratorskoj funkciji bez ovlasti sustav odbija. |
+| NF-03 | Sustav ne pohranjuje osjetljive podatke o sredstvima plaćanja. | Visok | Procjena tima | Pregled baze i koda: nijedna tablica ne sadrži podatke platnih kartica. |
+| NF-04 | Kod za preuzimanje je jedinstven, nepredvidiv i jednokratan. | Visok | Procjena tima | Testni scenarij: ponovna uporaba koda je odbijena; pregled koda potvrđuje siguran način generiranja. |
+| NF-05 | Sustav sprječava dvostruku rezervaciju iste ponude. | Visok | Procjena tima | Testni scenariji: istovremena rezervacija posljednjeg komada iz dvaju klijenata (uspijeva samo jedna); neuspjelo plaćanje vraća količinu u ponudu. |
+| NF-06 | Sustav je dovoljno responzivan pri pretrazi ponuda. | Srednji | Procjena tima | Mjerenje: vrijeme odziva pretrage nad 1000 oglednih ponuda iznosi manje od 2 s. Vidi P-10. |
+| NF-07 | Aplikacija je prilagođena za korištenje na mobitelu. | Visok | Procjena tima | Pregled: glavne funkcionalnosti isprobane na mobitelu. |
 
 ## 2.3 Dionici i akteri
 
@@ -75,7 +74,7 @@
 | AS-01 | Pretpostavka | Prodajna mjesta imaju stvarnu adresu koja se može pretvoriti u koordinate i prikazati na karti. | Pretpostavka o podacima | Provjeriti pri unosu adrese u profil (F-003) i na oglednim podacima; planirati prikaz prodajnog mjesta bez valjanih koordinata. |
 | AS-02 | Pretpostavka | Korisnici imaju račun kod podržanog OAuth pružatelja. | Procjena tima | Provjeriti pri odabiru pružatelja identiteta; bez takvog računa prijava nije moguća (C-01). |
 | AS-03 | Pretpostavka | Zaposlenik prodajnog mjesta koristi račun prodajnog mjesta na mobitelu s kamerom. | Procjena tima | Provjeriti skeniranje koda na mobitelu (NF-07); ako kamera nije dostupna, kod se unosi ručno (UC-04, 2a). |
-| AS-04 | Pretpostavka | Servis za plaćanje nudi testno (sandbox) okruženje za razvoj i demonstraciju. | Procjena tima | Provjeriti pri odabiru servisa za plaćanje; razvoj i testiranje koriste sandbox (NF-03). |
+| AS-04 | Pretpostavka | Servis za plaćanje nudi testno (sandbox) okruženje za razvoj i demonstraciju. | Procjena tima | Provjeriti pri odabiru servisa za plaćanje; razvoj i testiranje koriste sandbox. |
 
 ### Otvorena pitanja
 
@@ -83,7 +82,7 @@ Pitanja koja tim treba razjasniti s asistentom. Dok se ne razriješe, tim radi p
 
 | ID | Tema | Pitanje | Radna pretpostavka | Povezani zahtjevi |
 | --- | --- | --- | --- | --- |
-| P-01 | Članarine | Je li aktivna članarina uvjet za objavu ponuda i što se događa s ponudama nakon isteka? | Bez aktivne članarine nije moguće objaviti novu ponudu. | F-005 |
+| P-01 | Članarine | Što se događa s aktivnim ponudama kada prodajnom mjestu istekne članarina? | Postojeće ponude ostaju aktivne do svog roka preuzimanja, a nove se ne mogu objaviti. | F-005, F-006 |
 | P-02 | Članarine | Koliko ranije i kojim kanalom obavijestiti prodajno mjesto o isteku članarine? | Obavijest unutar aplikacije 7 dana prije isteka. | F-005 |
 | P-03 | Rezervacije i plaćanje | Može li jedna rezervacija sadržavati ponude više prodajnih mjesta? | Jedna rezervacija odnosi se na jedno prodajno mjesto, uz više stavki. | F-010 |
 | P-04 | Rezervacije i plaćanje | Vrijedi li rok otkazivanja od 1 h i vraća li se novac pri otkazivanju? | Rok je 1 h, uz puni povrat preko servisa za plaćanje. | F-011 |
@@ -104,7 +103,7 @@ Pitanja koja tim treba razjasniti s asistentom. Dok se ne razriješe, tim radi p
 | --- | --- | --- | --- |
 | 4. 11. 2026. | F-001 – F-020, NF | Nakon povratne informacije na M0 (29. 10. 2026.) funkcijski zahtjevi smanjeni s 50 na 20 spajanjem povezanih i uklanjanjem prijedloga niskog prioriteta; nefunkcijski s 14 na 10; opisi preoblikovani u oblik „Sustav omogućuje …”. | Asistentica, M0 29. 10. 2026.; PR #22, PR #23 |
 | 5. 11. 2026. | F-001 – F-020 | Funkcijski zahtjevi preoblikovani u kraći oblik („Sustav omogućuje …” i numerirani kriteriji prihvaćanja); F-004 i F-005 zamijenili su mjesta. | Asistentica, sastanak 5. 11. 2026.; PR #24 |
-| 5. 11. 2026. | NF-01 – NF-08 | Nefunkcijski zahtjevi pročišćeni: uklonjeno ono što je već u ograničenjima, pravila kolegija i neprovjerljive tvrdnje. | Asistentica, sastanak 5. 11. 2026.; PR #24 |
+| 5. 11. 2026. | NF-01 – NF-07 | Nefunkcijski zahtjevi pročišćeni: uklonjeno ono što je već u ograničenjima, pravila kolegija i neprovjerljive tvrdnje. | Asistentica, sastanak 5. 11. 2026.; PR #24 |
 
 ---
 

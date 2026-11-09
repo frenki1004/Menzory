@@ -1,0 +1,150 @@
+' ==============================================================================
+' 4-2-spasizalogaj-data-ERD.puml
+'
+' Svrha:    Konceptualni relacijski model trajnih podataka sustava
+'           SpasiZalogaj.
+' Zahtjevi: F-001 – F-020; NF-03 – NF-05.
+'
+' Diagram level: Data Model
+' Diagram type:  Entity Relationship Diagram
+' ==============================================================================
+
+@startuml
+title SpasiZalogaj – ER dijagram podataka
+left to right direction
+
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam ArrowColor #495057
+skinparam entity {
+    BackgroundColor #FFFFFF
+    BorderColor #212529
+}
+
+entity "Korisnik" as USER {
+    * id
+    email
+    uloga
+}
+
+entity "OAuth račun" as OAUTH_ACCOUNT {
+    * id
+    pružatelj
+}
+
+entity "Prodajno mjesto" as STORE {
+    * id
+    naziv
+    lokacija
+}
+
+entity "Humanitarna organizacija" as CHARITY {
+    * id
+    naziv
+    status odobrenja
+}
+
+entity "Plan članarine" as MEMBERSHIP_PLAN {
+    * id
+    vrsta
+    cijena
+}
+
+entity "Članarina" as MEMBERSHIP {
+    * id
+    status
+    vrijedi do
+}
+
+entity "Kategorija hrane" as CATEGORY {
+    * id
+    naziv
+}
+
+entity "Ponuda" as OFFER {
+    * id
+    vrsta
+    cijena
+    dostupna količina
+}
+
+entity "Rezervacija" as RESERVATION {
+    * id
+    status
+    ukupan iznos
+    kod za preuzimanje
+}
+
+entity "Stavka rezervacije" as RESERVATION_ITEM {
+    * id
+    količina
+    jedinična cijena
+}
+
+entity "Platna transakcija" as PAYMENT {
+    * id
+    vrsta
+    status
+    iznos
+}
+
+entity "Recenzija" as REVIEW {
+    * id
+    ocjena
+    komentar
+}
+
+entity "Zahtjev za donaciju" as DONATION_REQUEST {
+    * id
+    količina
+    status
+}
+
+entity "Akcija prikupljanja hrane" as FOOD_DRIVE {
+    * id
+    naziv
+    termin
+}
+
+entity "Sudjelovanje u akciji" as PARTICIPATION {
+    * id
+    prijavljeni proizvodi
+}
+
+entity "Pretplata" as SUBSCRIPTION {
+    * id
+    aktivna
+}
+
+USER ||--o{ OAUTH_ACCOUNT : "povezuje"
+USER ||--o| STORE : "predstavlja"
+USER ||--o| CHARITY : "predstavlja"
+
+STORE ||--o{ MEMBERSHIP : "plaća"
+MEMBERSHIP_PLAN ||--o{ MEMBERSHIP : "određuje"
+
+STORE ||--o{ OFFER : "objavljuje"
+CATEGORY ||--o{ OFFER : "razvrstava"
+
+USER ||--o{ RESERVATION : "kupac stvara"
+STORE ||--o{ RESERVATION : "prima"
+RESERVATION ||--|{ RESERVATION_ITEM : "sadrži"
+OFFER ||--o{ RESERVATION_ITEM : "rezervirana je u"
+
+RESERVATION |o--o{ PAYMENT : "naplaćuje se"
+MEMBERSHIP |o--o{ PAYMENT : "naplaćuje se"
+
+RESERVATION ||--o| REVIEW : "može imati"
+STORE ||--o{ REVIEW : "prima"
+
+OFFER ||--o{ DONATION_REQUEST : "predmet je"
+CHARITY ||--o{ DONATION_REQUEST : "šalje"
+
+USER ||--o{ FOOD_DRIVE : "organizira"
+FOOD_DRIVE ||--o{ PARTICIPATION : "ima"
+USER ||--o{ PARTICIPATION : "kupac prijavljuje"
+
+USER ||--o{ SUBSCRIPTION : "kupac postavlja"
+STORE |o--o{ SUBSCRIPTION : "cilj je"
+CATEGORY |o--o{ SUBSCRIPTION : "cilj je"
+@enduml

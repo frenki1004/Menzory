@@ -1,0 +1,77 @@
+' ==============================================================================
+' 4-3-spasizalogaj-domain-CD.puml
+'
+' Svrha:    Reprezentativno oblikovanje odgovornosti rezervacije, promjene
+'           količine, naplate i potvrde preuzimanja.
+' Zahtjevi: F-010 – F-013; NF-03 – NF-05.
+'
+' Diagram level: Software Design
+' Diagram type:  Class Diagram
+' ==============================================================================
+
+@startuml
+title SpasiZalogaj – oblikovanje rezervacije
+top to bottom direction
+
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam ArrowColor #212529
+skinparam class {
+    BackgroundColor #FFFFFF
+    BorderColor #212529
+}
+skinparam interface {
+    BackgroundColor #E7F5FF
+    BorderColor #1971C2
+}
+
+class "Rezervacijska usluga" as ReservationService {
+    +stvoriRezervaciju()
+    +potvrdiPlaćanje()
+    +otkažiRezervaciju()
+    +potvrdiPreuzimanje()
+}
+
+class "Rezervacija" as Reservation {
+    -status
+    -ukupanIznos
+    -kodZaPreuzimanje
+    +aktiviraj()
+    +otkaži()
+    +označiPreuzetom()
+}
+
+class "Stavka rezervacije" as ReservationItem {
+    -količina
+    -jediničnaCijena
+}
+
+class "Ponuda" as Offer {
+    -dostupnaKoličina
+    +rezervirajKoličinu()
+    +vratiKoličinu()
+}
+
+interface "Pristup podacima" as Repository {
+    +dohvati()
+    +spremi()
+}
+
+interface "Pristup servisu za plaćanje" as PaymentGateway {
+    +naplati()
+    +vratiNovac()
+}
+
+interface "Generator koda za preuzimanje" as PickupCodeGenerator {
+    +generirajKod()
+}
+
+Reservation "1" *-- "1..*" ReservationItem
+ReservationItem "*" --> "1" Offer
+
+ReservationService --> Reservation
+ReservationService --> Offer
+ReservationService --> Repository
+ReservationService --> PaymentGateway
+ReservationService --> PickupCodeGenerator
+@enduml

@@ -1,11 +1,11 @@
 ' ==============================================================================
 ' 3-3-spasizalogaj-offers-donations-UC.puml
 '
-' Svrha:    Usmjereni dijagram obrazaca uporabe za objavu ponuda i donacije:
-'           članarina prodajnog mjesta, objava ponude ili paketa, donacijske
-'           ponude, zahtjevi humanitarnih organizacija i odobravanje profila.
-' Zahtjevi: UC-02, UC-06, UC-07 (docs/3-Obrasci-uporabe.md);
-'           F-002, F-004 – F-008, F-015, F-016 (docs/2-Analiza-zahtjeva.md).
+' Svrha:    Usmjereni vodoravni dijagram dva toka:
+'           1) Tok prodajnog mjesta: plaćanje članarine kao uvjet za objavu ponude.
+'           2) Tok donacija: zahtjev humanitarne organizacije i odlučivanje prodajnog mjesta.
+' Zahtjevi: UC-02, UC-06 (docs/3-Obrasci-uporabe.md);
+'           F-005 – F-007, F-015, F-016 (docs/2-Analiza-zahtjeva.md).
 '
 ' Diagram level: System Requirements
 ' Diagram type:  Use Case Diagram
@@ -18,6 +18,7 @@ left to right direction
 skinparam shadowing false
 skinparam defaultFontName Arial
 skinparam ArrowColor #212529
+
 skinparam actor {
     BackgroundColor #F8F9FA
     BorderColor #212529
@@ -33,36 +34,28 @@ skinparam rectangle {
 
 actor "Prodajno mjesto" as Prodavac
 actor "Humanitarna\norganizacija" as Org
-actor "Administrator" as Admin
-
-rectangle "SpasiZalogaj" {
-    usecase "Plaćanje članarine" as UCClan
-    usecase "UC-02 Objava ponude ili\npaketa iznenađenja" as UC02
-    usecase "Uređivanje i\npovlačenje ponude" as UCUredi
-
-    usecase "UC-06 Zahtjev\nza donaciju" as UC06
-    usecase "Pregled donacijskih\nponuda" as UCPregledDon
-    usecase "Odobravanje ili\nodbijanje zahtjeva" as UCOdluka
-
-    usecase "UC-07 Odobravanje\nprofila" as UC07
-    usecase "Određivanje cijena\nčlanarine" as UCCijene
-}
-
 actor "Servis za\nplaćanje" as Placanje <<vanjski sustav>>
 
+rectangle "SpasiZalogaj" {
+    ' Tok 1: Prodajno mjesto
+    usecase "Plaćanje članarine" as UCClan
+    usecase "UC-02 Objava ponude ili\npaketa iznenađenja" as UC02
+    
+    ' Tok 2: Donacije
+    usecase "UC-06 Zahtjev\nza donaciju" as UC06
+    usecase "Odobravanje ili\nodbijanje zahtjeva" as UCOdluka
+}
+
+actor "Prodajno mjesto" as Prodavac2
+
+' Tok 1: Prodajno mjesto (gore)
 Prodavac --> UCClan
-Prodavac --> UC02
-Prodavac --> UCUredi
-Prodavac --> UCOdluka
+UCClan ..> UC02 : <<precedes>>\n(uvjet za objavu)
+UCClan -up-> Placanje
 
+' Tok 2: Donacije (dolje)
 Org --> UC06
+UC06 ..> UCOdluka : <<precedes>>
+UCOdluka <-- Prodavac2
 
-Admin --> UC07
-Admin --> UCCijene
-
-UC02 <.. UCUredi : <<extend>>
-UC06 ..> UCPregledDon : <<include>>
-UC06 <.. UCOdluka : <<extend>>
-
-UCClan --> Placanje
 @enduml

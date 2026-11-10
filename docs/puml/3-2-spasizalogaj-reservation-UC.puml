@@ -38,9 +38,7 @@ actor "Prodajno mjesto" as Prodavac
 rectangle "SpasiZalogaj" {
     usecase "UC-03 Pretraga na karti i\nrezervacija s plaćanjem" as UC03
     usecase "Pretraga i filtriranje\nponuda" as UCPretraga
-    usecase "Prikaz udaljenosti\nod korisnika" as UCUdaljenost
     usecase "Plaćanje rezervacije" as UCPlacanje
-    usecase "Izdavanje koda\nza preuzimanje" as UCKod
 
     usecase "UC-05 Otkazivanje\nrezervacije" as UC05
     usecase "Povrat novca" as UCPovrat
@@ -68,12 +66,12 @@ Prodavac --> UCOdgovor
 
 UC03 ..> UCPretraga : <<include>>
 UC03 ..> UCPlacanje : <<include>>
-UC03 ..> UCKod : <<include>>
-UCUdaljenost ..> UCPretraga : <<extend>>\n(kupac dopušta lokaciju)
 UC05 ..> UCPovrat : <<include>>
+UC03 <.. UC05 : <<extend>>
+UC03 <.. UC04 : <<extend>>
+UC04 <.. UCOcjena : <<extend>>
 
 UCPretraga --> Karta
-UCUdaljenost --> Karta
 UCPlacanje --> Placanje
 UCPovrat --> Placanje
 @enduml

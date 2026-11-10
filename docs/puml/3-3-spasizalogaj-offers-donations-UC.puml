@@ -38,8 +38,6 @@ actor "Administrator" as Admin
 rectangle "SpasiZalogaj" {
     usecase "Plaćanje članarine" as UCClan
     usecase "UC-02 Objava ponude ili\npaketa iznenađenja" as UC02
-    usecase "Provjera aktivne\nčlanarine" as UCProvjera
-    usecase "Označavanje ponude\nkao donacije" as UCDonacija
     usecase "Uređivanje i\npovlačenje ponude" as UCUredi
 
     usecase "UC-06 Zahtjev\nza donaciju" as UC06
@@ -62,9 +60,9 @@ Org --> UC06
 Admin --> UC07
 Admin --> UCCijene
 
-UC02 ..> UCProvjera : <<include>>
-UCDonacija ..> UC02 : <<extend>>\n(proizvod se donira)
+UC02 <.. UCUredi : <<extend>>
 UC06 ..> UCPregledDon : <<include>>
+UC06 <.. UCOdluka : <<extend>>
 
 UCClan --> Placanje
 @enduml

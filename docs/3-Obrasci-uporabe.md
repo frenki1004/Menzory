@@ -27,7 +27,7 @@ Obrasci uporabe opisuju glavne interakcije aktera sa sustavom SpasiZalogaj. Teme
 
 **PlantUML izvor:** [izvor](./puml/3-2-spasizalogaj-reservation-UC.puml)
 
-Dijagram detaljnije prikazuje tok kupca od pretrage do preuzimanja (UC-03, UC-04, UC-05). Rezervacija uvijek uključuje pretragu, plaćanje i izdavanje koda za preuzimanje, a prikaz udaljenosti dodaje se samo ako kupac dopusti pristup lokaciji. Otkazivanje je moguće najkasnije 1 h prije isteka vremena preuzimanja i uključuje povrat novca (F-011). Ocjena i komentar mogući su tek nakon potvrđenog preuzimanja, jednom po rezervaciji (F-014).
+Dijagram prikazuje pretragu i odabir ponude, plaćanje rezervacije te njezino preuzimanje ili otkazivanje (UC-03, UC-04, UC-05). Kupac može ocijeniti prodajno mjesto nakon potvrđenog preuzimanja (F-014). Uvjeti za prikaz udaljenosti, otkazivanje i povrat novca opisani su u specifikacijama u odjeljku 3.2.
 
 ### 3.1.2 Ponude i donacije
 
@@ -37,7 +37,7 @@ Dijagram detaljnije prikazuje tok kupca od pretrage do preuzimanja (UC-03, UC-04
 
 **PlantUML izvor:** [izvor](./puml/3-3-spasizalogaj-offers-donations-UC.puml)
 
-Dijagram detaljnije prikazuje rad prodajnog mjesta, humanitarne organizacije i administratora (UC-02, UC-06, UC-07). Objava ponude uvijek uključuje provjeru aktivne članarine (F-005), a ponuda se može označiti kao donacija (F-006). Zahtjev za donaciju može poslati samo organizacija čiji je profil odobren (UC-07, F-002), a o zahtjevu zatim odlučuje prodajno mjesto (F-016). Nova cijena članarine koju odredi administrator vrijedi od sljedećeg plaćanja (F-004).
+Dijagram detaljnije prikazuje rad prodajnog mjesta, humanitarne organizacije i administratora (UC-02, UC-06, UC-07). Aktivna članarina preduvjet je objave ponude (UC-02, F-005), a proizvod se pri objavi može označiti kao donacija (F-006). Zahtjev za donaciju može poslati samo organizacija čiji je profil odobren (UC-07, F-002), a o zahtjevu zatim odlučuje prodajno mjesto (F-016). Nova cijena članarine koju odredi administrator vrijedi od sljedećeg plaćanja (F-004).
 
 ## 3.2 Specifikacije obrazaca uporabe
 

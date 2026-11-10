@@ -1,0 +1,66 @@
+' ==============================================================================
+' 6-1-spasizalogaj-deployment-DD.puml
+'
+' Svrha:    UML dijagram razmještaja (Deployment Diagram) sustava SpasiZalogaj.
+'           Prikazuje fizička/virtualna izvršna okruženja, čvorove, artefakte
+'           i mrežne komunikacijske protokole.
+' ==============================================================================
+
+@startuml
+title SpasiZalogaj – UML dijagram razmještaja (Deployment Diagram)
+top to bottom direction
+
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam node {
+    BackgroundColor #F8F9FA
+    BorderColor #212529
+}
+skinparam component {
+    BackgroundColor #FFFFFF
+    BorderColor #495057
+}
+skinparam database {
+    BackgroundColor #E7F5FF
+    BorderColor #1971C2
+}
+skinparam cloud {
+    BackgroundColor #FFF3CD
+    BorderColor #997404
+}
+skinparam ArrowColor #212529
+
+node "Korisnički uređaj\n<<device>>" as ClientDevice {
+    node "Web-preglednik\n<<execution environment>>" as BrowserEnv {
+        component "Korisničko sučelje\n(HTML5, React, Tailwind)" as ClientUI
+    }
+}
+
+node "Poslužiteljska platforma u oblaku\n<<cloud / execution environment>>" as CloudHost {
+    node "Next.js poslužiteljsko okruženje\n<<Node.js runtime>>" as NodeEnv {
+        component "Next.js 15 App Router\n(SSR, Server Actions, API rute)" as NextServer
+        component "Auth.js v5 modul\n(Autentifikacija & sesije)" as AuthModule
+        component "Prisma ORM klijent\n(Upiti & transakcije)" as PrismaClient
+        
+        NextServer ..> AuthModule : koristi
+        NextServer ..> PrismaClient : koristi
+    }
+}
+
+node "Upravljani poslužitelj baze podataka\n<<device / Neon>>" as DBHost {
+    node "PostgreSQL poslužitelj (v15+)\n<<execution environment>>" as PGEnv {
+        database "spasizalogaj_db\n(15 relacijskih entiteta)" as DB
+    }
+}
+
+cloud "Vanjske usluge u oblaku\n<<third-party>>" as ExternalServices {
+    component "Google Identity Provider\n(OAuth 2.0 / OpenID Connect)" as GoogleAuth
+    component "OpenStreetMap / Leaflet\n(Kartografske pločice)" as MapService
+}
+
+ClientUI --> NextServer : HTTPS / TLS 1.3\n(Port 443)
+ClientUI ..> MapService : HTTPS\n(dohvat pločica karte)
+AuthModule --> GoogleAuth : HTTPS / REST API\n(autorizacija & tokeni)
+PrismaClient --> DB : PostgreSQL protokol / TLS\n(Port 5432, konekcijski bazen)
+
+@enduml

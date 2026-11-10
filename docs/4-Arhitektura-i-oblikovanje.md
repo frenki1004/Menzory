@@ -22,58 +22,30 @@ Za svaki UML dijagram čuvajte čitljivu sliku i PlantUML izvor, kako je opisano
 
 | Odluka | Razmatrana alternativa | Projektno specifično obrazloženje i kompromis |
 | --- | --- | --- |
-|  |  |  |
-
-Objasnite glavne arhitekturne odluke bez ponavljanja popisa tehnologija. Ako važna odluka ima ADR, dovoljno je u tablici navesti njegov ID.
-
-<details>
-<summary><strong>Primjer arhitekturnih odluka i kompromisa</strong></summary>
-
-**Primjer — CrisisMap:**
-
-| Odluka | Razmatrana alternativa | Projektno specifično obrazloženje i kompromis |
-| --- | --- | --- |
-| Klijent u pregledniku i jedan poslužiteljski API | Više zasebno postavljenih poslužiteljskih usluga | Klijent prikazuje kartu, dok poslužiteljski sustav provjerava i pohranjuje prijave. Jedan poslužiteljski sustav upravljiv je za ovaj opseg; njegov kvar može privremeno prekinuti rad s prijavama. Obrazloženje je u ADR-01. |
-| Relacijska pohrana prijava | Dokumentno orijentirana pohrana | Prijave imaju prepoznatljive veze s korisnicima i lokacijama. Relacijska shema te veze čini eksplicitnima, ali zahtijeva migracije kada se shema promijeni. |
-
-**Analiza primjera:** Obje odluke navode razlog vezan uz aplikaciju za prijavljivanje kriznih događaja i priznaju kompromis. Odluka o poslužiteljskom sustavu upućuje na ADR-01 umjesto ponavljanja cijele usporedbe. Moduli unutar jedne aplikacije koja se postavlja kao cjelina nisu zasebne mikrousluge. U vlastitoj tablici navedite alternative koje je tim doista razmatrao.
-
-</details>
+| Jedna full-stack aplikacija u Next.jsu i TypeScriptu (ADR-01) | Odvojeni frontend i backend ili više zasebno postavljenih usluga | Jedna aplikacija pojednostavljuje razvoj, povezivanje dijelova sustava i postavljanje na Vercel u okviru semestralnog projekta. Komponente i dalje imaju odvojene odgovornosti, ali se aplikacija postavlja kao cjelina pa kvar ili nova objava mogu utjecati na cijeli sustav. |
+| Relacijska baza PostgreSQL na Neonu uz Prisma ORM (ADR-02) | Dokumentna, odnosno NoSQL baza | Korisnici, prodajna mjesta, ponude, rezervacije, plaćanja i donacije imaju jasne međusobne veze. Relacijski model i transakcije olakšavaju očuvanje dosljednosti količine i rezervacije, ali zahtijevaju migracije pri promjeni sheme i pažljivo modeliranje veza. |
+| Auth.js i Google OAuth 2.0/OIDC za prijavu (ADR-03) | Vlastita prijava e-poštom i lozinkom | Google potvrđuje identitet korisnika, dok SpasiZalogaj u vlastitoj bazi čuva profil i ulogu. Sustav zato ne mora pohranjivati korisničke lozinke, ali prijava ovisi o dostupnosti Googlea i korisnik mora imati podržani račun. |
 
 ## 4.2 Gradivni blokovi i UML dijagram komponenata
 
 **Cilj:** Prikazati logičku podjelu programa na komponente, njihova sučelja i vanjske integracije. Dijagram komponenata prikazuje logičku organizaciju, dok dijagram razmještaja prikazuje fizičko izvođenje. Ovaj prikaz ažurirajte kako sustav poprima konačan oblik.
 
-**Dijagram komponenata:** [Ugradite čitljiv UML dijagram komponenata.]  
-**PlantUML izvor:** [Poveznica na odgovarajuću `.puml` datoteku.]
+![Dijagram komponenata sustava SpasiZalogaj](./assets/diagrams/4-1-spasizalogaj-system-CMP.svg)
+
+**Slika 4.1. Dijagram komponenata sustava SpasiZalogaj**
+
+**PlantUML izvor:** [izvor](./puml/4-1-spasizalogaj-system-CMP.puml)
 
 | Komponenta | Odgovornost | Razlog za ovu granicu |
 | --- | --- | --- |
-|  |  |  |
+| Web-sučelje | Prikazuje stranice za sve uloge, obrasce, kartu i QR kod; Leaflet u pregledniku učitava kartografske pločice OpenStreetMapa. | Korisnička interakcija odvojena je od poslovnih pravila i izravnog pristupa bazi. |
+| Autentifikacija i profili | Provodi prijavu preko Googlea te upravlja korisničkim profilima i ulogama. | Vanjski identitet odvojen je od ovlasti kojima upravlja SpasiZalogaj. |
+| Ponude i članarine | Upravlja ponudama, pretragom, dostupnošću i članarinama prodajnih mjesta. | Povezana pravila ponuda i aktivnog članstva ostaju u istom modulu. |
+| Rezervacije i preuzimanje | Koordinira količinu, plaćanje, otkazivanje, kod i potvrdu preuzimanja. | Plaćanje i promjena dostupne količine moraju biti usklađeni zbog NF-05. |
+| Donacije i akcije | Obrađuje zahtjeve za donacije, odluke prodajnih mjesta te akcije prikupljanja hrane i sudjelovanja. | Donacijski tijekovi imaju vlastite uloge i promjene stanja, ali ponovno koriste ponude i korisnike. |
+| Prisma ORM i PostgreSQL | Prisma provodi upite i transakcije nad relacijskom bazom na Neonu. | Svi moduli koriste jedinstven model trajnih podataka i zajedničke transakcijske granice. |
 
-Započnite crtanjem granice oko predloženog sustava. Unutar nje prepoznajte dijelove s različitim odgovornostima; planiranu bazu podataka aplikacije smjestite unutar granice, a usluge trećih strana izvan nje. Važne veze označite podatkom ili uslugom koja njima prolazi. Logička komponenta može biti modul unutar jedne poslužiteljske aplikacije: zaseban pravokutnik ne znači zasebno postavljenu uslugu. Tijekom implementacije ažurirajte dijagram kada se promijene odgovornosti ili veze. U završnoj inačici čitatelj treba moći povezati njegove dijelove s kodom. Dijagram razmještaja odgovara na pitanje gdje se ti dijelovi stvarno izvode.
-
-<details>
-<summary><strong>Granica sustava, odgovornosti i vanjske ovisnosti</strong></summary>
-
-**Primjer — CrisisMap:** Predložena arhitektura podržava podnošenje prijava kriznih događaja, prikaz na karti i obavijesti o potvrđenim prijavama.
-
-![Dijagram komponenata sustava CrisisMap](./assets/diagrams/4-1-crisismap-system-CMP.svg)
-
-**Slika 4.1. Dijagram komponenata sustava CrisisMap**
-
-**PlantUML izvor:** [izvor](./puml/4-1-crisismap-system-CMP.puml)
-
-| Dio | Odgovornost | Razlog za ovu granicu |
-| --- | --- | --- |
-| Web-klijent | Prikazuje prijave i prikuplja podatke za novu prijavu. | Korisnička interakcija odvojena je od pravila prijave i trajne pohrane. |
-| API za prijave | Prihvaća zahtjeve za rad s prijavama i vraća odgovore. | Odgovornosti izložene putem HTTP-a odvojene su od obrade prijava. |
-| Usluga za prijave | Primjenjuje pravila prijave i pristupa pohranjenim prijavama. | Pravila provjere valjanosti i pohrane prijava imaju jasno mjesto odgovornosti. |
-| Proces za obavijesti | Određuje korisnike koji trebaju primiti obavijest i traži od vanjskog pružatelja da je pošalje. | Obrada obavijesti odvojena je od odgovaranja na korisnikov zahtjev za prijavu. |
-
-**Analiza primjera:** Vanjska granica odvaja predloženi sustav od pružatelja kartografskih usluga i pružatelja obavijesti. Unutarnja granica grupira API za prijave, uslugu za prijave i proces za obavijesti unutar jedne poslužiteljske aplikacije; njihovi zasebni simboli prikazuju predložene odgovornosti, a ne neovisno postavljene usluge. PostgreSQL pohranjuje podatke aplikacije, dok pružatelj kartografskih usluga osigurava kartografske pločice. Strelice sažimaju ovisnosti, a ne redoslijed transakcije; taj redoslijed prikazuje sekvencijski dijagram. Izostavite proces za obavijesti i Firebase Cloud Messaging ako obavijesti nisu dio odobrenog opsega. Pružatelja prijave u sustav uključite samo ako to zahtijeva odobreni zadatak. Kako implementacija napreduje, ispravite svaku predloženu granicu koja se pokaže netočnom; završni dijagram mora odgovarati onome što je tim izgradio. Jedan koherentan prikaz komponenata korisniji je od nekoliko gotovo jednakih inačica s proturječnim vezama.
-
-</details>
+Pravokutnici unutar sustava predstavljaju logičke odgovornosti jedne Next.js aplikacije, a ne zasebno postavljene mikrousluge. Google, servis za plaćanje i OpenStreetMap vanjske su ovisnosti. PostgreSQL baza pripada sustavu kao njegova trajna pohrana iako se fizički izvodi na upravljanoj platformi Neon.
 
 ## 4.3 Model podataka i oblikovanje razreda
 
@@ -83,47 +55,35 @@ Započnite crtanjem granice oko predloženog sustava. Unutar nje prepoznajte dij
 
 **Cilj:** Prikazati važne pohranjene entitete, njihove identifikatore i veze te dovoljno atributa za razumijevanje podataka aplikacije. ER dijagram odvojen je od reprezentativnog UML dijagrama razreda u nastavku.
 
-**ER dijagram:** [Ugradite čitljiv dijagram projekta.]  
-**Izvor dijagrama:** [Poveznica na njegov izvor.]  
-**Implementacija:** [Navedite gdje je odgovarajući model podataka definiran u projektu.]
+![ER dijagram podataka sustava SpasiZalogaj](./assets/diagrams/4-2-spasizalogaj-data-ERD.svg)
 
-<details>
-<summary><strong>Jedna prijava poplave i povezani podaci</strong></summary>
+**Slika 4.2. ER dijagram podataka sustava SpasiZalogaj**
 
-**Primjer — CrisisMap:** Ana putem svojeg korisničkog računa podnosi prijavu poplave `R-104`. Odabire lokaciju na karti i označava razinu ozbiljnosti kao visoku. Građanin može podnijeti više prijava; svaka prijava pripada jednoj kategoriji kriznog događaja, primjerice *Poplava*. Aplikacija pohranjuje prijavu i njezine koordinate. Kartografske pločice dolaze od vanjskog pružatelja i nisu entiteti u modelu podataka aplikacije.
+**PlantUML izvor:** [izvor](./puml/4-2-spasizalogaj-data-ERD.puml)
 
-![ER dijagram podataka sustava CrisisMap](./assets/diagrams/4-2-crisismap-data-ERD.svg)
+**Planirana implementacija:** Prisma model bit će definiran u `prisma/schema.prisma` tijekom izrade prve funkcionalne verzije.
 
-**Slika 4.2. ER dijagram podataka sustava CrisisMap**
+`Korisnik` sadrži zajednički identitet i jednu ulogu, dok `Prodajno mjesto` i `Humanitarna organizacija` sadrže podatke specifične za te uloge. Administrator nema zaseban profil nego se prepoznaje po ulozi korisnika. Vanjski OAuth račun povezuje Googleov identitet s korisnikom, bez pohrane lozinke.
 
-**PlantUML izvor:** [izvor](./puml/4-2-crisismap-data-ERD.puml)
+`Ponuda` objedinjuje pojedinačni proizvod i paket iznenađenja pomoću vrste ponude; oznaka donacije određuje njezinu vidljivost humanitarnim organizacijama. Jedna rezervacija prema radnoj pretpostavci P-03 pripada jednom prodajnom mjestu, ali preko stavki može sadržavati više njegovih ponuda. Platna transakcija pripada točno jednoj rezervaciji ili članarini te čuva samo referencu vanjskog servisa, iznos i status, a ne podatke kartice (NF-03).
 
-**Analiza primjera:** `R-104` ima jednog autora i jednu kategoriju; Ana i kategorija *Poplava* mogu biti povezane s više prijava. Dijagram prikazuje veze bez prepisivanja svih stupaca baze podataka ili pisanja drugog tabličnog opisa za svaki entitet. Ako aplikacija prihvaća i **anonimne** prijave, tu mogućnost prikažite u vezi s entitetom `Citizen`. Ako su kategorije fiksne vrijednosti, a ne pohranjeni zapisi, nemojte izmišljati tablicu kategorija. Završni ER dijagram usporedite s modelom trajne pohrane i objasnite samo razlike važne za razumijevanje projekta.
-
-</details>
+Za pretplatu vrijedi ograničenje da cilja točno jedno prodajno mjesto ili jednu kategoriju. Akciju prikupljanja hrane može organizirati korisnik s ulogom prodajnog mjesta ili humanitarne organizacije. Ta ograničenja, jedinstvenost koda za preuzimanje i dopuštene vrijednosti statusa bit će provedeni ograničenjima baze i poslužiteljskom validacijom.
 
 ### 4.3.2 Reprezentativni UML dijagram razreda
 
 **Cilj:** Prije implementacije reprezentativnog dijela sustava modelirati i prikazati razrede ili sučelja potrebna za dodjelu odgovornosti, operacija i veza. Oblikovanje ažurirajte kada se te odluke promijene.
 
-**Dijagram razreda:** [Ugradite čitljiv UML dijagram razreda za reprezentativni dio oblikovanja.]  
-**PlantUML izvor:** [Poveznica na odgovarajuću `.puml` datoteku.]  
-**Referenca na kod pri završnom pregledu:** [Poveznica na odgovarajuću implementaciju.]
+![Dijagram razreda za obradu rezervacije](./assets/diagrams/4-3-spasizalogaj-domain-CD.svg)
 
-<details>
-<summary><strong>Oblikovanje odgovornosti prijave i dopuštenih promjena</strong></summary>
+**Slika 4.3. Reprezentativni dijagram razreda za obradu rezervacije**
 
-**Primjer — CrisisMap:** Prijava sadrži pravila za promjenu vlastitog statusa. Razred tijeka rada koordinira podnošenje i pregled, dok sučelje repozitorija opisuje potrebne operacije trajne pohrane. Dijagram predlaže te odgovornosti prije implementacije.
+**PlantUML izvor:** [izvor](./puml/4-3-spasizalogaj-domain-CD.puml)
 
-![Dijagram razreda za obradu prijava kriznih događaja](./assets/diagrams/4-3-crisismap-domain-CD.svg)
+**Referenca na kod pri završnom pregledu:** bit će dopunjena poveznicama na implementaciju rezervacijskog modula nakon njegove izrade.
 
-**Slika 4.3. Dijagram razreda za obradu prijava kriznih događaja**
+`Rezervacijska usluga` koordinira cijeli slučaj uporabe, ali pravila promjene stanja ostaju u `Rezervaciji`, a pravila dostupnosti količine u `Ponudi`. `Stavka rezervacije` pamti količinu i cijenu u trenutku kupnje kako naknadna promjena ponude ne bi promijenila već plaćenu rezervaciju.
 
-**PlantUML izvor:** [izvor](./puml/4-3-crisismap-domain-CD.puml)
-
-**Analiza primjera:** `DisasterReport` sadrži dopuštena pravila promjene stanja pa tijek rada ne može prešutno odobriti već odbijenu prijavu. `ReportWorkflow` koordinira operaciju bez preuzimanja pravila prijelaza stanja same prijave; `ReportRepository` definira potrebne operacije pohrane. Kompozicija `Location` i odabrani tipovi prikazuju veze korisne za oblikovanje. Dijagram namjerno izostavlja stupce baze podataka i nepovezane razrede: ER model objašnjava pohranjene podatke, dok ovaj dijagram dodjeljuje programske odgovornosti i operacije. Ti su razredi odluka oblikovanja, a ne obavezni slojevi za svaki tim. Završnu implementaciju usporedite s početnim oblikovanjem i ažurirajte dijagram tamo gdje su se odluke promijenile; generiranje dijagrama iz koda tek na kraju ne može zamijeniti ovo početno modeliranje.
-
-</details>
+Sučelja repozitorija odvajaju poslovna pravila od Prisme i baze, `PaymentGateway` od konkretnog servisa za plaćanje, a generator koda od načina stvaranja i sažimanja sigurnog jednokratnog koda. U TypeScript implementaciji odgovornosti mogu biti ostvarene razredima ili modulima s funkcijama; završni dijagram mora se uskladiti sa stvarnim kodom.
 
 ## 4.4 Ponašanje tijekom izvođenja
 
@@ -133,125 +93,82 @@ Započnite crtanjem granice oko predloženog sustava. Unutar nje prepoznajte dij
 
 **Cilj:** Prikazati redoslijed poruka za jedan reprezentativni scenarij i odgovore na važnu alternativu.
 
-**Scenarij:** [Naziv interakcije; dodajte UC ID ako postoji.]  
-**sekvencijski dijagram:** [Ugradite čitljiv UML sekvencijski dijagram.]  
-**PlantUML izvor:** [Poveznica na odgovarajuću `.puml` datoteku.]
+**Scenarij:** UC-03 – rezervacija ponude i plaćanje.
 
-<details>
-<summary><strong>Odabir lokacije, provjera valjanosti i podnošenje prijave</strong></summary>
+![Sekvencijski dijagram rezervacije ponude i plaćanja](./assets/diagrams/4-4-spasizalogaj-reservation-SD.svg)
 
-**Primjer — CrisisMap:** Građanin podnosi prijavu kriznog događaja nakon što ručno odabere lokaciju ili zatraži položaj uređaja. Interakcija prikazuje i što se događa kada je pristup lokaciji odbijen, podaci prijave nisu valjani ili pohrana ne uspije.
+**Slika 4.4. Sekvencijski dijagram rezervacije ponude i plaćanja**
 
-![Sekvencijski dijagram podnošenja prijave kriznog događaja](./assets/diagrams/4-4-crisismap-report-submission-SD.svg)
+**PlantUML izvor:** [izvor](./puml/4-4-spasizalogaj-reservation-SD.puml)
 
-**Slika 4.4. Sekvencijski dijagram podnošenja prijave kriznog događaja**
+Prije preusmjeravanja na servis za plaćanje sustav u jednoj transakciji provjerava i privremeno umanjuje dostupne količine te stvara rezervaciju u stanju `PAYMENT_PENDING`. Time dva istodobna zahtjeva ne mogu oba rezervirati posljednji komad (NF-05). Ako količina nije dostupna, transakcija se odbija prije naplate.
 
-**PlantUML izvor:** [izvor](./puml/4-4-crisismap-report-submission-SD.puml)
-
-**Analiza primjera:** Dva načina odabira lokacije te alternative provjere i pohrane imaju različite posljedice za korisnika; usporedite ih s odgovarajućim obrascem uporabe i njegovim alternativnim tijekovima. API preglednika za lokaciju mogućnost je preglednika; web-klijent, API, usluga i pohrana odgovaraju prikazu komponenata. Odaberite grane koje pomažu objasniti scenarij vašeg projekta i završni dijagram uskladite s implementiranom interakcijom.
-
-</details>
+Vanjski servis obrađuje podatke kartice i SpasiZalogaju vraća samo potpisani rezultat. Uspješan povratni poziv aktivira rezervaciju i stvara jednokratni kod za preuzimanje. Neuspješno plaćanje ili istek pokušaja u transakciji vraća količine i završava privremenu rezervaciju. Povratni poziv mora biti idempotentan kako njegova ponovljena dostava ne bi dvaput promijenila stanje.
 
 ### 4.4.2 Reprezentativni UML dijagram stanja
 
 **Cilj:** Prikazati važna stanja jednog domenskog objekta ili eksplicitno upravljanog načina rada sustava te događaje ili uvjete koji ih mijenjaju.
 
-**Vlasnik stanja i razlog odabira:** [Navedite objekt ili način rada sustava, kako se njegovo stanje prepoznaje i zašto su prijelazi važni.]  
-**Dijagram stanja:** [Ugradite čitljiv UML dijagram stanja.]  
-**PlantUML izvor:** [Poveznica na odgovarajuću `.puml` datoteku.]
+**Vlasnik stanja i razlog odabira:** vlasnik je `Rezervacija`, a trenutačno stanje pohranjuje se u atributu `status`. Rezervacija je odabrana jer njezini prijelazi istodobno utječu na plaćanje, dostupnu količinu i valjanost koda za preuzimanje.
 
-<details>
-<summary><strong>Složeno stanje sustava: koordinacija događaja i dostupnost usluge</strong></summary>
+![Dijagram stanja rezervacije](./assets/diagrams/4-5-spasizalogaj-reservation-SM.svg)
 
-**Primjer — CrisisMap:** Ovaj primjer ne prikazuje životni ciklus jednog domenskog objekta, nego dva neovisna aspekta stanja cijelog sustava CrisisMap. Jedna regija opisuje način koordinacije kriznog događaja, a druga opaženu dostupnost usluge. Budući da se ta dva aspekta mogu mijenjati neovisno jedan o drugome, prikazani su kao ortogonalne regije istog složenog stanja sustava.
+**Slika 4.5. Dijagram stanja rezervacije**
 
-![Dijagram stanja prijave kriznog događaja](./assets/diagrams/4-5-crisismap-system-SM.svg)
+**PlantUML izvor:** [izvor](./puml/4-5-spasizalogaj-reservation-SM.puml)
 
-**Slika 4.5. Dijagram stanja sustava s ortogonalnim regijama**
+`Plaćanje u tijeku` interno je i privremeno stanje dok vanjski servis ne potvrdi ishod. Samo `Aktivna` rezervacija ima važeći kod i može prijeći u `Preuzeta`, `Otkazana` ili `Istekla`. Zahtjev za otkazivanje unutar posljednjeg sata ne mijenja stanje. Prema radnoj pretpostavci P-05 istekla, nepreuzeta rezervacija ne vraća količinu ni novac.
 
-**PlantUML izvor:** [izvor](./puml/4-5-crisismap-system-SM.puml)
-
-**Analiza primjera:** Vlasnik stanja u ovom je primjeru sustav CrisisMap, a ne pojedinačna prijava kriznog događaja. Dvije ortogonalne regije opisuju stanja koja vrijede istodobno: način koordinacije kriznog događaja i dostupnost usluge. Promjena stanja u jednoj regiji ne mora promijeniti stanje u drugoj; primjerice, aktivni krizni događaj može postojati dok je usluga potpuno ili djelomično dostupna.
-
-Prijelazi imaju imenovane događaje ili uvjete, a grane nakon oporavka poslužiteljskog sustava uzimaju u obzir da pružatelj kartografskih usluga može i dalje biti nedostupan. Time primjer pokazuje situaciju u kojoj ortogonalne regije imaju stvarnu semantičku svrhu, a nisu samo način vizualnog grupiranja elemenata.
-
-Ovo je napredniji primjer dijagrama stanja. Koristite takav oblik samo ako sustav stvarno održava dva ili više međusobno neovisnih aspekata stanja koji se mogu mijenjati istodobno. Za projekt u kojem je važan životni ciklus jednog objekta, primjerice prijave, rezervacije ili narudžbe, jednostavniji dijagram stanja tog objekta obično je prikladniji. Složenost dijagrama nije kriterij vrednovanja.
-
-Pri završnom pregledu svaki prikazani prijelaz i uvjet usporedite s ponašanjem koje implementirana aplikacija stvarno podržava.
-
-</details>
+Status povrata novca vodi se u platnoj transakciji, a ne kao zasebno stanje rezervacije: rezervacija ostaje otkazana čak i ako servis za plaćanje zahtijeva ponovni pokušaj povrata. Nakon implementacije prijelazi će se ponovno usporediti sa stvarnim kodom i razriješenim otvorenim pitanjima P-04 i P-05.
 
 ## 4.5 Zapisi arhitekturnih odluka
 
 **Cilj:** Sačuvati razloge i obrazložiti odabrane važne arhitekturne odluke kada tablica u odjelku 4.1 nije dovoljna za očuvanje konteksta, razmatranih alternativa i prihvaćenih kompromisa.
 
-Napišite nekoliko ADR-a za važne odluke čije obrazloženje, alternative i kompromis treba sačuvati. Ostale arhitekturne odluke dovoljno je zabilježiti u tablici.
-
-**Detaljni zapis arhitekturne odluke (engl. Architecture Decision Record, ADR), kada odluka zahtijeva dodatno objašnjenje:**
-
-### ADR-[ID]: [Naslov odluke]
+### ADR-01: Jedna modularna full-stack aplikacija u Next.jsu
 
 | Polje | Zapis odluke |
 | --- | --- |
-| Kontekst i cilj | [Koji je arhitekturni problem učinio ovu odluku potrebnom?] |
-| Kriteriji odluke | [Što je timu stvarno bilo važno?] |
-| Razmatrane alternative | [Realne mogućnosti koje je tim razmotrio, ukratko.] |
-| Odluka i obrazloženje | [Odabrana mogućnost, zašto je odabrana i čega se tim odrekao.] |
-| Status | [Predloženo, prihvaćeno ili zamijenjeno; ako je primjenjivo, poveznica na novu odluku.] |
+| Kontekst i cilj | Tim tijekom jednog semestra mora izraditi korisnička sučelja za četiri uloge, poslužiteljsku poslovnu logiku, vanjske integracije i javno postavljanje aplikacije. |
+| Kriteriji odluke | Mali trošak integracije i postavljanja, dijeljenje TypeScript tipova, jednostavno lokalno pokretanje te mogućnost da tim objasni granice odgovornosti. |
+| Razmatrane alternative | Odvojeni frontend i backend s vlastitim postavljanjima; više zasebnih poslužiteljskih usluga; jedna full-stack aplikacija. |
+| Odluka i obrazloženje | Koristiti jednu Next.js aplikaciju s logički odvojenim modulima i postavljanjem na Vercel. Time se smanjuje broj projekata i integracijskih točaka, ali se prihvaća da se aplikacija objavljuje kao cjelina i da kvar zajedničkog procesa može utjecati na više funkcionalnosti. |
+| Status | Prihvaćeno 9. 11. 2026. |
 
-ADR pišite samo za odluku čije će obrazloženje ostati važno i nakon promjene implementacije. Značajna promjena odluke može se zabilježiti novim ADR-om koji zamjenjuje stari; rutinski odabiri alata ne trebaju detaljne zapise. Promjene dogovorenog opsega pripadaju zahtjevima i njihovoj povijesti promjena; povratna informacija o zadatku ostaje uz odgovarajući zadatak.
-
-<details>
-<summary><strong>Odabir jednog poslužiteljskog sustava umjesto zasebno postavljenih usluga</strong></summary>
-
-**Primjer — CrisisMap, ADR-01:**
-
-| ID | Datum | Odluka | Razmatrana alternativa | Obrazloženje i kompromis | Status |
-| --- | --- | --- | --- | --- | --- |
-| ADR-01 | [Datum odluke] | Jedan poslužiteljski API za obradu prijava | Zasebno postavljene usluge za prijave i resurse | Manji napor postavljanja i integracije za odobreni opseg; kvar poslužiteljskog sustava može utjecati na obje funkcionalnosti. | Prihvaćeno |
-
-### ADR-01: Jedan poslužiteljski API za obradu prijava
+### ADR-02: PostgreSQL na Neonu uz Prisma ORM
 
 | Polje | Zapis odluke |
 | --- | --- |
-| Kontekst i cilj | Tim tijekom jednog semestra mora izraditi i javno postaviti prijavljivanje kriznih događaja i prikaz usmjeren na kartu. |
-| Kriteriji odluke | Tim može izraditi, integrirati, postaviti i objasniti rješenje; komponente i dalje imaju prepoznatljive odgovornosti. |
-| Razmatrane alternative | **Jedan poslužiteljski sustav:** moduli dijele aplikaciju koja se postavlja kao cjelina. **Zasebne usluge:** svaka se može izvoditi neovisno, ali zahtijeva dodatni rad na integraciji i postavljanju. |
-| Odluka i obrazloženje | Odabrati jedan poslužiteljski sustav s jasno odvojenim odgovornostima vezanim uz prijave. Time se smanjuje rad na postavljanju, uz prihvaćanje da kvar tog sustava može istodobno utjecati na rad s prijavama. |
-| Status | Prihvaćeno. |
+| Kontekst i cilj | Korisnici, profili, ponude, rezervacije, stavke, plaćanja, donacije i članarine imaju brojne veze, a promjena količine i rezervacije mora biti dosljedna. |
+| Kriteriji odluke | Relacijski integritet, podrška za transakcije iz NF-05, upravljana baza dostupna postavljenoj aplikaciji te razumljiv i tipiziran pristup podacima iz TypeScripta. |
+| Razmatrane alternative | Dokumentna/NoSQL baza; PostgreSQL uz ručno pisani SQL; PostgreSQL uz ORM. |
+| Odluka i obrazloženje | Koristiti PostgreSQL na Neonu i Prisma ORM. Relacijski model i transakcije odgovaraju domeni, a Prisma daje shemu, migracije i tipizirane upite. Kompromisi su obavezne migracije pri promjeni sheme, pažnja na broj veza s bazom u poslužiteljskom okruženju i mogućnost da se za složen upit ipak upotrijebi SQL. |
+| Status | Prihvaćeno 9. 11. 2026. |
 
-**Analiza primjera:** Strategija rješenja navodi trenutačni pristup; ADR-01 čuva alternative i kriterije koji su do njega doveli. Dijagrami komponenata i razmještaja trebaju odražavati odabrani pristup kako se sustav razvija. Zaseban ADR koristan je za važnu odluku, a ne za svaki odabir alata.
+### ADR-03: Auth.js i Google OAuth 2.0/OIDC
 
-</details>
+| Polje | Zapis odluke |
+| --- | --- |
+| Kontekst i cilj | Ograničenje C-01 zahtijeva vanjskog OAuth 2.0 pružatelja, a sustav mora prepoznati korisnika i sigurno primjenjivati vlastite uloge. |
+| Kriteriji odluke | Bez pohrane lozinki, podrška za Googleovu prijavu, integracija sa sesijama u Next.jsu i mogućnost poslužiteljske provjere uloge i vlasništva nad podacima. |
+| Razmatrane alternative | Vlastita prijava e-poštom i lozinkom; ručna implementacija OAuth/OIDC protokola; Auth.js s podržanim pružateljem identiteta. |
+| Odluka i obrazloženje | Koristiti Auth.js s Googleom. Google potvrđuje identitet, a SpasiZalogaj u vlastitoj bazi povezuje identitet s profilom, ulogom i statusom. Time se smanjuje količina osjetljivog autentifikacijskog koda, uz ovisnost o dostupnosti Googlea i pretpostavku da korisnik ima podržani račun (AS-02). Podatak dobiven od pružatelja nije dovoljan za autorizaciju bez provjere u vlastitoj bazi. |
+| Status | Prihvaćeno 9. 11. 2026. |
 
 ## 4.6 Zajednička pravila oblikovanja (engl. Cross-cutting concerns)
 
-**Cilj:** Prepoznati i opisati globalna pravila i mehanizme oblikovanja koji se primjenjujuju u više dijelova aplikacije, navesti gdje se planira primijeniti i ažurirati objašnjenje kako implementacija poprima konačan oblik. Uključite samo pravila koja su važna za ovaj projekt.
+**Cilj:** Prepoznati i opisati globalna pravila i mehanizme oblikovanja koji se primjenjuju u više dijelova aplikacije, navesti gdje se planira primijeniti i ažurirati objašnjenje kako implementacija poprima konačan oblik. Uključite samo pravila koja su važna za ovaj projekt.
 
-**Implementirani mehanizmi:**
-
-| Aspekt | Mehanizam | Pravilo | Mjesto primjene |
-| --- | --- | --- | --- |
-| [Npr. Sigurnost] | [Npr. Autorizacija korisnika] | [Npr. Ovlasti se provjeravaju na poslužiteljskoj strani za svaki zaštićeni zahtjev; skrivanje elemenata korisničkog sučelja nije dovoljna zaštita.] | [Npr. Middleware za autorizaciju / zaštita API usmjernika.] |
-| [Npr. Validacija podataka] | [Npr. Provjera ulaznih podataka] | [Npr. Geoprostorni podaci, uključujući koordinate, provjeravaju se prije pohrane.] | [Npr. Sloj za obradu zahtjeva / odgovarajuća usluga.] |
-
-<details>
-<summary><strong>Primjer zajedničkih pravila i mehanizama</strong></summary>
-
-**Primjer — CrisisMap:**
+**Planirani mehanizmi (provjeriti i ažurirati tijekom implementacije):**
 
 | Aspekt | Mehanizam | Pravilo | Mjesto primjene |
 | --- | --- | --- | --- |
-| Sigurnost | Autorizacija moderiranja prijava | Ovlasti moderatora provjeravaju se na poslužiteljskoj strani prije odobravanja ili odbijanja prijave; skrivanje gumba u korisničkom sučelju nije dovoljna zaštita. | Poslužiteljski dio funkcionalnosti za moderiranje prijava. |
-| Validacija podataka | Provjera lokacije prijave | Nedostajuće ili nevaljane koordinate odbijaju se prije pohrane prijave. | Obrada podnošenja prijave. |
-| Aspekt | Mehanizam | Pravilo | Mjesto primjene |
-| Upravljanje ovisnostima | Injektiranje ovisnosti | Objekt koji provodi poslovnu logiku ne stvara sam konkretnu implementaciju repozitorija, nego potrebnu ovisnost prima izvana. | `ReportWorkflow` prima implementaciju sučelja `ReportRepository` pri stvaranju objekta. |
-
-**Analiza primjera:** Prvi redak pokazuje sigurnosno pravilo koje se provodi neovisno o korisničkom sučelju, a drugi pravilo provjere podataka prije pohrane. U vlastitoj dokumentaciji navedite samo aspekte koji se stvarno primjenjuju u projektu te konkretno mjesto njihove primjene.
-
-Obrasci poput injektiranja ovisnosti (engl. Dependency Injection) ili repozitorija (engl. Repository) pripadaju ovdje samo kada ih kod stvarno koristi i kada objašnjavaju zajedničko pravilo oblikovanja. Tvrdnja „sustav koristi autentikaciju” sama po sebi ne govori čitatelju gdje se provjera provodi niti što štiti. Sigurnost, bilježenje događaja i obrada pogrešaka ne trebaju svaki zaseban pododjeljak po zadanom pravilu.
-
-</details>
+| Sigurnost | Autentifikacija i autorizacija | Auth.js potvrđuje sesiju, ali svaka zaštićena poslužiteljska radnja dodatno provjerava ulogu, status računa i vlasništvo nad traženim podatkom. Skrivanje gumba u sučelju nije zaštita (NF-02). | API rute, Server Actions i aplikacijski moduli prije čitanja ili promjene zaštićenih podataka. |
+| Dosljednost rezervacije | PostgreSQL transakcija i uvjetovana promjena količine | Provjera količine, njezino privremeno umanjenje i stvaranje rezervacije izvode se atomski. Samo jedan od istodobnih zahtjeva može uzeti posljednji komad, a neuspjelo plaćanje količinu vraća (NF-05). | Rezervacijska usluga i Prisma transakcije; obrada povratnog poziva servisa za plaćanje. |
+| Validacija podataka | Poslužiteljska provjera ulaza i poslovnih pravila | Svaki vanjski ulaz provjerava se prije uporabe: obavezna polja, pozitivne cijene i količine, redoslijed vremena, koordinate, dopušteni statusi te pripadnost ponude istom prodajnom mjestu. | Granica API-ja/Server Actions i odgovarajući aplikacijski modul; ograničenja baze kao dodatna zaštita. |
+| Plaćanje | Vanjski servis i idempotentni povratni pozivi | SpasiZalogaj ne prima ni pohranjuje podatke kartice. Potpis povratnog poziva provjerava se, a ista referenca servisa ne smije dvaput aktivirati rezervaciju, vratiti količinu ili izvršiti povrat (NF-03, NF-05). | Rezervacijski modul, modul članarine i adapter odabranog servisa za plaćanje. |
+| Kod za preuzimanje | Kriptografski slučajan kod i pohrana sažetka | Kod mora biti nepredvidiv i jedinstven; u bazi se čuva njegov sažetak. Pri uspješnoj potvrdi kod se uspoređuje na poslužitelju i odmah postaje nevažeći (NF-04). | Generator koda, rezervacijska usluga i radnja potvrde preuzimanja. |
+| Vanjske ovisnosti | Kontrolirana obrada pogrešaka | Nedostupnost karte ne smije spriječiti tekstualni pregled ponuda, a pogreška Googlea, plaćanja ili e-pošte korisniku se prikazuje bez otkrivanja osjetljivih tehničkih detalja. | Web-sučelje i adapteri za OAuth, plaćanje, kartu i e-poštu. |
 
 ## 4.7 Arhitekturni rizici i tehnički dug
 
@@ -261,33 +178,20 @@ Obrasci poput injektiranja ovisnosti (engl. Dependency Injection) ili repozitori
 
 | Rizik ili kompromis | Posljedica | Odgovor na rizik  |
 | --- | --- | --- |
-| *Npr. Pohrana slika u lokalni file sustav* | *Pri ponovnom pokretanju kontejnera slike će biti izgubljene.* | *Prihvaćeni tehnički dug za demo verziju. U budućnosti planirana migracija na S3 (AWS).* |
-| *Npr. Nepostojanje paginacije na API-ju* | *Moguće usporenje klijenta pri dohvaćanju velike količine podataka iz baze.* | *Ograničen broj testnih unosa. Dodavanje paginacije ostavljeno za sljedeću iteraciju.* |
-|  |  |  |
+| Jedna Next.js aplikacija postavlja se kao cjelina. | Pogreška zajedničke aplikacije ili neuspjela objava može utjecati na sve uloge i funkcionalnosti. | Kompromis je prihvaćen za semestralni projekt. Moduli se logički odvajaju i provjeravaju prije postavljanja, bez tvrdnje da sustav ima automatski failover. |
+| Konačni servis za plaćanje još nije odabran između dostupnih testnih mogućnosti. | Različiti API-ji, vrste plaćanja i povratni pozivi mogu promijeniti detalje implementacije rezervacija i članarina. | Arhitektura koristi granicu `PaymentGateway`; tim mora potvrditi pružatelja i mogućnosti sandboxa prije implementacije plaćanja. |
+| Istodobni zahtjevi i ponovljeni povratni pozivi mogu dvaput promijeniti količinu ili status plaćanja. | Moguća je dvostruka rezervacija, dvostruki povrat ili netočan status. | Planirane su transakcije, uvjetovane promjene količine, jedinstvena referenca plaćanja, idempotentna obrada i konkurentni test iz NF-05. |
+| Sustav ovisi o Googleu, servisu za plaćanje, OpenStreetMapu i budućem pružatelju e-pošte. | Dio funkcionalnosti privremeno ne radi kada vanjska usluga nije dostupna. | Za kartu se zadržava tekstualni popis ponuda; ostale pogreške jasno se prikazuju i ne smiju ostaviti djelomične promjene u bazi. Za opseg kolegija ne uvodi se pričuvni pružatelj. |
+| Nije odabrana trajna pohrana logotipa i fotografija ponuda. | Lokalni datotečni sustav Vercela nije prikladan za trajne korisničke datoteke pa bi slike mogle nestati ili biti nedostupne. | Prije implementacije F-003 i F-006 odabrati vanjsku objektnu pohranu; do tada u modelu ostaje samo URL slike. Slike se ne smiju spremati u lokalni datotečni sustav produkcije. |
+| Poslužiteljsko izvođenje i veza s Neonom mogu imati hladna pokretanja ili ograničenje broja veza. | Pretraga i rezervacija mogu biti sporije ili povremeno neuspješne, posebno pod većim opterećenjem. | Koristiti način povezivanja koji preporučuje Neon za poslužiteljsko okruženje, indeksirati polja pretrage i mjeriti NF-06 na dogovorenom skupu podataka. |
 
 **Poslovni ili domenski rizici, ako su značajni**
 
 | Rizik | Posljedica | Odgovor na rizik |
 | --- | --- | --- |
-| **Jedna instanca aplikacije obrađuje prijave** | Kvar poslužitelja (hostinga) privremeno onemogućuje nove prijave. | Prihvaćeno u okviru ograničenja projekta za kolegij; tim ne tvrdi da postoji automatsko prebacivanje na pričuvni sustav (failover). |
-| **Nedostupnost vanjskke kartografske usluge** | Prikaz karte može prestati raditi iako su pohranjene prijave u bazi i dalje dostupne. | Implementirana je korisniku vidljiva poruka o pogrešci uz alternativu pregleda prijava u tekstualnom obliku. |
-|  |  |  |
-
-<details>
-<summary><strong>Primjer tehničkih i domenskih rizika</strong></summary>
-
-**Primjer — CrisisMap, tehnički rizici:**
-
-| Rizik ili kompromis | Posljedica | Odgovor na rizik |
-| --- | --- | --- |
-| Jedna instanca aplikacije obrađuje podnošenje prijava. | Kvar smještaja aplikacije privremeno onemogućuje nove prijave. | Rizik je prihvaćen za opseg projekta; ne uvodi se pričuvna instanca ni automatsko prebacivanje. |
-| Vanjske kartografske usluge nisu dostupne. | Prikaz karte može prestati raditi iako su pohranjene prijave i dalje dostupne. | Karta se ne može prikazati, ali pohranjene prijave ostaju dostupne. | Aplikacija prikazuje poruku o nedostupnosti karte i omogućuje pregled prijava u tekstualnom obliku. |
-
-**Primjer — CrisisMap, domenski rizik:** Čitatelji mogu neprovjerenu prijavu građanina zamijeniti za službeno upozorenje. Tim može u sučelju jasno razlikovati status provjere prijave i uputiti korisnike na službene izvore.
-
-**Analiza primjera:** Prvi tehnički rizik prihvaća realistično ograničenje projekta kolegija; domenski se rizik odnosi na način na koji čitatelj tumači prijavu. Zabilježite ograničenje i realan odgovor koji pripadaju vašem projektu. Neostvarena obavezna funkcionalnost nije tehnički dug nego nedovršen opseg.
-
-</details>
+| Otvorena pitanja P-03 – P-06 mogu promijeniti pravila rezervacije, povrata, isteka i preuzimanja donacije. | Model podataka, prijelazi stanja ili korisnički tok mogu postati nedosljedni s konačnim dogovorom. | Trenutačni modeli izričito koriste zapisane radne pretpostavke. Nakon odgovora asistentice zajedno se ažuriraju zahtjevi, dijagrami i implementacija. |
+| Prodajno mjesto unosi rok upotrebe, količinu i opis hrane. | Netočan ili zastario podatak može kupca navesti na pogrešnu odluku. | Poslužiteljska validacija odbija očito neispravne vrijednosti, a sučelje jasno prikazuje prodajno mjesto, vrijeme preuzimanja i rok; odgovornost za točnost podataka mora biti navedena u pravilima korištenja. |
+| Kriteriji kojima administrator potvrđuje humanitarnu organizaciju nisu detaljno određeni. | Različiti administratori mogu profile odobravati nedosljedno. | Za prvu verziju čuvaju se status i razlog odluke; tim prije implementacije UC-07 treba dogovoriti obavezne podatke i kriterije pregleda. |
 
 ---
 

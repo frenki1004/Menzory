@@ -1,0 +1,43 @@
+' ==============================================================================
+' 4-5-spasizalogaj-reservation-SM.puml
+'
+' Svrha:    Životni ciklus rezervacije od privremenog zauzimanja količine
+'           do preuzimanja, otkazivanja, isteka ili neuspjelog plaćanja.
+' Zahtjevi: F-010 – F-013; NF-04 – NF-05; P-04 – P-05.
+'
+' Diagram level: Domain Behavior
+' Diagram type:  State Machine Diagram
+' ==============================================================================
+
+@startuml
+title SpasiZalogaj – stanja rezervacije
+
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam ArrowColor #212529
+skinparam state {
+    BackgroundColor #FFFFFF
+    BorderColor #212529
+}
+
+state "Plaćanje u tijeku" as PaymentPending
+state "Aktivna" as Active
+state "Plaćanje neuspjelo" as PaymentFailed
+state "Otkazana" as Cancelled
+state "Preuzeta" as PickedUp
+state "Istekla" as Expired
+
+[*] --> PaymentPending : stvorena rezervacija
+
+PaymentPending --> Active : plaćanje uspješno
+PaymentPending --> PaymentFailed : plaćanje neuspješno
+
+Active --> PickedUp : potvrđen kod za preuzimanje
+Active --> Cancelled : pravodobno otkazivanje
+Active --> Expired : istekao rok preuzimanja
+
+PaymentFailed --> [*]
+Cancelled --> [*]
+PickedUp --> [*]
+Expired --> [*]
+@enduml

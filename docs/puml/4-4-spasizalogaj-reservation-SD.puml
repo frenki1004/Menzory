@@ -1,0 +1,52 @@
+' ==============================================================================
+' 4-4-spasizalogaj-reservation-SD.puml
+'
+' Svrha:    Redoslijed interakcija pri rezervaciji ponude i plaćanju, uz
+'           grane za nedostupnu količinu i neuspjelo plaćanje.
+' Zahtjevi: UC-03; F-010; NF-03 – NF-05.
+'
+' Diagram level: Runtime Behavior
+' Diagram type:  Sequence Diagram
+' ==============================================================================
+
+@startuml
+title SpasiZalogaj – rezervacija ponude i plaćanje (UC-03)
+autonumber
+
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam ArrowColor #212529
+skinparam sequence {
+    ParticipantBackgroundColor #FFFFFF
+    ParticipantBorderColor #212529
+    LifeLineBorderColor #6C757D
+    ActorBackgroundColor #F8F9FA
+    ActorBorderColor #212529
+}
+
+actor "Kupac" as Buyer
+participant "SpasiZalogaj" as System
+database "PostgreSQL\nputem Prisme" as DB
+participant "Vanjski servis\nza plaćanje" as Payment
+
+Buyer -> System : potvrdi rezervaciju
+System -> DB : provjeri i privremeno umanji količinu
+
+alt količina nije dostupna
+    DB --> System : rezervacija odbijena
+    System --> Buyer : ponuda više nije dostupna
+else količina je rezervirana
+    DB --> System : rezervacija u tijeku plaćanja
+    System -> Payment : pokreni plaćanje
+    Buyer -> Payment : izvrši plaćanje
+    Payment --> System : rezultat plaćanja
+
+    alt plaćanje je uspješno
+        System -> DB : aktiviraj rezervaciju i spremi kod
+        System --> Buyer : potvrda i kod za preuzimanje
+    else plaćanje nije uspjelo
+        System -> DB : poništi rezervaciju i vrati količinu
+        System --> Buyer : plaćanje nije uspjelo
+    end
+end
+@enduml

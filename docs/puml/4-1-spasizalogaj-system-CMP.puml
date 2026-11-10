@@ -1,0 +1,74 @@
+' ==============================================================================
+' 4-1-spasizalogaj-system-CMP.puml
+'
+' Svrha:    Prikaz glavnih logičkih komponenata sustava SpasiZalogaj,
+'           njihove komunikacije i vanjskih integracija.
+' Zahtjevi: F-001 – F-020; NF-01 – NF-07.
+'
+' Diagram level: System Architecture
+' Diagram type:  Component Diagram
+' ==============================================================================
+
+@startuml
+allowmixing
+title SpasiZalogaj – dijagram komponenata
+top to bottom direction
+
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam ArrowColor #212529
+skinparam component {
+    BackgroundColor #FFFFFF
+    BorderColor #212529
+}
+skinparam database {
+    BackgroundColor #E7F5FF
+    BorderColor #1971C2
+}
+skinparam rectangle {
+    BorderColor #6C757D
+}
+skinparam cloud {
+    BackgroundColor #FFF3CD
+    BorderColor #997404
+}
+
+rectangle "Web-preglednik\nkorisnika" as Browser
+
+frame "SpasiZalogaj" {
+    package "Next.js aplikacija (TypeScript)" as NextApp {
+        component "Korisničko sučelje\n(React + Leaflet)" as UI
+
+        package "Poslužiteljski moduli" {
+            component "Autentifikacija\ni profili" as Auth
+            component "Ponude i\nčlanarine" as Offers
+            component "Rezervacije i\npreuzimanje" as Reservations
+            component "Donacije i\nakcije" as Donations
+        }
+
+        component "Prisma ORM" as Prisma
+    }
+
+    database "PostgreSQL\n(Neon)" as DB
+}
+
+cloud "Google OAuth 2.0/OIDC" as Google
+cloud "Servis za plaćanje\n(sandbox)" as Payment
+cloud "Leaflet / OpenStreetMap" as Map
+
+Browser --> UI : HTTPS
+UI --> Auth
+UI --> Offers
+UI --> Reservations
+UI --> Donations
+UI --> Map : karta
+
+Auth --> Google : OAuth/OIDC
+Auth --> Prisma
+Offers --> Prisma
+Reservations --> Prisma
+Donations --> Prisma
+Prisma --> DB : upiti i transakcije
+
+Reservations --> Payment : plaćanje
+@enduml

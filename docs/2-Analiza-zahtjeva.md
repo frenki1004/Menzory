@@ -103,7 +103,7 @@ Pitanja koja tim treba razjasniti s asistentom. Dok se ne razriješe, tim radi p
 | --- | --- | --- | --- |
 | 4. 11. 2026. | F-001 – F-020, NF | Nakon povratne informacije na M0 (29. 10. 2026.) funkcijski zahtjevi smanjeni s 50 na 20 spajanjem povezanih i uklanjanjem prijedloga niskog prioriteta; nefunkcijski s 14 na 10; opisi preoblikovani u oblik „Sustav omogućuje …”. | Asistentica, M0 29. 10. 2026.; PR #22, PR #23 |
 | 5. 11. 2026. | F-001 – F-020 | Funkcijski zahtjevi preoblikovani u kraći oblik („Sustav omogućuje …” i numerirani kriteriji prihvaćanja); F-004 i F-005 zamijenili su mjesta. | Asistentica, sastanak 5. 11. 2026.; PR #24 |
-| 5. 11. 2026. | NF-01 – NF-07 | Nefunkcijski zahtjevi pročišćeni: uklonjeno ono što je već u ograničenjima, pravila kolegija i neprovjerljive tvrdnje. | Asistentica, sastanak 5. 11. 2026.; PR #24 |
+| 5. 11. 2026. | NF-01 – NF-07 | Nefunkcijski zahtjevi pročišćeni: uklonjeno ono što je već u ograničenjima, pravila kolegija i neprovjerljive tvrdnje. | Asistentica, sastanak 5. 11. 2026.; PR #24, PR #25 |
 
 ---
 
@@ -142,6 +142,7 @@ Pitanja koja tim treba razjasniti s asistentom. Dok se ne razriješe, tim radi p
 
 | Kontrolna točka | Povratna informacija ili nalaz | Odluka o zahtjevu ili opsegu |
 | --- | --- | --- |
+| M0 (29. 10. 2026., 4. tjedan) | Nakon prikaza početnih zahtjeva i osnovnog dijagrama asistentica je zatražila kraće funkcijske zahtjeve i razrađenije dijagrame obrazaca uporabe. | Povezane zahtjeve spojiti, prijedloge niskog prioriteta ukloniti (50 → 20), opise oblikovati kao „Sustav omogućuje …” i razraditi dijagrame (PR #22, PR #23). |
 | Iteracija 1 (M1, 7. tjedan) | na čekanju | na čekanju |
 | Demo 2 | na čekanju | na čekanju |
 | Završni pregled | na čekanju | na čekanju |

@@ -1,6 +1,6 @@
 # 3. Obrasci uporabe
 
-Obrasci uporabe opisuju glavne interakcije aktera sa sustavom SpasiZalogaj. Temelje se na funkcijskim zahtjevima iz [analize zahtjeva](2-Analiza-zahtjeva.md) (oznake F-xxx). Ključni obrasci (UC-01 do UC-07) pokrivaju osnovni tok sustava: prijavu, objavu ponude, rezervaciju, preuzimanje, otkazivanje, donacije i odobravanje profila. Ostali obrasci prikazani su na dijagramu i bit će detaljnije razrađeni u sljedećim iteracijama.
+Obrasci uporabe opisuju glavne interakcije aktera sa sustavom SpasiZalogaj. Temelje se na funkcijskim zahtjevima iz [analize zahtjeva](2-Analiza-zahtjeva.md) (oznake F-xxx). Ključni obrasci (UC-01 do UC-07) pokrivaju osnovne funkcije sustava: prijavu, objavu ponude, rezervaciju s plaćanjem, preuzimanje kodom, otkazivanje, zahtjeve za donacije i odobravanje profila.
 
 ## 3.1 Dijagram obrazaca uporabe
 
@@ -11,13 +11,13 @@ Obrasci uporabe opisuju glavne interakcije aktera sa sustavom SpasiZalogaj. Teme
 **PlantUML izvor:** [izvor](./puml/3-1-spasizalogaj-system-UC.puml)
 
 **Akteri:**
-- **Korisnik** je opći akter za registrirane korisnike: kupac, prodajno mjesto i humanitarna organizacija nasljeđuju njegove obrasce uporabe (prijava i odabir uloge, pretplata na obavijesti).
-- **Kupac** pretražuje, rezervira, plaća, otkazuje i ocjenjuje.
-- **Prodajno mjesto** objavljuje ponude, plaća članarinu i odlučuje o zahtjevima za donaciju.
-- **Zaposlenik prodajnog mjesta** potvrđuje preuzimanje kodom.
-- **Humanitarna organizacija** pregledava donacijske ponude i šalje zahtjeve.
-- **Administrator** odobrava profile, određuje cijene članarine i upravlja sadržajem.
-- **Vanjski sustavi** (sekundarni akteri): OAuth pružatelj identiteta (prijava), servis za plaćanje (rezervacije i članarine), kartografska usluga (prikaz lokacija i udaljenosti).
+- **Korisnik** je opći akter za registrirane korisnike: kupac, prodajno mjesto i humanitarna organizacija nasljeđuju njegov osnovni obrazac uporabe (UC-01 Prijava i odabir uloge).
+- **Kupac** pretražuje na karti i rezervira hranu s plaćanjem (UC-03), predočuje kod pri preuzimanju (UC-04) te može otkazati rezervaciju najkasnije 1 h ranije (UC-05).
+- **Prodajno mjesto** plaća članarinu, objavljuje ponude ili pakete iznenađenja (UC-02) te odlučuje o zaprimljenim zahtjevima za donaciju (UC-06).
+- **Zaposlenik prodajnog mjesta** provjerava i potvrđuje preuzimanje kodom (UC-04).
+- **Humanitarna organizacija** pregledava donacije i šalje zahtjeve za hranu (UC-06).
+- **Administrator** odobrava profile organizacija (UC-07) i određuje cijene članarine.
+- **Vanjski sustavi** (sekundarni akteri): OAuth pružatelj identiteta (prijava UC-01), servis za plaćanje (rezervacije UC-03, otkazivanja UC-05 i članarine) te kartografska usluga (pretraga ponuda UC-03).
 
 ### 3.1.1 Rezervacija i preuzimanje
 
@@ -27,7 +27,7 @@ Obrasci uporabe opisuju glavne interakcije aktera sa sustavom SpasiZalogaj. Teme
 
 **PlantUML izvor:** [izvor](./puml/3-2-spasizalogaj-reservation-UC.puml)
 
-Dijagram detaljnije prikazuje tok kupca od pretrage do preuzimanja (UC-03, UC-04, UC-05). Rezervacija uvijek uključuje pretragu, plaćanje i izdavanje koda za preuzimanje, a prikaz udaljenosti dodaje se samo ako kupac dopusti pristup lokaciji. Otkazivanje je moguće najkasnije 1 h prije isteka vremena preuzimanja i uključuje povrat novca (F-011). Ocjena i komentar mogući su tek nakon potvrđenog preuzimanja, jednom po rezervaciji (F-014).
+Dijagram prikazuje osnovni vodoravni tok kupca s lijeva na desno (UC-03, UC-04, UC-05). Kupac pretražuje ponude na karti uz pomoć vanjske kartografske usluge te rezervira ponudu uz plaćanje (UC-03). Iz rezervacije se granaju dva moguća ishoda: uspješan tok preuzimanja hrane gdje zaposlenik prodajnog mjesta potvrđuje preuzimanje kodom (UC-04), nakon čega kupac može opcionalno ocijeniti prodajno mjesto, ili alternativni tok otkazivanja rezervacije (UC-05) najkasnije 1 h prije isteka uz automatski povrat novca preko servisa za plaćanje.
 
 ### 3.1.2 Ponude i donacije
 
@@ -37,7 +37,9 @@ Dijagram detaljnije prikazuje tok kupca od pretrage do preuzimanja (UC-03, UC-04
 
 **PlantUML izvor:** [izvor](./puml/3-3-spasizalogaj-offers-donations-UC.puml)
 
-Dijagram detaljnije prikazuje rad prodajnog mjesta, humanitarne organizacije i administratora (UC-02, UC-06, UC-07). Objava ponude uvijek uključuje provjeru aktivne članarine (F-005), a ponuda se može označiti kao donacija (F-006). Zahtjev za donaciju može poslati samo organizacija čiji je profil odobren (UC-07, F-002), a o zahtjevu zatim odlučuje prodajno mjesto (F-016). Nova cijena članarine koju odredi administrator vrijedi od sljedećeg plaćanja (F-004).
+Dijagram prikazuje dva osnovna toka sustava vezana uz ponude i donacije (UC-02, UC-06):
+1. **Tok prodajnog mjesta:** Prodajno mjesto plaća članarinu preko servisa za plaćanje, što je nužan preduvjet (`<<precedes>>`) za objavu ponude viška hrane ili paketa iznenađenja (UC-02, F-005).
+2. **Tok donacija:** Registrirana humanitarna organizacija pregledava ponude i šalje zahtjev za donaciju (UC-06, F-015), nakon čega prodajno mjesto odlučuje o zahtjevu odobravanjem ili odbijanjem (F-016).
 
 ## 3.2 Specifikacije obrazaca uporabe
 

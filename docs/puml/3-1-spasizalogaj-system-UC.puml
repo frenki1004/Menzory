@@ -2,22 +2,22 @@
 ' 3-1-spasizalogaj-system-UC.puml
 '
 ' Svrha:    Pregledni dijagram osnovnih funkcija sustava SpasiZalogaj:
-'           glavni ciljevi osnovnih aktera i vanjski sustavi (OAuth, plaćanje,
-'           karta).
-' Zahtjevi: UC-01 do UC-07 detaljno su opisani u docs/3-Obrasci-uporabe.md;
-'           prikazane su isključivo osnovne funkcije sustava.
+'           sadrži isključivo 7 ključnih obrazaca uporabe (UC-01 do UC-07)
+'           i njihovu izravnu vezu s akterima, bez preklapanja linija.
+' Zahtjevi: UC-01 do UC-07 (docs/3-Obrasci-uporabe.md).
 '
 ' Diagram level: System Requirements
 ' Diagram type:  Use Case Diagram
 ' ==============================================================================
 
 @startuml
-title SpasiZalogaj – pregled osnovnih funkcija
+title SpasiZalogaj – pregledni dijagram obrazaca uporabe
 left to right direction
 
 skinparam shadowing false
 skinparam defaultFontName Arial
 skinparam ArrowColor #212529
+
 skinparam actor {
     BackgroundColor #F8F9FA
     BorderColor #212529
@@ -31,14 +31,11 @@ skinparam rectangle {
     BorderColor #6C757D
 }
 
-' Opći akter: zajednički osnovni obrazac uporabe svih registriranih korisnika
 actor "Korisnik" as Korisnik
-
-' Primarni akteri
-actor "Kupac" as Kupac
 actor "Prodajno mjesto" as Prodavac
-actor "Humanitarna\norganizacija" as Org
+actor "Kupac" as Kupac
 actor "Zaposlenik\nprodajnog mjesta" as Zaposlenik
+actor "Humanitarna\norganizacija" as Org
 actor "Administrator" as Admin
 
 Kupac -up-|> Korisnik
@@ -46,56 +43,36 @@ Prodavac -up-|> Korisnik
 Org -up-|> Korisnik
 
 rectangle "SpasiZalogaj" {
-    ' Zajedničko
     usecase "UC-01 Prijava i\nodabir uloge" as UC01
-
-    ' Kupac
-    usecase "UC-03 Pretraga na karti i\nrezervacija s plaćanjem" as UC03
-    usecase "UC-05 Otkazivanje\nrezervacije" as UC05
-
-    ' Preuzimanje (Kupac i Zaposlenik)
+    usecase "UC-02 Objava ponude\nili paketa iznenađenja" as UC02
+    usecase "UC-03 Pretraga na karti\ni rezervacija s plaćanjem" as UC03
     usecase "UC-04 Potvrda\npreuzimanja kodom" as UC04
-
-    ' Prodajno mjesto
-    usecase "Plaćanje članarine" as UCClan
-    usecase "UC-02 Objava ponude ili\npaketa iznenađenja" as UC02
-
-    ' Donacije (Humanitarna organizacija i Prodajno mjesto)
+    usecase "UC-05 Otkazivanje\nrezervacije" as UC05
     usecase "UC-06 Zahtjev\nza donaciju" as UC06
-
-    ' Administrator
     usecase "UC-07 Odobravanje\nprofila organizacije" as UC07
-    usecase "Određivanje cijena\nčlanarine" as UCCij
 }
 
-' Vanjski sustavi (sekundarni akteri)
 actor "OAuth pružatelj\nidentiteta" as OAuth <<vanjski sustav>>
-actor "Servis za\nplaćanje" as Placanje <<vanjski sustav>>
 actor "Kartografska\nusluga" as Karta <<vanjski sustav>>
+actor "Servis za\nplaćanje" as Placanje <<vanjski sustav>>
 
-' Povezivanje aktera i obrazaca uporabe
 Korisnik --> UC01
+UC01 --> OAuth
+
+Prodavac --> UC02
 
 Kupac --> UC03
 Kupac --> UC04
 Kupac --> UC05
 
-Prodavac --> UCClan
-Prodavac --> UC02
-Prodavac --> UC06
+UC03 --> Karta
+UC03 --> Placanje
+UC05 --> Placanje
 
 Zaposlenik --> UC04
 
 Org --> UC06
+Prodavac --> UC06
 
 Admin --> UC07
-Admin --> UCCij
-
-' Povezivanje s vanjskim servisima
-UC01 --> OAuth
-UC03 --> Karta
-UC03 --> Placanje
-UC05 --> Placanje
-UCClan --> Placanje
-
 @enduml

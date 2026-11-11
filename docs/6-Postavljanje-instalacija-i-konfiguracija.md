@@ -1,185 +1,182 @@
 # 6. Postavljanje, instalacija i konfiguracija
 
-**Cilj:** Detaljno dokumentirati topologiju izvođenja, postupak lokalne instalacije i konfiguracije iz izvornog koda te način javnog postavljanja i administracije programa. [README](../README.md) navodi javnu adresu i sažeti postupak lokalnog pokretanja; ova stranica donosi potpun inženjerski postupak koji osigurava točnu ponovljivost na drugom računalu.
-
-Zamijenite oglednu topologiju, naredbe i postavke onima koje vaš tim stvarno koristi (u primjeru se koristi Render; dokumentirajte platformu odabranu za vaš projekt).
+**Cilj:** Detaljno dokumentirati topologiju izvođenja, postupak lokalne instalacije i konfiguracije iz izvornog koda te način javnog postavljanja i administracije sustava **SpasiZalogaj**. [README](../README.md) navodi javnu adresu i sažeti postupak lokalnog pokretanja; ova stranica donosi potpun inženjerski postupak koji osigurava točnu ponovljivost na drugom računalu.
 
 ---
 
 ## 6.1 Prikaz razmještaja
 
-**Cilj:** Prikazati okruženja izvođenja, raspodijeljene dijelove programa, spremište podataka i relevantne vanjske usluge. Njihovu komunikaciju i mrežne protokole prikažite jednim UML dijagramom razmještaja. Dok dijagram komponenata iz Poglavlja 4 prikazuje logičke odgovornosti, dijagram razmještaja pokazuje gdje se izvršni artefakti fizički ili virtualno izvode.
+**Cilj:** Prikazati okruženja izvođenja, raspodijeljene dijelove programa, spremište podataka i relevantne vanjske usluge. Njihovu komunikaciju i mrežne protokole prikazuje UML dijagram razmještaja u nastavku. Dok dijagram komponenata iz Poglavlja 4 prikazuje logičke odgovornosti, dijagram razmještaja pokazuje gdje se izvršni artefakti fizički ili virtualno izvode.
 
-**Dijagram razmještaja:** [Ugradite čitljivu sliku UML dijagrama razmještaja.]  
-**PlantUML izvor:** [Poveznica na odgovarajuću `.puml` datoteku.]  
-**Javno dostupna aplikacija:** [Poveznica na javnu adresu navedenu u README-u ili na njegov odjeljak o postavljanju.]
+**Dijagram razmještaja:** ![UML dijagram razmještaja sustava SpasiZalogaj](./assets/diagrams/6-1-spasizalogaj-deployment-DD.svg)  
+**Slika 6.1. UML dijagram razmještaja sustava SpasiZalogaj**  
+**PlantUML izvor:** [6-1-spasizalogaj-deployment-DD.puml](./puml/6-1-spasizalogaj-deployment-DD.puml)  
+**Javno dostupna aplikacija:** [README](../README.md#postavljanje-i-pokretanje)
 
-*Pravila izrade prikaza:*
-* Označite stvarne čvorove na kojima se program izvodi (korisnički uređaj, poslužitelj, baza podataka) i protokole među njima.
-* Bazu podataka ili vanjskog pružatelja usluga uključite samo ako ih postavljeni program stvarno koristi.
-* Razvojno računalo nije javni poslužitelj; prikažite isključivo produkcijsko okruženje.
-* Ako se planirana arhitektura tijekom implementacije promijenila, ovdje prikažite stvarni razmještaj i odgovarajuće ažurirajte opis arhitekture.
+### Analiza razmještaja i mrežnih protokola
 
-<details>
-<summary><strong>Primjer: Javno postavljanje programa za prijave i obavijesti </strong></summary>
+1. **Korisnički uređaj (`<<device>>`):**
+   - Krajnji korisnik (građanin, predstavnik prodajnog mjesta, volonter ili administrator) pristupa aplikaciji putem modernog web-preglednika (Google Chrome, Mozilla Firefox, Safari, Edge).
+   - Korisničko sučelje izgrađeno je u tehnologijama React 19, Tailwind CSS i HTML5, optimizirano za stolna računala i mobilne uređaje (odzivni dizajn, NF-06).
+   - Preglednik komunicira s poslužiteljem isključivo putem šifriranog protokola **HTTPS (TLS 1.3, port 443)**.
+   - Prikaz geografskih lokacija trgovina i ponuda na karti dohvaća pločice izravno s vanjskog kartografskog servisa (OpenStreetMap / Leaflet) preko sigurnog HTTPS protokola.
 
-**Primjer — CrisisMap:**
-Predloženi klijentski dio gradi se kao statičko web-mjesto. Poslužiteljska web-usluga obrađuje prijave i asinkrono šalje obavijesti unutar **iste postavljene poslužiteljske aplikacije**. PostgreSQL sprema podatke prijava, pružatelj kartografskih usluga isporučuje kartografske pločice pregledniku, a Firebase Cloud Messaging prima zahtjeve za slanje upozorenja iz poslužiteljskog dijela. Primjer pretpostavlja da obavijesti pripadaju opsegu tog konkretnog projekta.
+2. **Poslužiteljska platforma u oblaku (`<<cloud / execution environment>>`):**
+   - Cjelokupna fullstack aplikacija izvodi se unutar Node.js izvršnog okruženja (verzija 20.x LTS) na platformi Vercel / serverless edge runtime.
+   - **Next.js 15 App Router:** Objedinjuje poslužiteljsko renderiranje (SSR), React Server Components (RSC), klijentske interaktivne komponente, poslužiteljske akcije (Server Actions) i programske API rute.
+   - **Auth.js v5 modul:** Upravlja stanjem autentifikacije, provjerom JSON Web Tokena (JWT) ili sesijskih zapisa u bazi, te zaštitom ruta i administratorskih ovlasti.
+   - **Prisma ORM klijent:** Upravlja komunikacijom s bazom podataka, pripremljenim upitima i atomičnim transakcijama preko konekcijskog bazena (engl. *connection pool*).
 
-![UML dijagram razmještaja sustava CrisisMap](./assets/diagrams/6-1-crisismap-DD.svg)
+3. **Upravljani poslužitelj baze podataka (`<<device / Neon>>`):**
+   - Relacijska baza podataka **PostgreSQL 15+** smještena je na upravljanoj platformi u oblaku (Neon serverless PostgreSQL, regija `eu-central-1`).
+   - Baza čuva svih 15 relacijskih entiteta definiranih shemom (`User`, `Account`, `Session`, `Store`, `Offer`, `Reservation`, `Subscription`, `PickupLog` i dr.).
+   - Veza s poslužiteljem uspostavlja se isključivo preko zaštićenog PostgreSQL protokola uz obaveznu TLS enkripciju (`sslmode=require`) na portu 5432. Bazi se nikada ne pristupa izravno iz klijentskog preglednika.
 
-**Slika 6.1. UML dijagram razmještaja sustava CrisisMap**
-
-**PlantUML izvor:** [izvor](./puml/6-1-crisismap-DD.puml)
-**Analiza razmještaja:**
-* **Korisnički uređaj:** Web-preglednik izvršava klijentski kod nakon preuzimanja statičkih datoteka.
-* **Poslužiteljski čvor:** Poslužiteljski API i pozadinski zadaci nalaze se unutar jedne usluge (jednog izvršnog procesa).
-* **Baza podataka:** Veza s bazom uspostavlja se isključivo iz poslužiteljskog dijela putem interne mreže, a nikada izravno iz klijentskog preglednika.
-* **Vanjske usluge:** Pružatelj kartografskih usluga i pružatelj obavijesti nalaze se izvan infrastrukture koju postavlja tim.
-</details>
+4. **Vanjske usluge (`<<third-party>>`):**
+   - **Google Identity Provider (OAuth 2.0 / OpenID Connect):** Eksternalizirana prijava korisnika. Poslužiteljski dio razmjenjuje autorizacijski kod za tokene putem HTTPS REST API poziva prema `accounts.google.com`.
+   - **OpenStreetMap / CartoDB pločice:** Isporuka kartografskih slojeva klijentskom sučelju.
 
 ---
 
 ## 6.2 Lokalna instalacija i konfiguracija
 
-**Cilj:** Omogućiti novom članu tima ili ocjenjivaču da iz čiste radne kopije repozitorija instalira i lokalno pokrene cijeli programski sustav, uključujući bazu podataka i početne podatke.
+**Cilj:** Omogućiti novom članu tima ili ocjenjivaču da iz čiste radne kopije repozitorija instalira i lokalno pokrene cijeli programski sustav, uključujući bazu podataka i domenske funkcionalnosti.
 
-1. **Preduvjeti i preuzimanje izvornog koda:**
-   * Navedite podržane verzije izvršnog okruženja, upravitelja paketa, baze podataka i CLI alata.
-   * Navedite točne naredbe za kloniranje repozitorija i radni direktorij; naznačite koje se naredbe pokreću iz korijena repozitorija, a koje iz poddirektorija.
-2. **Ovisnosti i konfiguracijske varijable:**
-   * Navedite točne naredbe za instalaciju ovisnosti za klijentski i poslužiteljski dio.
-   * Povežite predložak `.env.example`, opišite ulogu svake varijable, koje vrijednosti smiju biti javne i kako ovlašteni korisnik dobiva tajne vrijednosti.
-   * *Upozorenje:* Nikada ne objavljujte stvarne pristupne podatke i tajne ključeve.
-3. **Inicijalizacija baze podataka i migracije:**
-   * Navedite redoslijed naredbi za stvaranje lokalne baze, dodjelu korisničkih prava i izvođenje migracija sheme; navedite izvode li se migracije ručno ili pri pokretanju te stvarne putanje verzioniranih skripti.
-   * Objasnite kako se učitavaju nužni početni podaci (samo oni nužni) i kako spriječiti višestruko izvođenje početnih skripti.
-4. **Pokretanje i verifikacija:**
-   * Prikažite točan redoslijed pokretanja procesa i lokalne mrežne adrese na kojima su dostupni.
-   * Navedite točan korak provjere (npr. slanje probnog zahtjeva ili pregled u pregledniku) koji dokazuje da klijentski dio uspješno komunicira s poslužiteljskim API-jem i bazom te da se važni podaci trajno pohranjuju.
-   * Navedite gdje čitatelj može provjeriti pogreške ako neki korak ne uspije.
+### 1. Preduvjeti i preuzimanje izvornog koda
 
-Uključite samo korake koje aplikacija stvarno zahtijeva. Ako README već sadrži potpun i ponovljiv postupak, povežite ga i ovdje dodajte samo ono što nedostaje umjesto održavanja dviju potpunih kopija istih uputa.
+Za lokalno pokretanje i razvoj potrebni su:
+- **Node.js:** verzija `20.x` LTS ili novija (provjera s `node -v`).
+- **npm:** upravitelj paketa verzije `10.x` ili noviji (provjera s `npm -v`).
+- **Git:** za verzioniranje i kloniranje repozitorija.
+- **PostgreSQL:** lokalna instalacija (PostgreSQL 15+) ili vanjska instanca na Neon/Supabase platformi.
 
-<details>
-<summary><strong>Primjer: Instalacija programa s lokalnom PostgreSQL bazom (CrisisMap)</strong></summary>
-
-Ovaj nastavni primjer koristi klijentski dio temeljen na radnom okviru React/Vite (`frontend/`), poslužiteljski dio temeljen na Node.js okruženju (`backend/`) i PostgreSQL bazu podataka.
-
-#### 1. Inicijalizacija baze podataka
-
-U terminalu stvorite razvojnu bazu podataka i pokrenite početnu SQL skriptu iz korijena repozitorija:
+Klonirajte repozitorij i postavite se u korijenski direktorij:
 
 ```bash
-createdb crisismap_dev
-psql -d crisismap_dev -f backend/db/001_create_schema.sql
-psql -d crisismap_dev -c '\dt'
+git clone https://github.com/frenki1004/Menzory.git
+cd Menzory
 ```
 
-Verzionirana SQL datoteka u ovom primjeru stvara tablice u **novoj** bazi podataka; provjera `\dt` treba ih prikazati. Konfigurirajte lokalni PostgreSQL račun koji može koristiti tu shemu; ako je riječ o zasebnom računu, zabilježite naredbe za njegovo stvaranje i dodjelu prava. Node.js poslužiteljski dio čita `DATABASE_URL`: lokalno ga postavite tako da se putem PostgreSQL URL-a povezuje na `crisismap_dev`, a potrebne pristupne podatke čuvajte u lokalnoj postavci koja se ne uključuje u repozitorij. Nemojte objaviti puni URL veze ako sadrži lozinku. Ako druga aplikacija koristi automatske migracije, pokrenite je prema uputama i provjerite jesu li migracije provedene umjesto zasebnog izvršavanja skripte početne sheme. Ako ogledne prijave zahtijevaju početne podatke, navedite stvarnu naredbu tog projekta i objasnite kada se treba koristiti.
+Sve razvojne naredbe pokreću se iz korijena repozitorija.
 
-#### 2. Konfiguracija i pokretanje poslužiteljskog dijela (backend)
+### 2. Ovisnosti i konfiguracijske varijable
 
-U prvom terminalu postavite ovisnosti, pripremite varijable okruženja i pokrenite poslužitelj:
+Instalirajte sve potrebne ovisnosti definirane u `package.json`:
 
 ```bash
-cd backend
-npm ci
+npm install
+```
+
+Pripremite lokalnu konfiguracijsku datoteku kopiranjem priloženog predloška:
+
+```bash
 cp .env.example .env
-# Uredite .env datoteku: postavite DATABASE_URL=postgresql://localhost:5432/crisismap_dev
-npm start
 ```
 
-*Poslužiteljski API pokreće se i sluša na:* `http://localhost:8080`
+Uredite datoteku `.env` prema sljedećim smjernicama:
 
-#### 3. Pokretanje klijentskog dijela (frontend)
+| Varijabla | Opis | Primjer vrijednosti / Izvor |
+| --- | --- | --- |
+| `DATABASE_URL` | PostgreSQL veza s bazom (lokalna ili Neon) | `postgresql://postgres:postgres@localhost:5432/spasizalogaj_dev` |
+| `AUTH_SECRET` | Kriptografski ključ za potpisivanje kolačića i sesija | Generira se naredbom: `openssl rand -base64 33` |
+| `AUTH_GOOGLE_ID` | OAuth 2.0 Client ID za Google prijavu | Google Cloud Console -> Credentials |
+| `AUTH_GOOGLE_SECRET` | OAuth 2.0 Client Secret | Google Cloud Console -> Credentials |
+| `NEXTAUTH_URL` | Osnovna adresa aplikacije za Auth.js povratne pozive | `http://localhost:3000` |
+| `NEXT_PUBLIC_APP_URL` | Javni URL dostupan klijentskom dijelu | `http://localhost:3000` |
 
-U drugom terminalu instalirajte ovisnosti klijenta i pokrenite razvojni poslužitelj:
+*Upozorenje o sigurnosti:* Datoteka `.env` nalazi se u `.gitignore` i nikada se ne smije uključiti u repozitorij. Tajne ključeve i lozinke čuvajte u strogo ograničenim datotekama (način rada `0600`).
+
+### 3. Inicijalizacija baze podataka i migracije
+
+Ako koristite lokalni PostgreSQL poslužitelj, stvorite bazu podataka:
 
 ```bash
-cd frontend
-npm ci
-VITE_API_BASE_URL=http://localhost:8080 npm run dev
+createdb spasizalogaj_dev
 ```
 
-*Klijentska aplikacija dostupna je u pregledniku na:* `http://localhost:5173`
+Generirajte Prisma klijent i sinkronizirajte shemu s bazom podataka:
 
-#### 4. Provjera rada sustava
+```bash
+# Generiranje tipiziranog Prisma klijenta (src/lib/prisma.ts)
+npx prisma generate
 
-Otvorite adresu klijenta koju ispiše Vite, podnesite probnu prijavu s odabranom lokacijom, provjerite prikazuje li se potvrda s novim identifikatorom prijave i ponovno je dohvatite. Samo učitavanje početne stranice klijenta bez slanja i dohvata podataka ne dokazuje ispravnost rada poslužiteljskog dijela i baze podataka.
+# Sinkronizacija sheme iz prisma/schema.prisma u bazu podataka
+npx prisma db push
+```
 
-Ako se adresa poslužiteljskog dijela razlikuje od `http://localhost:8080`, koristite adresu koju aplikacija stvarno ispiše. Ako podnošenje ne uspije, pregledajte API zahtjev u pregledniku i zapis poslužiteljskog dijela; ako pokretanje ne uspije, provjerite postavke veze s bazom podataka i je li shema stvorena. Nemojte kopirati putanje ili naredbe iz ovog primjera ako se vaš repozitorij razlikuje.
+Naredba `npx prisma db push` osigurava da se svih 15 entiteta (uključujući indekse, strane ključeve i enumeracije `OfferStatus`, `ReservationStatus`, `Role`) stvori u ciljnoj bazi bez ručnog pisanja SQL skripti.
 
-**Analiza primjera:** Postupak ima jasan redoslijed: stvoriti bazu podataka, uspostaviti shemu i pristup, konfigurirati veze, pokrenuti oba procesa i provjeriti spremljenu prijavu. Naredbe i očekivani rezultati dovoljno su konkretni da se može dijagnosticirati nepotpuno postavljanje. Oni nadopunjuju kratki put iz README-a do pokrenute aplikacije umjesto da tvrde kako samo učitana web-stranica dokazuje uspješnu instalaciju.
-</details>
+### 4. Pokretanje razvojnog poslužitelja
+
+Pokrenite lokalni razvojni poslužitelj:
+
+```bash
+npm run dev
+```
+
+Poslužitelj se pokreće na adresi: `http://localhost:3000`
+
+### 5. Provjera rada sustava (Verifikacija)
+
+Nakon pokretanja potvrdite ispravnost sustava kroz sljedeće korake:
+
+1. **Provjera zdravlja poslužitelja (API Health Check):**
+   U pregledniku ili terminalu pošaljite zahtjev:
+   ```bash
+   curl -i http://localhost:3000/api/health
+   ```
+   Očekivani odgovor je HTTP status `200 OK` s tijelom:
+   ```json
+   {"status":"ok","timestamp":"...","uptime":...}
+   ```
+
+2. **Početna stranica i navigacija:**
+   Otvorite `http://localhost:3000` u pregledniku. Provjerite prikaz responzivnog zaglavlja, navigacije i opcija prijave.
+
+3. **Domenski tijek ponuda i rezervacija (M1):**
+   - Otvorite `http://localhost:3000/ponude` za pregled popisa aktivnih paketa i ponuda hrane.
+   - Posjetite `http://localhost:3000/prodajno-mjesto/nova-ponuda` za unos nove ponude (naziv, opis, redovna i snižena cijena, količina, vrijeme preuzimanja).
+   - Posjetite `http://localhost:3000/prodajno-mjesto/preuzimanje` za unos 6-znakovnog koda za preuzimanje i provjeru njegove kriptografske valjanosti (NF-04).
+
+4. **Izvođenje automatiziranih ispitivanja:**
+   U zasebnom terminalu pokrenite cjelokupni skup jediničnih ispitivanja:
+   ```bash
+   npm test
+   ```
+   Provjerava se:
+   - Kriptografsko generiranje, SHA-256 sažimanje i vremenski sigurna usporedba kodova (`tests/pickup-code.test.js`).
+   - Validacija unosa ponuda, cijena i količina (`tests/offer-validation.test.js`).
+   - Sva ispitivanja moraju završiti sa statusom `PASS`.
 
 ---
 
 ## 6.3 Javno postavljanje i administracija
 
-**Cilj:** Dokumentirati točne korake za ponovljivo postavljanje cjelovitog programskog sustava na produkcijsku infrastrukturu u oblaku, uključujući smještenu bazu podataka i veze među postavljenim dijelovima. Kada je jasnije, povežite konfiguraciju koja već postoji u Gitu umjesto njezina prepisivanja.
+**Cilj:** Dokumentirati korake za ponovljivo postavljanje cjelovitog programskog sustava na produkcijsku infrastrukturu u oblaku, uključujući bazu podataka i automatiziranu isporuku.
 
-| **Postavljeni podsustav** | **Infrastruktura i izvor koda** | **Naredbe izgradnje i pokretanja** | **Konfiguracija i varijable okruženja** |
+| **Podsustav** | **Infrastruktura i izvor koda** | **Naredbe izgradnje i pokretanja** | **Konfiguracijske varijable** |
 | --- | --- | --- | --- |
-| **Klijentski dio** | [Usluga smještaja, grana i putanja mape] | [Naredba izgradnje i izlazni direktorij] | [Javne varijable vidljive pregledniku] |
-| **Poslužiteljski dio** | [Usluga smještaja, grana i putanja mape] | [Naredba izgradnje i naredba pokretanja] | [Port, veza s bazom podataka, tajni ključevi] |
-| **Baza podataka** | [Upravljana baza podataka i regija smještaja] | [Mehanizam izvođenja migracija sheme i trenutak uspostavljanja sheme] | [Zaštićeni pristupni podaci baze] |
+| **Fullstack aplikacija** | Vercel (regija Frankfurt / `fra1`), grana `main` | Izgradnja: `npm run build`<br>Izlaz: `.next` | `DATABASE_URL`, `AUTH_SECRET`, `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET`, `NEXTAUTH_URL` |
+| **Baza podataka** | Neon Serverless PostgreSQL (`eu-central-1`) | Automatizirano putem `prisma db push` / `prisma migrate deploy` | `DATABASE_URL` (zaštićena TLS veza s konekcijskim bazenom) |
+| **Vanjska autentifikacija** | Google Cloud Console (OAuth 2.0) | Upravljana vanjska usluga | Preusmjeravanje: `https://<app-domain>/api/auth/callback/google` |
 
-**CI i CD:** Kontinuirana integracija (engl. *continuous integration*, CI) automatizira izgradnju i provjere pri integriranju promjena. Kratica CD može označavati dva različita postupka. **Kontinuirana isporuka** (engl. *continuous delivery*) održava provjerenu inačicu spremnom za postavljanje, ali postavljanje u produkciju može zahtijevati ručnu odluku. **Kontinuirano postavljanje** (engl. *continuous deployment*) automatski postavlja uspješno provjerenu promjenu u produkciju. Navedite postupak koji projekt stvarno koristi; nemojte koristiti oznaku CI/CD samo zato što alat podržava automatizaciju.
-U tablici i opisu navedite **nazive i svrhu** varijabli, gdje ovlašteni održavatelj dobiva njihove vrijednosti i kojoj se usluzi svaka postavlja. Razlikujte konfiguraciju vidljivu pregledniku od tajnih podataka poslužiteljskog dijela.
+### Kontinuirana integracija i isporuka (CI/CD)
 
-### Postupak postavljanja
-
-1. **Infrastruktura baze podataka:** [Postupak kreiranja instance baze i primjene migracija.]
-2. **Postavljanje poslužiteljskog dijela:** [Povezivanje repozitorija, postavljanje tajnih varijabli i pokretanje.]
-3. **Izgradnja i objava klijentskog dijela:** [Postavljanje javnog URL-a poslužitelja i generiranje statičkih datoteka.]
-4. **Završno povezivanje:** [Postavljanje dozvoljenih ishodišta (CORS) i verifikacija javne domene.]
+Projekt koristi automatizirani CI cjevovod na platformi **GitHub Actions** definiran u `.github/workflows/ci.yml`:
+1. **Trigger:** Svaki *push* ili otvaranje *pull requesta* prema grani `main`.
+2. **Koraci provjere:**
+   - Čista instalacija ovisnosti (`npm ci`).
+   - Generiranje tipiziranog ORM klijenta (`npx prisma generate`).
+   - Izvođenje automatiziranih jediničnih i integracijskih testova (`npm test`).
+   - Provjera produkcijske izgradnje cijele aplikacije (`npm run build`).
+3. **Povezivanje s Vercelom:** Nakon uspješnog spajanja PR-a u granu `main`, Vercel automatski preuzima najnoviji kod, provodi izgradnju i postavlja novu produkcijsku verziju bez prekida rada sustava (engl. *zero-downtime deployment*).
 
 ### Pristup i administracija
 
-- **Nadzor rada i zapisi pogrešaka:** [Objasnite gdje i kako ovlašteni članovi tima pristupaju zapisima poslužitelja (engl. *logs*) te kako pregledati pogreške aplikacije.]
-- **Upravljanje administratorskim ovlastima:** [Ako aplikacija ima administratorsku ili moderatorsku ulogu, navedite putanju do sučelja i proceduru dodjele uloge bez javnog otkrivanja pristupnih podataka. Ako nema administratorskog sučelja, to kratko navedite.]
-- **Postupak ažuriranja:** [Opišite kako izmjena iz glavne grane dolazi do postavljene aplikacije. Navedite izvodi li se postavljanje ručno, kontinuiranom isporukom ili kontinuiranim postavljanjem te koje provjere prethode postavljanju.]
-- **Sigurnosne kopije i oporavak:** [Dokumentirajte samo ako ga je tim stvarno konfigurirao i koristio.]
-
-Opisujte samo okruženja i automatizirane postupke koji stvarno postoje. Okruženje za pripremu, kontinuirana integracija (CI), kontinuirana isporuka ili kontinuirano postavljanje (CD), krajnja točka za provjeru stanja, sigurnosne kopije i druge operativne mogućnosti navode se samo ako ih tim stvarno koristi.
-<details>
-<summary><strong>Primjer konfiguriranja statičkog web-mjesta, poslužiteljskog dijela i baze podataka na Renderu</strong></summary>
-
-**Primjer — CrisisMap:**
-
-Jedno izvedivo postavljanje prethodno opisanog Node.js nastavnog primjera koristi sljedeće usluge Rendera. Lokalna PostgreSQL baza iz odjeljka 6.2 odvojena je od upravljane baze koja poslužuje javnu aplikaciju.
-
-| **Postavljeni podsustav** | **Izvor i konfiguracija izgradnje / pokretanja** | **Potrebne varijable i mrežne veze** |
-| --- | --- | --- |
-| **Statičko web-mjesto** (klijent) | Mapa `frontend/`; grana `main`; izgradnja `npm ci && npm run build`; direktorij objave `dist/`. | `VITE_API_BASE_URL` postavljen na javni URL poslužiteljskog dijela. To je konfiguracija vidljiva pregledniku, a ne tajna vrijednost. |
-| **Web-usluga** (poslužitelj) | Mapa `backend/`; Node.js okruženje; izgradnja `npm ci`; pokretanje `npm start`. | `DATABASE_URL` (**interni** URL Render baze), `PORT` (dodjeljuje platforma). Poslužitelj mora slušati `PORT` na `0.0.0.0`. Po potrebi konfigurirajte dopušteno ishodište klijenta (CORS). |
-| **Upravljani PostgreSQL** | Baza stvorena u istoj Render regiji kao i web-usluga; početnu shemu primijenite na **novu** bazu prije posluživanja zahtjeva za prijave. | Podatke veze dohvatite iz nadzorne ploče baze i čuvajte ih privatnima. Kasnije migracije primjenjujte zasebno umjesto ponovnog izvođenja početne skripte. |
-| **Pružatelj obavijesti** | Integraciju konfigurirajte u poslužiteljskom dijelu samo ako pripada odobrenom projektu i implementirana je. | Poslužiteljski pristupni podatak unesite kroz tajne postavke platforme; dokumentirajte njegov **naziv**, nikada vrijednost. |
-
-#### Koraci izvođenja na Renderu
-
-1. **Stvaranje baze podataka:** U nadzornoj ploči Rendera stvorite PostgreSQL bazu u regiji u kojoj će se izvoditi poslužiteljski dio. Interni URL baze čuvajte za poslužiteljski dio; nemojte ga unositi u dokumentaciju ni u postavke klijenta.
-2. **Inicijalizacija produkcijske sheme:** Ako baza dopušta vanjsku vezu, iz pouzdanog terminala u korijenu repozitorija povežite se uputom za PSQL iz nadzorne ploče. U otvorenoj `psql` sesiji pokrenite:
-
-   ```sql
-   \i backend/db/001_create_schema.sql
-   \dt
-   ```
-
-   *Napomena:* Naredbu za povezivanje koja sadrži pristupne podatke nikada ne kopirajte u repozitorij ni dokumentaciju. Ako su vanjske veze onemogućene, opišite stvarni ovlašteni mehanizam migracije svog tima. Početnu skriptu ne pokrećite ponovno pri svakom postavljanju.
-3. **Pokretanje poslužiteljske web-usluge:** Povežite repozitorij, odaberite Node.js okruženje i odgovarajuću granu, postavite korijenski direktorij na `backend/`, naredbu izgradnje na `npm ci` i naredbu pokretanja na `npm start`. U privatne postavke okruženja dodajte `DATABASE_URL` s **internim** URL-om baze. Poslužitelj konfigurirajte da sluša na `0.0.0.0` i portu iz varijable `PORT`. Nakon uspješnog postavljanja zabilježite javnu adresu usluge (npr. `https://crisismap-api.onrender.com`).
-4. **Izgradnja klijentskog web-mjesta:** Povežite repozitorij, odaberite `frontend/`, naredbu izgradnje `npm ci && npm run build` i mapu objave `dist/`. Prije izgradnje postavite `VITE_API_BASE_URL` na **javnu adresu poslužitelja**; ovdje nikada ne koristite privatni URL baze. Zabilježite generiranu javnu adresu web-mjesta.
-5. **Povezivanje i verifikacija produkcijskog rada:** Ako poslužitelj ograničava ishodišta preglednika, dopustite javnu adresu statičkog web-mjesta i ponovno postavite poslužiteljski dio. Otvorite javnu adresu klijenta, podnesite prijavu i ponovno je dohvatite kako biste potvrdili trajno spremanje. Zabilježite javni URL web-mjesta u `README.md`.
-6. **Održavanje:** Ako postavljanje ne uspije, pregledajte izlaz i zapise postavljanja usluge u Renderu. Za novu reviziju koristite konfigurirano automatsko postavljanje iz repozitorija ili ručnu radnju postavljanja iz nadzorne ploče. Pristupni podatak za obavijesti konfigurirajte samo u poslužiteljskom dijelu i samo ako je ta funkcionalnost stvarno implementirana. Automatsko pokretanje postavljanja nakon promjene u repozitoriju samo po sebi nemojte nazivati kontinuiranim postavljanjem (CD) ako projekt nema definiran automatizirani tijek provjera koji promjena mora uspješno proći prije postavljanja.
-
-Tim zamjenjuje ogledne nazive direktorija, naredbe, mehanizam sheme i postavke vrijednostima koje rade u vlastitom repozitoriju. Ako obavijesti nisu dostupne, integraciju dokumentirajte iskreno; uspješno podnošenje prijave ne dokazuje uspješnu dostavu obavijesti.
-
-Ako aplikacija uključuje moderatorsko sučelje, navedite njegovu putanju i objasnite kako se moderatorski račun dodjeljuje kroz aplikaciju ili odobreni postupak tima. Nemojte objaviti zadanu lozinku. Oporavak baze podataka opisujte samo ako je tim uspostavio uporabljiv postupak sigurnosnog kopiranja; nemojte implicirati da upravljani smještaj automatski jamči oporavak.
-
-**Analiza primjera:** API i obrada obavijesti ostaju u jednom postavljanju poslužiteljskog dijela, kao na dijagramu. Postupak razlikuje Renderovu internu vezu s bazom od javnog URL-a poslužitelja koji koristi klijent te uspostavlja shemu prije obrade prijava. Izgradnja klijenta dobiva samo konfiguraciju vidljivu pregledniku; tajni podaci baze i pružatelja ostaju u poslužiteljskom dijelu. Render je samo jedan nastavni primjer pa druga platforma zahtijeva opis vlastitog postupka.
-</details>
+- **Nadzor i zapisi pogrešaka (Logs):** Ovlašteni članovi tima pristupaju poslužiteljskim zapisima u stvarnom vremenu kroz Vercel Dashboard (kartica *Logs & Analytics*). Zapisi bilježe HTTP statuse, vrijeme odziva i neobrađene iznimke.
+- **Upravljanje bazom podataka:** Stanje tablica, indeksi i podaci prate se putem Neon konzole i lokalnog alata Prisma Studio (`npx prisma studio`), koji pruža vizualno sučelje za sigurno pregledavanje podataka tijekom razvoja.
+- **Postupak ažuriranja:** Svaka izmjena prolazi kroz recenziju koda (*Pull Request*), provjeru u GitHub Actions cjevovodu te se tek nakon odobrenja spaja u `main`.
 
 ---
 
->**Završna provjera:** Upute za lokalno pokretanje omogućuju podizanje cjelokupnog sustava iz čiste kopije repozitorija bez neprenosivih lokalnih staza. Dijagram razmještaja prikazuje samo stvarno produkcijsko okruženje, njegove čvorove i protokole. Poveznica na javnu aplikaciju provjerena je, vodi na postavljenu verziju programa i jednaka je onoj u `README.md`. Administracijske upute opisuju samo mogućnosti koje tim stvarno pruža. Nijedna datoteka dokumentacije, konfiguracijski primjer niti zapis promjene ne sadrži stvarne pristupne podatke, privatne tokene ili lozinke.
+>**Završna provjera:** Upute za lokalno pokretanje omogućuju podizanje cjelokupnog sustava iz čiste kopije repozitorija bez neprenosivih lokalnih staza. Dijagram razmještaja prikazuje samo stvarno produkcijsko okruženje, njegove čvorove i protokole. Poveznica na javnu aplikaciju provjerena je i usklađena s `README.md`. Administracijske upute opisuju mogućnosti koje tim stvarno pruža. Nijedna datoteka dokumentacije ne sadrži stvarne pristupne podatke, privatne tokene ili lozinke.

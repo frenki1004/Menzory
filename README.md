@@ -1,51 +1,97 @@
-# Programsko inženjerstvo — FER-UNIZG
+# SpasiZalogaj
 
-Dobro došli u središnji repozitorij kolegija **Programsko inženjerstvo** na Fakultetu elektrotehnike i računarstva Sveučilišta u Zagrebu.
+Platforma za povezivanje prodajnih mjesta s viškom hrane, kupaca koji žele povoljnije obroke i humanitarnih organizacija.
 
-**Važna napomena:** Ovaj `README.md` **nije** predložak za studentske projekte. Kao polazište za README vlastitog projekta koristite [`README_PREDLOZAK.md`](README_PREDLOZAK.md). Potpune upute za projektnu dokumentaciju — opseg, zahtjeve, obrasce uporabe, arhitekturu, ispitivanje, postavljanje, zaključak i aktivnosti grupe — nalaze se u direktoriju [`docs/`](docs/Home.md). **Napomena:** Sva projektna dokumentacija vodi se isključivo unutar direktorija docs/ u obliku međusobno povezanih Markdown dokumenata.
+**Projekt na kolegiju:** Ovu je aplikaciju razvio studentski tim Menzory (G07) u sklopu kolegija [Programsko inženjerstvo](https://www.fer.unizg.hr/predmet/proinz) na Fakultetu elektrotehnike i računarstva Sveučilišta u Zagrebu (FER).
 
-## Svrha
+## Opis aplikacije
 
-Ovaj repozitorij sadrži službenu strukturu dokumentacije, predloške, primjere i smjernice za studentske projekte na kolegiju Programsko inženjerstvo na FER-u. Služi kao glavno mjesto za praćenje napretka i strukture projektnih zadataka te definira praktične standarde za jasnu dokumentaciju, organizirano upravljanje projektom i transparentnost tijekom razvoja.
+SpasiZalogaj rješava problem bacanja hrane omogućavanjem prodajnim mjestima (pekare, restorani, trgovine) da viškove hrane ponude kupcima po sniženim cijenama ili ih doniraju humanitarnim organizacijama. Kupci putem interaktivnog sučelja pronalaze i rezerviraju ponude te ih preuzimaju uz jedinstveni sigurnosni kod.
 
-## Verzije i povijest
+**Ključne funkcionalnosti:**
+- **Pregled i pretraga ponuda (FZ-17):** Prikaz pojedinačnih proizvoda i paketa iznenađenja s lokacijom, popustom i vremenom preuzimanja.
+- **Objava ponuda (FZ-12, UC-02):** Prodajna mjesta unose detalje viška hrane, redovnu i sniženu cijenu te opciju besplatne donacije.
+- **Atomska rezervacija (FZ-20, UC-03):** Kupac rezervira hranu, a sustav atomski umanjuje dostupnu količinu (NF-05).
+- **Verifikacija koda za preuzimanje (FZ-22, UC-04):** Kriptografski siguran jednokratni kod (SHA-256 sažetak u bazi) koji djelatnik provjerava pri preuzimanju.
+- **Prijava putem OAuth 2.0 / OIDC (FZ-01, ADR-03):** Prijava putem Google računa uz dodjelu uloga (Kupac, Prodajno mjesto, Humanitarna organizacija).
 
-Ovaj repozitorij primjenjuje semantičko verzioniranje (engl. Semantic Versioning). Trenutačna je verzija 3.0.  
-Predložak i pripadajuća struktura dokumentacije kontinuirano se razvijaju i unaprjeđuju od 2015. godine.
+Za potpuni opseg, zahtjeve, oblikovanje i dokaze ispitivanja pogledajte [projektnu dokumentaciju](docs/Home.md).
 
-## Struktura repozitorija
+<a id="deployment"></a>
+## Postavljanje (engl. deployment)
 
-Repozitorij sadrži predloške dokumentacije, primjere i pomoćne materijale za projekte na kolegiju Programsko inženjerstvo.
+- **Javno dostupna aplikacija:** Uskoro na Vercelu (postavljanje u tijeku za M1).
+- **Isprobajte:** Pregledajte aktivne ponude na `/ponude` ili isprobajte verifikaciju koda na `/prodajno-mjesto/preuzimanje`.
+- **Demonstracija:** Za prijavu se koristi vanjski Google račun (Auth.js); za testiranje javnih ruta nije potrebna prijava.
+- **Ograničenja:** U fazi M1 podaci o plaćanju koriste se u simuliranom načinu (mock provider).
+
+<a id="quick-start"></a>
+## Brzi početak / instalacija
+
+**Preduvjeti:**
+- Node.js (v20 ili noviji)
+- npm (v10 ili noviji)
+- PostgreSQL baza podataka (npr. besplatna instanca na [Neon.tech](https://neon.tech))
+
+```bash
+# 1. Kloniranje repozitorija
+git clone https://github.com/frenki1004/Menzory.git
+cd Menzory
+
+# 2. Instalacija ovisnosti
+npm install
+
+# 3. Konfiguracija okruženja
+cp .env.example .env
+# Uredite .env i unesite DATABASE_URL te AUTH_SECRET
+
+# 4. Generiranje Prisma klijenta
+npx prisma generate
+
+# 5. Pokretanje testova
+npm test
+
+# 6. Pokretanje razvojnog poslužitelja
+npm run dev
+```
+
+Aplikacija je dostupna na adresi: `http://localhost:3000`
+
+<a id="tehnologije"></a>
+## Tehnologije
+
+| Tehnologija ili alat | Uloga u ovom projektu | Razlog uporabe ili važno ograničenje |
+| --- | --- | --- |
+| **Next.js 15 (App Router)** | Full-stack okvir za web sučelje i poslužiteljske rute (ADR-01) | Jedinstvena aplikacija u TypeScriptu olakšava razvoj i postavljanje na Vercel. |
+| **PostgreSQL (Neon)** | Primarna relacijska baza podataka (ADR-02) | Čuva relacije između ponuda, rezervacija i korisnika uz podršku za ACID transakcije (NF-05). |
+| **Prisma ORM** | Upravljanje shemom baze, migracije i tipizirani upiti | Automatsko generiranje tipova i dosljedno mapiranje 15 entiteta iz ER dijagrama. |
+| **Auth.js (v5)** | Autentifikacija korisnika putem Google OAuth 2.0 / OIDC (ADR-03) | Sigurna prijava bez pohrane korisničkih lozinki; uloge se provjeravaju u bazi (NF-02). |
+| **Tailwind CSS** | Oblikovanje korisničkog sučelja | Brza izrada responzivnog i pristupačnog sučelja za sve uloge. |
+
+<a id="team-members"></a>
+## Članovi tima (Menzory, G07)
+
+| Član | Uloga i doprinos |
+| --- | --- |
+| **Frane Andrić** | Voditelj tima, arhitektura, analiza zahtjeva, koordinacija repozitorija |
+| **Fabijan Pitlović** | Full-stack kostur (Next.js/Prisma/Auth.js), domenski servisi ponuda i rezervacija, CI pipeline |
+| **David Kokorović** | Arhitektura sustava, UML modeliranje, PlantUML dijagrami |
+| **Borna Mužina** | Analiza nefunkcijskih zahtjeva, dokumentacija, ispitivanje |
+| **Enzo Kutić** | Obrasci uporabe, analiza dionika, dokumentacija |
+| **Lovro Blagić** | Obrasci uporabe, UC dijagrami, specifikacija tokova |
 
 <a id="ai-usage"></a>
 ## Uporaba umjetne inteligencije [![AI Usage: Disclosed](https://img.shields.io/badge/AI%20Usage-Disclosed-blue.svg)](https://www.fer.unizg.hr/_download/repository/Policy%20on%20the%20appropriate%20use%20of%20artificial%20intelligence%20at%20the%20faculty%20of%20electrical%20engineering%20and%20computing%5B1%5D.pdf)
 
 Ovaj projekt slijedi FER-ova [pravila o primjerenoj uporabi umjetne inteligencije](https://www.fer.unizg.hr/_download/repository/Policy%20on%20the%20appropriate%20use%20of%20artificial%20intelligence%20at%20the%20faculty%20of%20electrical%20engineering%20and%20computing%5B1%5D.pdf).
 
-**Transparentnost i korišteni alati:** Jezični model umjetne inteligencije Gemini (3.8 Flash) korišten je kao pomoć pri završnom uređivanju dokumentacije i predložaka repozitorija (`README.md` i direktorij `docs/`) te pri izradi i oblikovanju dokumentacije koda projekta.
+**Izjava:** Alati umjetne inteligencije (Gemini, Claude) korišteni su kao pomoć pri jezičnom i formatnom oblikovanju dokumentacije, generiranju kostura koda i provjeri rubnih slučajeva testova. Sve arhitekturne odluke, zahtjeve, relacijski model podataka i poslovna pravila osmislio je i neovisno verificirao studentski tim.
 
-**Etika, sigurnost i provjera:** Radi točnosti i sigurnosti podataka, sva dokumentacija izrađena uz pomoć umjetne inteligencije neovisno je pregledana i provjerena prije objave. Provjereno je da sadržaj poštuje povjerljivost korisnika i da ne uvodi neprovjerene pristranosti.
+<a id="code-of-conduct-and-support"></a>
+## Kodeks ponašanja i podrška [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 
-## Kodeks ponašanja
+Od članova tima očekuje se pridržavanje **Kodeksa ponašanja studenata** Fakulteta elektrotehnike i računarstva Sveučilišta u Zagrebu, pravila timskog rada na kolegiju i [Etičkog kodeksa IEEE-a](https://www.ieee.org/about/corporate/governance/p7-8.html).
 
-Od studenata se očekuje pridržavanje minimalnih standarda prihvatljivog ponašanja definiranih **Kodeksom ponašanja studenata Fakulteta elektrotehnike i računarstva Sveučilišta u Zagrebu**. Također se očekuje pridržavanje [Etičkog kodeksa IEEE-a](https://www.ieee.org/about/corporate/governance/p7-8.html), koji postavlja visoke standarde integriteta, odgovornog i etičnog profesionalnog ponašanja.
+---
 
-**Očekivanja od tima:**
-
-- jasno definirati kako će se rad raspodijeliti među članovima tima i kako će tim komunicirati;
-- primjenjivati dogovorena pravila i standarde pri rješavanju nesuglasica;
-- svi članovi tima dužni su pridržavati se kodeksa ponašanja.
-
-## Licenca [![CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
-
-Copyright © 2026 Vlado Sruk
-
-Dokumentacija i materijali u ovom repozitoriju licencirani su licencom **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)**. Djelo možete preuzimati, dijeliti i prilagođavati uz navođenje autora, bez komercijalne uporabe i uz objavu izvedenog djela pod istom licencom.
-
-Predložak dokumentacije razvijen je u okviru kolegija Programsko inženjerstvo na FER-u na temelju višegodišnjeg iskustva rada na studentskim projektima. Njegova je svrha isključivo obrazovna: studentima pružiti jasan, strukturiran i povezan okvir za dokumentiranje ključnih aspekata razvoja programskog sustava. Struktura je namjerno moderna i plitka, prilagođena Git/Markdown dokumentaciji i čitanju na ekranu, bez nepotrebno duboke hijerarhije poglavlja. Usklađen s vremenskim okvirom semestra i ciljevima kolegija, predložak je namjerno sažet na inženjerski minimum potreban za razumijevanje i praktičnu primjenu temeljnih principa struke. Stoga ne teži razini opsega i detalja koja se očekuje u dokumentaciji velikih industrijskih sustava.
-
-Predložak služi kao polazište, a ne ograničenje. Timovi ga mogu prilagoditi i proširiti u skladu sa specifičnostima domene, odabranim tehnologijama, složenošću rješenja i interesima članova tima. Svaka nadopuna pritom treba imati jasnu svrhu i doprinositi kvaliteti rješenja, arhitekture, dokumentacije ili verifikacije projekta, a ne pukom povećanju opsega. Obavezni zahtjevi, način rada i ostala pravila studentskog projekta definirani su na službenoj stranici [Projekt - Programsko inženjerstvo](https://www.fer.unizg.hr/predmet/proinz). Ova licenca se odnosi na predložak dokumentacije i pripadajuće nastavne sadržaje, a ne automatski na studentske projekte izrađene njegovom uporabom.
-
-## Citiranje
-
-Ako koristite ili prilagođavate ovaj repozitorij, citirajte ga prema datoteci [`CITATION.cff`](citation.cff). GitHubova naredba **Cite this repository** automatski čita tu datoteku.
+Struktura dokumentacije prilagođena je predlošku kolegija Programsko inženjerstvo FER-a autora [Vlade Sruka](https://www.fer.unizg.hr/vlado.sruk), licenciranom pod [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). Aplikaciju i njezin sadržaj izradio je studentski tim Menzory.

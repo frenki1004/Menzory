@@ -47,6 +47,9 @@ web_modules/
 # TypeScript cache
 *.tsbuildinfo
 
+# Tooling metrics
+.metrics/
+
 # Optional npm cache directory
 .npm
 

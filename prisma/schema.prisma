@@ -1,0 +1,384 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ==========================================
+// 1. Auth.js (OAuth 2.0 / OIDC - ADR-03)
+// ==========================================
+
+enum Role {
+  BUYER
+  SELLER
+  CHARITY
+  ADMIN
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  role          Role      @default(BUYER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts       Account[]
+  sessions       Session[]
+  store          Store?
+  charity        Charity?
+  reservations   Reservation[]
+  reviews        Review[]
+  subscriptions  Subscription[]
+  organizedDrives FoodDrive[]
+  participations Participation[]
+
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// ==========================================
+// 2. Profiles (Prodajno mjesto & Humanitarna org)
+// ==========================================
+
+model Store {
+  id          String   @id @default(cuid())
+  userId      String   @unique @map("user_id")
+  name        String
+  address     String
+  latitude    Float?
+  longitude   Float?
+  phone       String?
+  description String?  @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  offers        Offer[]
+  reservations  Reservation[]
+  memberships   Membership[]
+  reviews       Review[]
+  subscriptions Subscription[]
+
+  @@map("stores")
+}
+
+model Charity {
+  id                 String   @id @default(cuid())
+  userId             String   @unique @map("user_id")
+  name               String
+  registrationNumber String   @map("registration_number")
+  isApproved         Boolean  @default(false) @map("is_approved")
+  address            String?
+  phone              String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  donationRequests DonationRequest[]
+
+  @@map("charities")
+}
+
+// ==========================================
+// 3. Memberships (Članarina prodajnog mjesta)
+// ==========================================
+
+enum MembershipStatus {
+  ACTIVE
+  EXPIRED
+  CANCELLED
+}
+
+model MembershipPlan {
+  id           String       @id @default(cuid())
+  name         String
+  type         String
+  price        Decimal      @db.Decimal(10, 2)
+  durationDays Int          @map("duration_days")
+  memberships  Membership[]
+
+  @@map("membership_plans")
+}
+
+model Membership {
+  id         String           @id @default(cuid())
+  storeId    String           @map("store_id")
+  planId     String           @map("plan_id")
+  status     MembershipStatus @default(ACTIVE)
+  validUntil DateTime         @map("valid_until")
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+
+  store    Store          @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  plan     MembershipPlan @relation(fields: [planId], references: [id])
+  payments Payment[]
+
+  @@map("memberships")
+}
+
+// ==========================================
+// 4. Offers & Categories (Ponude i kategorije)
+// ==========================================
+
+enum OfferType {
+  INDIVIDUAL
+  SURPRISE_BAG
+}
+
+enum OfferStatus {
+  ACTIVE
+  RESERVED
+  EXPIRED
+  CANCELLED
+}
+
+model Category {
+  id            String         @id @default(cuid())
+  name          String         @unique
+  slug          String         @unique
+  offers        Offer[]
+  subscriptions Subscription[]
+
+  @@map("categories")
+}
+
+model Offer {
+  id                String      @id @default(cuid())
+  storeId           String      @map("store_id")
+  categoryId        String?     @map("category_id")
+  title             String
+  description       String?     @db.Text
+  offerType         OfferType   @default(INDIVIDUAL) @map("offer_type")
+  price             Decimal     @db.Decimal(10, 2)
+  originalPrice     Decimal?    @map("original_price") @db.Decimal(10, 2)
+  quantity          Int
+  availableQuantity Int         @map("available_quantity")
+  isDonation        Boolean     @default(false) @map("is_donation")
+  pickupStart       DateTime    @map("pickup_start")
+  pickupEnd         DateTime    @map("pickup_end")
+  expiresAt         DateTime    @map("expires_at")
+  status            OfferStatus @default(ACTIVE)
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+
+  store            Store              @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  category         Category?          @relation(fields: [categoryId], references: [id])
+  reservationItems ReservationItem[]
+  donationRequests DonationRequest[]
+
+  @@map("offers")
+}
+
+// ==========================================
+// 5. Reservations & Pickup (Rezervacije i kod)
+// ==========================================
+
+enum ReservationStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+model Reservation {
+  id             String            @id @default(cuid())
+  userId         String            @map("user_id")
+  storeId        String            @map("store_id")
+  status         ReservationStatus @default(PENDING)
+  totalAmount    Decimal           @map("total_amount") @db.Decimal(10, 2)
+  pickupCodeHash String            @map("pickup_code_hash")
+  pickupCode     String?           @map("pickup_code")
+  expiresAt      DateTime          @map("expires_at")
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  user     User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  store    Store             @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  items    ReservationItem[]
+  payments Payment[]
+  review   Review?
+
+  @@map("reservations")
+}
+
+model ReservationItem {
+  id            String  @id @default(cuid())
+  reservationId String  @map("reservation_id")
+  offerId       String  @map("offer_id")
+  quantity      Int
+  unitPrice     Decimal @map("unit_price") @db.Decimal(10, 2)
+
+  reservation Reservation @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+  offer       Offer       @relation(fields: [offerId], references: [id])
+
+  @@map("reservation_items")
+}
+
+// ==========================================
+// 6. Payments & Reviews (Plaćanja i recenzije)
+// ==========================================
+
+enum PaymentType {
+  RESERVATION
+  MEMBERSHIP
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+model Payment {
+  id                String        @id @default(cuid())
+  reservationId     String?       @map("reservation_id")
+  membershipId      String?       @map("membership_id")
+  type              PaymentType
+  status            PaymentStatus @default(PENDING)
+  amount            Decimal       @db.Decimal(10, 2)
+  providerReference String?       @map("provider_reference")
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  reservation Reservation? @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+  membership  Membership?  @relation(fields: [membershipId], references: [id], onDelete: Cascade)
+
+  @@map("payments")
+}
+
+model Review {
+  id            String   @id @default(cuid())
+  reservationId String   @unique @map("reservation_id")
+  storeId       String   @map("store_id")
+  userId        String   @map("user_id")
+  rating        Int
+  comment       String?  @db.Text
+  createdAt     DateTime @default(now())
+
+  reservation Reservation @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+  store       Store       @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("reviews")
+}
+
+// ==========================================
+// 7. Donations & Food Drives (Donacije i akcije)
+// ==========================================
+
+enum DonationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  COLLECTED
+}
+
+model DonationRequest {
+  id        String         @id @default(cuid())
+  offerId   String         @map("offer_id")
+  charityId String         @map("charity_id")
+  quantity  Int
+  status    DonationStatus @default(PENDING)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  offer   Offer   @relation(fields: [offerId], references: [id], onDelete: Cascade)
+  charity Charity @relation(fields: [charityId], references: [id], onDelete: Cascade)
+
+  @@map("donation_requests")
+}
+
+model FoodDrive {
+  id             String   @id @default(cuid())
+  organizedById  String   @map("organized_by_id")
+  title          String
+  description    String   @db.Text
+  location       String
+  startDate      DateTime @map("start_date")
+  endDate        DateTime @map("end_date")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organizer      User            @relation(fields: [organizedById], references: [id], onDelete: Cascade)
+  participations Participation[]
+
+  @@map("food_drives")
+}
+
+model Participation {
+  id               String   @id @default(cuid())
+  foodDriveId      String   @map("food_drive_id")
+  userId           String   @map("user_id")
+  itemsDescription String   @map("items_description") @db.Text
+  createdAt        DateTime @default(now())
+
+  foodDrive FoodDrive @relation(fields: [foodDriveId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("participations")
+}
+
+// ==========================================
+// 8. Subscriptions (Pretplate na obavijesti)
+// ==========================================
+
+model Subscription {
+  id         String   @id @default(cuid())
+  userId     String   @map("user_id")
+  storeId    String?  @map("store_id")
+  categoryId String?  @map("category_id")
+  isActive   Boolean  @default(true) @map("is_active")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  store    Store?    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  category Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@map("subscriptions")
+}

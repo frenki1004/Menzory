@@ -1,5 +1,10 @@
 import { prisma } from "@/lib/prisma";
 import { generatePickupCode, hashPickupCode } from "@/lib/pickup-code";
+import {
+  calculateTotalAmount,
+  checkOfferAvailability,
+  isValidReservationQuantity,
+} from "@/lib/reservation-rules";
 
 export interface CreateReservationInput {
   userId: string;
@@ -13,7 +18,7 @@ export interface ConfirmPickupInput {
 }
 
 export async function createReservation(input: CreateReservationInput) {
-  if (input.quantity <= 0 || !Number.isInteger(input.quantity)) {
+  if (!isValidReservationQuantity(input.quantity)) {
     throw new Error("Količina za rezervaciju mora biti pozitivan cijeli broj.");
   }
 
@@ -29,14 +34,15 @@ export async function createReservation(input: CreateReservationInput) {
     if (!offer) {
       throw new Error("Tražena ponuda ne postoji.");
     }
-    if (offer.status !== "ACTIVE" || offer.availableQuantity < input.quantity) {
-      throw new Error("Ponuda više nije dostupna u traženoj količini.");
+    const availability = checkOfferAvailability(offer, input.quantity);
+    if (!availability.ok) {
+      throw new Error(availability.error);
     }
     if (offer.expiresAt.getTime() <= Date.now()) {
       throw new Error("Rok za preuzimanje ponude je istekao.");
     }
 
-    const totalAmount = Number(offer.price) * input.quantity;
+    const totalAmount = calculateTotalAmount(Number(offer.price), input.quantity);
     const newAvailableQuantity = offer.availableQuantity - input.quantity;
 
     // 2. Decrement available quantity atomically

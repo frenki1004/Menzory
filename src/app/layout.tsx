@@ -13,9 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="hr">
-      <body className="min-h-screen flex flex-col antialiased">
-        {children}
-      </body>
+      <body className="min-h-screen bg-background antialiased">{children}</body>
     </html>
   );
 }

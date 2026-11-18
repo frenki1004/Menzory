@@ -134,6 +134,107 @@ async function seedCharity() {
   });
 }
 
+/**
+ * Preuzimanje danas od 17:00 do 20:00. Ako je do 20:00 ostalo manje od sat
+ * vremena, koristi se sutrašnji dan, tako da se demo rezervacija još može
+ * i otkazati (pravilo od 1 h, F-011).
+ */
+function pickupWindow() {
+  const now = new Date();
+  const end = new Date(now);
+  end.setHours(20, 0, 0, 0);
+  if (end.getTime() - now.getTime() < 60 * 60 * 1000) {
+    end.setDate(end.getDate() + 1);
+  }
+  const start = new Date(end);
+  start.setHours(17, 0, 0, 0);
+  return { pickupStart: start, pickupEnd: end, expiresAt: end };
+}
+
+/** Briše stare demo ponude i rezervacije seedanih prodajnih mjesta prije ponovnog kreiranja. */
+async function clearStoreDemoData(storeIds: string[]) {
+  await prisma.reservation.deleteMany({ where: { storeId: { in: storeIds } } });
+  await prisma.offer.deleteMany({ where: { storeId: { in: storeIds } } });
+}
+
+async function seedOffers(mlinarId: string, ekoId: string) {
+  const categoryId = async (slug: string) =>
+    (await prisma.category.findUniqueOrThrow({ where: { slug } })).id;
+  const window = pickupWindow();
+
+  const offers = [
+    {
+      storeId: mlinarId,
+      categoryId: await categoryId("pekarski-proizvodi"),
+      title: "Kroasani i peciva mix",
+      description: "Mješavina kroasana, kifli i peciva od današnjeg pečenja.",
+      offerType: "INDIVIDUAL" as const,
+      price: 3.0,
+      originalPrice: 6.0,
+      quantity: 8,
+    },
+    {
+      storeId: mlinarId,
+      categoryId: await categoryId("pekarski-proizvodi"),
+      title: "Dnevni paket kruha",
+      description: "Paket iznenađenja: dva do tri kruha različitih vrsta.",
+      offerType: "SURPRISE_BAG" as const,
+      price: 2.5,
+      originalPrice: 5.0,
+      quantity: 5,
+    },
+    {
+      storeId: mlinarId,
+      categoryId: await categoryId("slastice"),
+      title: "Paket iznenađenja – slastice",
+      description: "Kolači i slatka peciva; točan sadržaj ovisi o današnjem višku.",
+      offerType: "SURPRISE_BAG" as const,
+      price: 5.0,
+      originalPrice: 10.0,
+      quantity: 3,
+    },
+    {
+      storeId: ekoId,
+      categoryId: await categoryId("voce-i-povrce"),
+      title: "Jabuke i agrumi 3 kg",
+      description: "Jabuke, naranče i mandarine s manjim estetskim nedostacima.",
+      offerType: "INDIVIDUAL" as const,
+      price: 3.5,
+      originalPrice: 7.0,
+      quantity: 6,
+    },
+    {
+      storeId: ekoId,
+      categoryId: await categoryId("voce-i-povrce"),
+      title: "Sezonsko povrće za juhu",
+      description: "Mrkva, celer, poriluk i krumpir, oko 2 kg.",
+      offerType: "INDIVIDUAL" as const,
+      price: 2.0,
+      originalPrice: 4.0,
+      quantity: 4,
+    },
+    // Ponuda isključivo za donaciju (F-006): cijena 0 €, vidljiva samo humanitarnim organizacijama.
+    {
+      storeId: mlinarId,
+      categoryId: await categoryId("pekarski-proizvodi"),
+      title: "Kruh i peciva za donaciju",
+      description: "Neprodani kruh i peciva namijenjeni humanitarnim organizacijama.",
+      offerType: "INDIVIDUAL" as const,
+      price: 0,
+      originalPrice: null,
+      quantity: 20,
+      isDonation: true,
+    },
+  ];
+
+  for (const offer of offers) {
+    await prisma.offer.create({
+      data: { ...offer, availableQuantity: offer.quantity, ...window },
+    });
+  }
+  return { count: offers.length, pickupEnd: window.pickupEnd };
+}
+
 async function main() {
   console.log("Punjenje baze demonstracijskim podacima…");
 
@@ -144,6 +245,10 @@ async function main() {
   const charity = await seedCharity();
 
   console.log(`Korisnici: ${buyer.email}, ${mlinar.name}, ${eko.name}, ${charity.name}`);
+
+  await clearStoreDemoData([mlinar.id, eko.id]);
+  const offers = await seedOffers(mlinar.id, eko.id);
+  console.log(`Ponude: ${offers.count} (preuzimanje do ${offers.pickupEnd.toLocaleString("hr-HR")})`);
 }
 
 main()

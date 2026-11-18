@@ -106,6 +106,14 @@ npx prisma db push
 
 Naredba `npx prisma db push` osigurava da se svih 15 entiteta (uključujući indekse, strane ključeve i enumeracije `OfferStatus`, `ReservationStatus`, `Role`) stvori u ciljnoj bazi bez ručnog pisanja SQL skripti.
 
+Za demonstraciju napunite bazu probnim podacima (kupac, dva prodajna mjesta s aktivnom članarinom, odobrena humanitarna organizacija, ponude, ponuda za donaciju i jedna rezervacija):
+
+```bash
+npx prisma db seed
+```
+
+Skripta `prisma/seed.ts` može se pokretati više puta; na kraju ispisuje kod za preuzimanje probne rezervacije, koji se upisuje na stranici „Preuzimanje” prodajnog mjesta.
+
 ### 4. Pokretanje razvojnog poslužitelja
 
 Pokrenite lokalni razvojni poslužitelj:

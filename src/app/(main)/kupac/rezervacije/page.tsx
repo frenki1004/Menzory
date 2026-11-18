@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { EmptyState } from "@/components/empty-state";
 import { FormFeedback } from "@/components/form-feedback";
 import { PageHeader, StatusBadge } from "@/components/page-header";
@@ -6,13 +7,22 @@ import { SubmitButton } from "@/components/submit-button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { cancelReservationAction } from "@/app/actions";
-import { getUserReservations } from "@/lib/api";
+import { ApiError, getUserReservations } from "@/lib/api";
 import { formatDateTime, formatPrice } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
 
 export default async function MyReservationsPage() {
-  const reservations = await getUserReservations();
+  let reservations;
+  try {
+    reservations = await getUserReservations();
+  } catch (error) {
+    // Neprijavljenog korisnika šaljemo na prijavu umjesto greške 500.
+    if (error instanceof ApiError && error.code === "UNAUTHENTICATED") {
+      redirect("/auth/signin");
+    }
+    throw error;
+  }
 
   return (
     <div className="mx-auto max-w-3xl">

@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { generatePickupCode, hashPickupCode } from "@/lib/pickup-code";
+import { generatePickupCode, hashPickupCode, verifyPickupCode } from "@/lib/pickup-code";
 import {
   calculateTotalAmount,
   checkOfferAvailability,
@@ -43,15 +43,25 @@ export async function createReservation(input: CreateReservationInput) {
     }
 
     const totalAmount = calculateTotalAmount(Number(offer.price), input.quantity);
-    const newAvailableQuantity = offer.availableQuantity - input.quantity;
 
-    // 2. Decrement available quantity atomically
-    await tx.offer.update({
-      where: { id: offer.id },
-      data: {
-        availableQuantity: newAvailableQuantity,
-        status: newAvailableQuantity === 0 ? "RESERVED" : "ACTIVE",
+    // 2. Atomsko smanjenje (NF-05): provjera i umanjenje u jednom UPDATE-u,
+    //    pa dvije istovremene rezervacije ne mogu obje uzeti zadnji komad.
+    const decremented = await tx.offer.updateMany({
+      where: {
+        id: offer.id,
+        status: "ACTIVE",
+        availableQuantity: { gte: input.quantity },
       },
+      data: { availableQuantity: { decrement: input.quantity } },
+    });
+    if (decremented.count === 0) {
+      throw new Error("Ponuda više nije dostupna u traženoj količini.");
+    }
+
+    // Rasprodana ponuda prelazi u RESERVED.
+    await tx.offer.updateMany({
+      where: { id: offer.id, availableQuantity: 0 },
+      data: { status: "RESERVED" },
     });
 
     // 3. Create Reservation
@@ -110,7 +120,8 @@ export async function confirmPickup(input: ConfirmPickupInput) {
     },
   });
 
-  if (!reservation) {
+  // Eksplicitna provjera koda preko spremljenog hasha (NF-04).
+  if (!reservation || !verifyPickupCode(input.pickupCode, reservation.pickupCodeHash)) {
     throw new Error("Kod za preuzimanje ne postoji ili ne pripada ovom prodajnom mjestu.");
   }
 
@@ -137,6 +148,7 @@ export async function confirmPickup(input: ConfirmPickupInput) {
       items: {
         include: { offer: true },
       },
+      store: { select: { name: true } },
     },
   });
 }
@@ -146,7 +158,7 @@ export async function getUserReservations(userId: string) {
     where: { userId },
     include: {
       store: {
-        select: { id: true, name: true, address: true, phone: true },
+        select: { id: true, name: true, address: true, phone: true, latitude: true, longitude: true },
       },
       items: {
         include: {
@@ -155,6 +167,7 @@ export async function getUserReservations(userId: string) {
           },
         },
       },
+      review: { select: { id: true } },
     },
     orderBy: { createdAt: "desc" },
   });

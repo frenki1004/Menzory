@@ -44,8 +44,8 @@ export default function AboutPage() {
             <CardTitle className="text-base">Tim Menzory (G07)</CardTitle>
           </CardHeader>
           <CardContent className="text-sm text-muted-foreground">
-            Frane Andrić, Fabijan Pitlović, David Kokorović, Borna Mužina, Enzo Kutić i Lovro
-            Blagić.
+            Frane Andrić, Fabijan Pitlović, David Kokorović, Borna Mužina, Enzo Kutić, Lovro
+            Blagić i Luka Taslak.
           </CardContent>
         </Card>
       </div>

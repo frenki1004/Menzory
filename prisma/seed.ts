@@ -6,6 +6,7 @@
  * profile te iznova kreira demo ponude i rezervaciju.
  */
 import { PrismaClient } from "@prisma/client";
+import { generatePickupCode, hashPickupCode } from "../src/lib/pickup-code";
 
 const prisma = new PrismaClient();
 
@@ -235,6 +236,49 @@ async function seedOffers(mlinarId: string, ekoId: string) {
   return { count: offers.length, pickupEnd: window.pickupEnd };
 }
 
+/**
+ * Probna rezervacija kupca za demonstraciju preuzimanja na blagajni (F-012, UC-04).
+ * Kod se sprema kao sažetak (NF-04) i, kao u reservation.service.ts, u čistom
+ * obliku da ga kupac vidi u „Moje rezervacije”.
+ */
+async function seedReservation(buyerId: string, storeId: string) {
+  const offer = await prisma.offer.findFirstOrThrow({
+    where: { storeId, title: "Kroasani i peciva mix" },
+  });
+  const quantity = 2;
+  const totalAmount = Number(offer.price) * quantity;
+  const pickupCode = generatePickupCode();
+
+  await prisma.$transaction([
+    prisma.offer.update({
+      where: { id: offer.id },
+      data: { availableQuantity: offer.availableQuantity - quantity },
+    }),
+    prisma.reservation.create({
+      data: {
+        userId: buyerId,
+        storeId,
+        status: "CONFIRMED",
+        totalAmount,
+        pickupCodeHash: hashPickupCode(pickupCode),
+        pickupCode,
+        expiresAt: offer.expiresAt,
+        items: { create: { offerId: offer.id, quantity, unitPrice: offer.price } },
+        payments: {
+          create: {
+            type: "RESERVATION",
+            status: "COMPLETED",
+            amount: totalAmount,
+            providerReference: "seed-mock-payment",
+          },
+        },
+      },
+    }),
+  ]);
+
+  return { pickupCode, offerTitle: offer.title, quantity };
+}
+
 async function main() {
   console.log("Punjenje baze demonstracijskim podacima…");
 
@@ -249,6 +293,11 @@ async function main() {
   await clearStoreDemoData([mlinar.id, eko.id]);
   const offers = await seedOffers(mlinar.id, eko.id);
   console.log(`Ponude: ${offers.count} (preuzimanje do ${offers.pickupEnd.toLocaleString("hr-HR")})`);
+
+  const reservation = await seedReservation(buyer.id, mlinar.id);
+  console.log(
+    `Rezervacija: ${reservation.quantity} × ${reservation.offerTitle} – kod za preuzimanje: ${reservation.pickupCode}`,
+  );
 }
 
 main()

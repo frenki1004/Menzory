@@ -33,6 +33,10 @@ import type {
   UpdateOfferInput,
   UpdateProfileInput,
 } from "@/lib/types";
+import { auth } from "@/auth";
+import { prisma } from "@/lib/prisma";
+import { isCancellationAllowed } from "@/lib/reservation-rules";
+import * as reservationService from "@/services/reservation.service";
 
 export class ApiError extends Error {
   constructor(
@@ -60,6 +64,31 @@ function empty<T>(name: string): T {
 /** Placeholder for every mutation: throws until implemented. */
 function todo(name: string): never {
   throw new NotImplementedError(name);
+}
+
+/* ---------------------------------------------------------------- helpers */
+
+/** ID prijavljenog korisnika iz Auth.js sesije; baca UNAUTHENTICATED ako nitko nije prijavljen. */
+async function requireUserId(): Promise<string> {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) {
+    throw new ApiError("UNAUTHENTICATED", "Za ovu radnju morate biti prijavljeni.");
+  }
+  return userId;
+}
+
+/** ID prodajnog mjesta prijavljenog korisnika; baca FORBIDDEN ako korisnik nema prodajno mjesto. */
+async function requireStoreId(): Promise<string> {
+  const userId = await requireUserId();
+  const store = await prisma.store.findUnique({
+    where: { userId },
+    select: { id: true },
+  });
+  if (!store) {
+    throw new ApiError("FORBIDDEN", "Samo prodajno mjesto može potvrditi preuzimanje.");
+  }
+  return store.id;
 }
 
 /* ---------------------------------------------------------------- session */
@@ -132,9 +161,13 @@ export async function withdrawOffer(id: string): Promise<{ ok: true }> {
 /* ------------------------------------------------------------ rezervacije */
 
 export async function createReservation(input: CreateReservationInput): Promise<{ ok: true }> {
-  // BACKEND: reservation.service.ts -> createReservation({ userId, ...input })
-  void input;
-  return todo("createReservation");
+  const userId = await requireUserId();
+  await reservationService.createReservation({
+    userId,
+    offerId: input.offerId,
+    quantity: input.quantity,
+  });
+  return { ok: true };
 }
 
 export async function cancelReservation(id: string): Promise<{ ok: true }> {
@@ -145,14 +178,47 @@ export async function cancelReservation(id: string): Promise<{ ok: true }> {
 }
 
 export async function getUserReservations(): Promise<ReservationView[]> {
-  // BACKEND: reservation.service.ts -> getUserReservations(userId)
-  return empty("getUserReservations");
+  const userId = await requireUserId();
+  const reservations = await reservationService.getUserReservations(userId);
+
+  return reservations.map((r) => {
+    const isActive = r.status === "PENDING" || r.status === "CONFIRMED";
+    return {
+      id: r.id,
+      status: r.status,
+      totalAmount: Number(r.totalAmount),
+      // Kod se prikazuje samo dok je rezervacija aktivna (NF-04).
+      pickupCode: isActive ? r.pickupCode : null,
+      expiresAt: r.expiresAt.toISOString(),
+      createdAt: r.createdAt.toISOString(),
+      store: r.store,
+      items: r.items.map((item) => ({
+        id: item.id,
+        quantity: item.quantity,
+        unitPrice: Number(item.unitPrice),
+        offerTitle: item.offer.title,
+        offerType: item.offer.offerType,
+      })),
+      // Pravilo roka otkazivanja iz PR #32 (F-011, UC-05).
+      canCancel: isActive && isCancellationAllowed(r.expiresAt),
+      hasReview: r.review !== null,
+    };
+  });
 }
 
 export async function confirmPickup(pickupCode: string): Promise<PickupResultView> {
-  // BACKEND: reservation.service.ts -> confirmPickup({ storeId, pickupCode })
-  void pickupCode;
-  return todo("confirmPickup");
+  const storeId = await requireStoreId();
+  const reservation = await reservationService.confirmPickup({ storeId, pickupCode });
+  return {
+    id: reservation.id,
+    storeName: reservation.store.name,
+    // Reservation nema zaseban completedAt; updatedAt je trenutak potvrde preuzimanja.
+    completedAt: reservation.updatedAt.toISOString(),
+    items: reservation.items.map((item) => ({
+      offerTitle: item.offer.title,
+      quantity: item.quantity,
+    })),
+  };
 }
 
 export async function createReview(input: ReviewInput): Promise<{ ok: true }> {

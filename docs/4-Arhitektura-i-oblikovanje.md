@@ -61,13 +61,15 @@ Pravokutnici unutar sustava predstavljaju logičke odgovornosti jedne Next.js ap
 
 **PlantUML izvor:** [izvor](./puml/4-2-spasizalogaj-data-ERD.puml)
 
-**Planirana implementacija:** Prisma model bit će definiran u `prisma/schema.prisma` tijekom izrade prve funkcionalne verzije.
+**Implementacija:** [Prisma shema](../prisma/schema.prisma) definira entitete i veze. Dijagram prikazuje ključne domenske podatke, uz hrvatske nazive entiteta. Tehnički modeli Auth.js-a `Session` i `VerificationToken` izostavljeni su radi preglednosti, a `OAuth račun` odgovara modelu `Account`. Auth.js trenutačno koristi JWT sesije.
 
 `Korisnik` sadrži zajednički identitet i jednu ulogu, dok `Prodajno mjesto` i `Humanitarna organizacija` sadrže podatke specifične za te uloge. Administrator nema zaseban profil nego se prepoznaje po ulozi korisnika. Vanjski OAuth račun povezuje Googleov identitet s korisnikom, bez pohrane lozinke.
 
-`Ponuda` objedinjuje pojedinačni proizvod i paket iznenađenja pomoću vrste ponude; oznaka donacije određuje njezinu vidljivost humanitarnim organizacijama. Jedna rezervacija prema radnoj pretpostavci P-03 pripada jednom prodajnom mjestu, ali preko stavki može sadržavati više njegovih ponuda. Platna transakcija pripada točno jednoj rezervaciji ili članarini te čuva samo referencu vanjskog servisa, iznos i status, a ne podatke kartice (NF-03).
+`Ponuda` objedinjuje pojedinačni proizvod i paket iznenađenja pomoću vrste ponude. Oznaka donacije predviđena je za ograničavanje vidljivosti humanitarnim organizacijama. Kategorija ponude u trenutačnoj shemi nije obavezna. Rezervacija pripada jednom kupcu i jednom prodajnom mjestu, a stavke pamte količinu i cijenu pri rezerviranju. Trenutačni servis stvara jednu stavku po rezervaciji, dok model podržava više stavki.
 
-Za pretplatu vrijedi ograničenje da cilja točno jedno prodajno mjesto ili jednu kategoriju. Akciju prikupljanja hrane može organizirati korisnik s ulogom prodajnog mjesta ili humanitarne organizacije. Ta ograničenja, jedinstvenost koda za preuzimanje i dopuštene vrijednosti statusa bit će provedeni ograničenjima baze i poslužiteljskom validacijom.
+Platna transakcija ima opcionalnu vezu na rezervaciju i na članarinu. Poslovno pravilo zahtijeva točno jednu od tih veza, a pretplata treba ciljati prodajno mjesto ili kategoriju. Ta pravila još nisu osigurana ograničenjem sheme. Uloge organizatora akcije također treba provjeravati na poslužitelju. Dijagram prikazuje kardinalnosti sheme, dok servis pri stvaranju rezervacije obavezno dodaje stavku.
+
+**Razlike koje treba pratiti:** `Reservation` trenutačno pohranjuje i sažetak i čitljivi kod za preuzimanje. Plan pohrane samo sažetka iz odjeljka 4.6 još nije ostvaren. Shema nema jedinstveno ograničenje za kod. Statusi rezervacije su `PENDING`, `CONFIRMED`, `CANCELLED` i `COMPLETED`, a istek se provjerava datumom `expiresAt`. `Offer` još nema zaseban rok upotrebe ni fotografiju, a `Review` nema odgovor prodajnog mjesta. To su preostale dorade prema zahtjevima.
 
 ### 4.3.2 Reprezentativni UML dijagram razreda
 
@@ -79,11 +81,13 @@ Za pretplatu vrijedi ograničenje da cilja točno jedno prodajno mjesto ili jedn
 
 **PlantUML izvor:** [izvor](./puml/4-3-spasizalogaj-domain-CD.puml)
 
-**Referenca na kod pri završnom pregledu:** bit će dopunjena poveznicama na implementaciju rezervacijskog modula nakon njegove izrade.
+**Implementacija:** [rezervacijski servis](../src/services/reservation.service.ts), [domenska pravila](../src/lib/reservation-rules.ts), [generator i provjera koda](../src/lib/pickup-code.ts) te [Prisma klijent](../src/lib/prisma.ts).
 
-`Rezervacijska usluga` koordinira cijeli slučaj uporabe, ali pravila promjene stanja ostaju u `Rezervaciji`, a pravila dostupnosti količine u `Ponudi`. `Stavka rezervacije` pamti količinu i cijenu u trenutku kupnje kako naknadna promjena ponude ne bi promijenila već plaćenu rezervaciju.
+Dijagram prikazuje trenutačnu podjelu odgovornosti. Moduli su ostvareni TypeScript funkcijama, a domenski objekti predstavljaju Prisma podatke. Rezervacijski servis koordinira stvaranje rezervacije, promjenu količine i potvrdu preuzimanja. Modul pravila provjerava količinu i dostupnost te računa iznos. Funkcija `isCancellationAllowed` definira rok od najmanje 60 minuta, dok sama operacija otkazivanja još nije implementirana.
 
-Sučelja repozitorija odvajaju poslovna pravila od Prisme i baze, `PaymentGateway` od konkretnog servisa za plaćanje, a generator koda od načina stvaranja i sažimanja sigurnog jednokratnog koda. U TypeScript implementaciji odgovornosti mogu biti ostvarene razredima ili modulima s funkcijama; završni dijagram mora se uskladiti sa stvarnim kodom.
+Servis pristupa bazi izravno preko Prisme. Stvaranje rezervacije uključuje stavku i simulirano dovršeno plaćanje te odmah postavlja status `CONFIRMED`. Zasebni repozitoriji i `PaymentGateway` ostaju moguća daljnja razrada. Vanjsko plaćanje i životni ciklus iz 4.4 predstavljaju plan završne verzije.
+
+**Predložena nadogradnja:** [PR #34](https://github.com/frenki1004/Menzory/pull/34) povezuje servis sa sučeljem preko `src/lib/api.ts` i uvodi uvjetovano umanjenje količine. U pregledanom `mainu` ta promjena još nije spojena. Trenutačni slijed čitanja i upisa količine unutar transakcije treba doraditi radi NF-05.
 
 ## 4.4 Ponašanje tijekom izvođenja
 

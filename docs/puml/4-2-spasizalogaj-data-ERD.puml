@@ -41,7 +41,7 @@ entity "Prodajno mjesto" as STORE {
 entity "Humanitarna organizacija" as CHARITY {
     * id
     naziv
-    status odobrenja
+    odobrena
 }
 
 entity "Plan članarine" as MEMBERSHIP_PLAN {
@@ -73,6 +73,7 @@ entity "Rezervacija" as RESERVATION {
     status
     ukupan iznos
     kod za preuzimanje
+    sažetak koda
 }
 
 entity "Stavka rezervacije" as RESERVATION_ITEM {
@@ -124,11 +125,11 @@ STORE ||--o{ MEMBERSHIP : "plaća"
 MEMBERSHIP_PLAN ||--o{ MEMBERSHIP : "određuje"
 
 STORE ||--o{ OFFER : "objavljuje"
-CATEGORY ||--o{ OFFER : "razvrstava"
+CATEGORY |o--o{ OFFER : "razvrstava"
 
 USER ||--o{ RESERVATION : "kupac stvara"
 STORE ||--o{ RESERVATION : "prima"
-RESERVATION ||--|{ RESERVATION_ITEM : "sadrži"
+RESERVATION ||--o{ RESERVATION_ITEM : "sadrži"
 OFFER ||--o{ RESERVATION_ITEM : "rezervirana je u"
 
 RESERVATION |o--o{ PAYMENT : "naplaćuje se"
@@ -136,6 +137,7 @@ MEMBERSHIP |o--o{ PAYMENT : "naplaćuje se"
 
 RESERVATION ||--o| REVIEW : "može imati"
 STORE ||--o{ REVIEW : "prima"
+USER ||--o{ REVIEW : "piše"
 
 OFFER ||--o{ DONATION_REQUEST : "predmet je"
 CHARITY ||--o{ DONATION_REQUEST : "šalje"

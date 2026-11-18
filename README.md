@@ -79,6 +79,7 @@ Aplikacija je dostupna na adresi: `http://localhost:3000`
 | **Borna Mužina** | Analiza nefunkcijskih zahtjeva, dokumentacija, ispitivanje |
 | **Enzo Kutić** | Obrasci uporabe, analiza dionika, dokumentacija |
 | **Lovro Blagić** | Obrasci uporabe, UC dijagrami, specifikacija tokova |
+| **Luka Taslak** | Vođenje zapisnika sastanaka, UC dijagrami, pregled zahtjeva |
 
 <a id="ai-usage"></a>
 ## Uporaba umjetne inteligencije [![AI Usage: Disclosed](https://img.shields.io/badge/AI%20Usage-Disclosed-blue.svg)](https://www.fer.unizg.hr/_download/repository/Policy%20on%20the%20appropriate%20use%20of%20artificial%20intelligence%20at%20the%20faculty%20of%20electrical%20engineering%20and%20computing%5B1%5D.pdf)

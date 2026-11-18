@@ -20,8 +20,8 @@ Za potpuni opseg, zahtjeve, oblikovanje i dokaze ispitivanja pogledajte [projekt
 <a id="deployment"></a>
 ## Postavljanje (engl. deployment)
 
-- **Javno dostupna aplikacija:** Uskoro na Vercelu (postavljanje u tijeku za M1).
-- **Isprobajte:** Pregledajte aktivne ponude na `/ponude` ili isprobajte verifikaciju koda na `/prodajno-mjesto/preuzimanje`.
+- **Javno dostupna aplikacija:** [https://spasizalogaj.vercel.app](https://spasizalogaj.vercel.app) (Vercel).
+- **Isprobajte:** Pregledajte aktivne ponude na [`/ponude`](https://spasizalogaj.vercel.app/ponude) ili isprobajte verifikaciju koda na `/prodajno-mjesto/preuzimanje`.
 - **Demonstracija:** Za prijavu se koristi vanjski Google račun (Auth.js); za testiranje javnih ruta nije potrebna prijava.
 - **Ograničenja:** U fazi M1 podaci o plaćanju koriste se u simuliranom načinu (mock provider).
 

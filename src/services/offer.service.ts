@@ -16,11 +16,25 @@ export interface CreateOfferInput {
 }
 
 export interface OfferFilter {
+  q?: string;
   categoryId?: string;
+  categorySlug?: string;
   storeId?: string;
   maxPrice?: number;
   isDonation?: boolean;
 }
+
+/** Podaci o prodajnom mjestu koje treba prikaz ponude (StoreSummary). */
+const storeSummarySelect = {
+  id: true,
+  name: true,
+  address: true,
+  phone: true,
+  latitude: true,
+  longitude: true,
+} as const;
+
+const categorySelect = { id: true, name: true, slug: true } as const;
 
 export function validateOfferInput(input: CreateOfferInput): { valid: boolean; error?: string } {
   if (!input.title || input.title.trim().length === 0) {
@@ -72,23 +86,30 @@ export async function createOffer(input: CreateOfferInput) {
 
 export async function getActiveOffers(filter?: OfferFilter) {
   const now = new Date();
+  const q = filter?.q?.trim();
   return prisma.offer.findMany({
     where: {
       status: "ACTIVE",
       availableQuantity: { gt: 0 },
       pickupEnd: { gt: now },
       ...(filter?.categoryId ? { categoryId: filter.categoryId } : {}),
+      ...(filter?.categorySlug ? { category: { slug: filter.categorySlug } } : {}),
       ...(filter?.storeId ? { storeId: filter.storeId } : {}),
       ...(filter?.isDonation !== undefined ? { isDonation: filter.isDonation } : {}),
       ...(filter?.maxPrice ? { price: { lte: filter.maxPrice } } : {}),
+      // Pretraga po nazivu ponude ili nazivu prodajnog mjesta (FZ-17).
+      ...(q
+        ? {
+            OR: [
+              { title: { contains: q, mode: "insensitive" as const } },
+              { store: { name: { contains: q, mode: "insensitive" as const } } },
+            ],
+          }
+        : {}),
     },
     include: {
-      store: {
-        select: { id: true, name: true, address: true, phone: true },
-      },
-      category: {
-        select: { id: true, name: true, slug: true },
-      },
+      store: { select: storeSummarySelect },
+      category: { select: categorySelect },
     },
     orderBy: { pickupEnd: "asc" },
   });
@@ -98,8 +119,8 @@ export async function getOfferById(id: string) {
   return prisma.offer.findUnique({
     where: { id },
     include: {
-      store: true,
-      category: true,
+      store: { select: storeSummarySelect },
+      category: { select: categorySelect },
     },
   });
 }

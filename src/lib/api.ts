@@ -36,6 +36,7 @@ import type {
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { isCancellationAllowed } from "@/lib/reservation-rules";
+import * as offerService from "@/services/offer.service";
 import * as reservationService from "@/services/reservation.service";
 
 export class ApiError extends Error {
@@ -79,16 +80,48 @@ async function requireUserId(): Promise<string> {
 }
 
 /** ID prodajnog mjesta prijavljenog korisnika; baca FORBIDDEN ako korisnik nema prodajno mjesto. */
-async function requireStoreId(): Promise<string> {
+async function requireStoreId(
+  forbiddenMessage = "Samo prodajno mjesto može potvrditi preuzimanje.",
+): Promise<string> {
   const userId = await requireUserId();
   const store = await prisma.store.findUnique({
     where: { userId },
     select: { id: true },
   });
   if (!store) {
-    throw new ApiError("FORBIDDEN", "Samo prodajno mjesto može potvrditi preuzimanje.");
+    throw new ApiError("FORBIDDEN", forbiddenMessage);
   }
   return store.id;
+}
+
+/** Prisma ponuda (s prodajnim mjestom i kategorijom) -> OfferListItem: Decimal -> number, Date -> ISO. */
+type OfferWithRelations = NonNullable<Awaited<ReturnType<typeof offerService.getOfferById>>>;
+
+function toOfferListItem(offer: OfferWithRelations): OfferListItem {
+  return {
+    id: offer.id,
+    title: offer.title,
+    description: offer.description,
+    offerType: offer.offerType,
+    isDonation: offer.isDonation,
+    price: Number(offer.price),
+    originalPrice: offer.originalPrice === null ? null : Number(offer.originalPrice),
+    availableQuantity: offer.availableQuantity,
+    status: offer.status,
+    pickupStart: offer.pickupStart.toISOString(),
+    pickupEnd: offer.pickupEnd.toISOString(),
+    store: offer.store,
+    category: offer.category,
+  };
+}
+
+/** Datum iz obrasca (ISO ili datetime-local); baca INVALID_INPUT ako nije valjan. */
+function parseDate(value: string, label: string): Date {
+  const date = new Date(value);
+  if (!value || Number.isNaN(date.getTime())) {
+    throw new ApiError("INVALID_INPUT", `${label} nije valjan datum.`);
+  }
+  return date;
 }
 
 /* ---------------------------------------------------------------- session */
@@ -123,15 +156,20 @@ export async function getCategories(): Promise<CategoryView[]> {
 }
 
 export async function getActiveOffers(filter: OfferFilter = {}): Promise<OfferListItem[]> {
-  // BACKEND: offer.service.ts -> getActiveOffers(filter)
-  void filter;
-  return empty("getActiveOffers");
+  const offers = await offerService.getActiveOffers({
+    q: filter.q,
+    categorySlug: filter.categorySlug,
+    maxPrice: filter.maxPrice,
+    storeId: filter.storeId,
+    // Bez filtra prikazuju se i donacije; "samo donacije" sužava popis.
+    ...(filter.donationOnly ? { isDonation: true } : {}),
+  });
+  return offers.map(toOfferListItem);
 }
 
 export async function getOfferById(id: string): Promise<OfferListItem | null> {
-  // BACKEND: offer.service.ts -> getOfferById(id)
-  void id;
-  return null;
+  const offer = await offerService.getOfferById(id);
+  return offer ? toOfferListItem(offer) : null;
 }
 
 export async function getStoreOffers(): Promise<StoreOfferView[]> {
@@ -140,9 +178,29 @@ export async function getStoreOffers(): Promise<StoreOfferView[]> {
 }
 
 export async function createOffer(input: CreateOfferInput): Promise<{ ok: true }> {
-  // BACKEND: offer.service.ts -> createOffer({ storeId, ...input })
-  void input;
-  return todo("createOffer");
+  const storeId = await requireStoreId("Samo prodajno mjesto može objaviti ponudu.");
+  const offerInput: offerService.CreateOfferInput = {
+    storeId,
+    categoryId: input.categoryId ?? null,
+    title: input.title,
+    description: input.description ?? null,
+    offerType: input.offerType,
+    price: input.price,
+    originalPrice: input.originalPrice ?? null,
+    quantity: input.quantity,
+    isDonation: input.isDonation,
+    pickupStart: parseDate(input.pickupStart, "Početak preuzimanja"),
+    pickupEnd: parseDate(input.pickupEnd, "Kraj preuzimanja"),
+  };
+
+  // Poslovna pravila (FZ-12) provjerava offer.service; greške vraćamo kao INVALID_INPUT.
+  const validation = offerService.validateOfferInput(offerInput);
+  if (!validation.valid) {
+    throw new ApiError("INVALID_INPUT", validation.error ?? "Neispravni podaci ponude.");
+  }
+
+  await offerService.createOffer(offerInput);
+  return { ok: true };
 }
 
 export async function updateOffer(id: string, input: UpdateOfferInput): Promise<{ ok: true }> {

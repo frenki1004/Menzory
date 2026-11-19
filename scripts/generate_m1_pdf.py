@@ -16,7 +16,12 @@ from typing import List, Optional, Tuple
 DOCS_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "docs"))
 DELIVERABLES_DIR = os.path.join(DOCS_DIR, "deliverables")
 OUTPUT_PDF = os.path.join(DELIVERABLES_DIR, "PROINZ26_G07_SpasiZalogaj_v1.pdf")
-CHROME_BIN = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+CHROME_CANDIDATES = [
+    os.path.expanduser("~/Library/Caches/ms-playwright/chromium_headless_shell-1255/chrome-headless-shell-mac-arm64/chrome-headless-shell"),
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+    "/Applications/Chromium.app/Contents/MacOS/Chromium",
+]
+CHROME_BIN = next((c for c in CHROME_CANDIDATES if os.path.exists(c)), "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome")
 
 M1_FILES = [
     "Home.md",

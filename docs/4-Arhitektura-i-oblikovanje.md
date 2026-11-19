@@ -87,7 +87,7 @@ Dijagram prikazuje trenutačnu podjelu odgovornosti. Moduli su ostvareni TypeScr
 
 Servis pristupa bazi izravno preko Prisme. Stvaranje rezervacije uključuje stavku i simulirano dovršeno plaćanje te odmah postavlja status `CONFIRMED`. Zasebni repozitoriji i `PaymentGateway` ostaju moguća daljnja razrada. Vanjsko plaćanje i životni ciklus iz 4.4 predstavljaju plan završne verzije.
 
-**Predložena nadogradnja:** [PR #34](https://github.com/frenki1004/Menzory/pull/34) povezuje servis sa sučeljem preko `src/lib/api.ts` i uvodi uvjetovano umanjenje količine. U pregledanom `mainu` ta promjena još nije spojena. Trenutačni slijed čitanja i upisa količine unutar transakcije treba doraditi radi NF-05.
+**Implementacija ([PR #34](https://github.com/frenki1004/Menzory/pull/34)):** rezervacijski servis povezan je sa sučeljem preko `src/lib/api.ts`. Količina se umanjuje uvjetno (`updateMany` uz `availableQuantity >= quantity`) unutar transakcije, pa dvije istodobne rezervacije ne mogu prodati više od dostupne količine (NF-05).
 
 ## 4.4 Ponašanje tijekom izvođenja
 

@@ -127,8 +127,17 @@ function parseDate(value: string, label: string): Date {
 /* ---------------------------------------------------------------- session */
 
 export async function getCurrentUser(): Promise<CurrentUser | null> {
-  // BACKEND: auth() iz src/auth.ts + prisma.user.findUnique
-  return null;
+  const session = await auth();
+  const user = session?.user;
+  if (!user?.id) return null;
+
+  return {
+    id: user.id,
+    name: user.name ?? null,
+    email: user.email ?? null,
+    image: user.image ?? null,
+    role: user.role,
+  };
 }
 
 export async function getMyProfile(): Promise<ProfileView | null> {

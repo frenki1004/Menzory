@@ -1,9 +1,11 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Clock, MapPin, Phone, Tag } from "lucide-react";
 import { reserveAction } from "@/app/actions";
 import { ActionForm } from "@/components/action-form";
 import { StatusBadge } from "@/components/page-header";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { getOfferById } from "@/lib/api";
 import { discountPercent, formatPrice, pickupWindow } from "@/lib/format";
+import { getOfferImage } from "@/lib/offer-images";
 import { offerTypeLabels } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -35,7 +38,17 @@ export default async function OfferDetailPage({ params }: { params: Promise<{ id
 
       <div className="grid gap-6 md:grid-cols-[1.6fr_1fr] md:items-start">
         <div className="space-y-4">
-          <Card>
+          <Card className="overflow-hidden">
+            <AspectRatio ratio={16 / 9} className="bg-muted">
+              <Image
+                src={getOfferImage(offer.title, offer.category?.slug)}
+                alt={offer.title}
+                fill
+                priority
+                sizes="(min-width: 768px) 640px, 100vw"
+                className="object-cover"
+              />
+            </AspectRatio>
             <CardHeader>
               <div className="flex flex-wrap items-center gap-2">
                 <Badge variant="secondary">{offerTypeLabels[offer.offerType]}</Badge>

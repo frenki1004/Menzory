@@ -1,8 +1,10 @@
+import Image from "next/image";
 import { HeartHandshake } from "lucide-react";
 import { requestDonationAction } from "@/app/actions";
 import { ActionForm } from "@/components/action-form";
 import { EmptyState } from "@/components/empty-state";
 import { PageHeader, StatusBadge } from "@/components/page-header";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -17,6 +19,7 @@ import {
 } from "@/components/ui/table";
 import { getDonationOffers, getMyDonationRequests } from "@/lib/api";
 import { formatDateTime, pickupWindow } from "@/lib/format";
+import { getOfferImage } from "@/lib/offer-images";
 
 export const dynamic = "force-dynamic";
 
@@ -39,7 +42,16 @@ export default async function CharityDonationsPage() {
         ) : (
           <div className="grid gap-4 md:grid-cols-2">
             {offers.map((offer) => (
-              <Card key={offer.id}>
+              <Card key={offer.id} className="overflow-hidden">
+                <AspectRatio ratio={16 / 9} className="bg-muted">
+                  <Image
+                    src={getOfferImage(offer.title, offer.category?.slug)}
+                    alt={offer.title}
+                    fill
+                    sizes="(min-width: 768px) 50vw, 100vw"
+                    className="object-cover"
+                  />
+                </AspectRatio>
                 <CardHeader>
                   <div className="flex items-center gap-2">
                     <Badge className="gap-1">

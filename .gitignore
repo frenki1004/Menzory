@@ -90,3 +90,6 @@ out
 # Local handoff notes (not part of the project)
 FRONTEND-BACKEND-CONTRACT.md
 .neon
+
+# macOS
+.DS_Store

@@ -6,7 +6,7 @@
 '           donacija), upravljanje ponudama i odlučivanje o zahtjevima
 '           za donaciju. Aktivna članarina preduvjet je za objavu ponude
 '           (UC-02, Preduvjeti), pa se na dijagramu ne prikazuje vezom.
-' Zahtjevi: UC-02, UC-06 (docs/3-Obrasci-uporabe.md);
+' Zahtjevi: UC-02, UC-12 – UC-16 (docs/3-Obrasci-uporabe.md);
 '           F-005 – F-008, F-016 (docs/2-Analiza-zahtjeva.md).
 '
 ' Diagram level: System Requirements
@@ -37,34 +37,32 @@ skinparam rectangle {
 actor "Prodajno mjesto" as Prodavac
 
 rectangle "SpasiZalogaj" {
-    usecase "Plaćanje članarine" as UCClan
-    usecase "Plaćanje preko\nvanjskog servisa" as UCPlati
-
     usecase "UC-02 Objava\nponude" as UC02
-    usecase "Objava paketa\niznenađenja" as UCPaket
-    usecase "Objava donacije" as UCDonacija
-
-    usecase "Upravljanje\nponudama" as UCUpravljanje
-
-    usecase "Odlučivanje o zahtjevu\nza donaciju" as UCOdluka
+    usecase "UC-13 Objava paketa\niznenađenja" as UC13
+    usecase "UC-14 Objava\ndonacije" as UC14
+    usecase "UC-12 Plaćanje\nčlanarine" as UC12
+    usecase "UC-15 Upravljanje\nponudama" as UC15
+    usecase "UC-16 Odlučivanje o\nzahtjevu za donaciju" as UC16
 }
 
 actor "Servis za\nplaćanje" as Placanje <<vanjski sustav>>
 
-' Članarina
-Prodavac --> UCClan
-UCClan ..> UCPlati : <<include>>
-UCPlati --> Placanje
-
-' Objava ponude i njezine varijante
+' Objava ponude i njezina proširenja
 Prodavac --> UC02
-UC02 <.. UCPaket : <<extend>>\n(odabran paket)
-UC02 <.. UCDonacija : <<extend>>\n(proizvod se donira)
+UC02 <.. UC13 : <<extend>>\n(odabran paket)
+UC02 <.. UC14 : <<extend>>\n(proizvod se donira)
+
+' Članarina
+Prodavac --> UC12
+UC12 --> Placanje
 
 ' Uređivanje i povlačenje objavljenih ponuda
-Prodavac --> UCUpravljanje
+Prodavac --> UC15
 
-' Prodajno mjesto reagira na zahtjev za doniranu ponudu
-Prodavac --> UCOdluka
+' Prodajno mjesto reagira na zahtjev humanitarne organizacije
+Prodavac --> UC16
+
+' Poravnanje (skrivena veza samo određuje raspored): servis za plaćanje desno
+UC14 -[hidden]-> Placanje
 
 @enduml

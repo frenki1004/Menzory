@@ -119,18 +119,18 @@ Pitanja koja tim treba razjasniti s asistentom. Dok se ne razriješe, tim radi p
 | F-002 | UC-01, UC-07 | Autentifikacija i profili (oblikovano) | na čekanju |
 | F-003 | na čekanju | Autentifikacija i profili (oblikovano) | na čekanju |
 | F-004 | na čekanju | Ponude i članarine (oblikovano) | na čekanju |
-| F-005 | UC-02 | Ponude i članarine; Servis za plaćanje (oblikovano) | na čekanju |
+| F-005 | UC-12 | Ponude i članarine; Servis za plaćanje (oblikovano) | na čekanju |
 | F-006 | UC-02, UC-06 | Ponude i članarine; `offer.service.ts` (djelomično: provjera aktivne članarine nije implementirana) | na čekanju |
 | F-007 | UC-02 | Ponude i članarine; `offer.service.ts` (djelomično: provjera aktivne članarine nije implementirana) | na čekanju |
 | F-008 | na čekanju | Ponude i članarine (oblikovano) | na čekanju |
-| F-009 | UC-03 | Ponude i članarine; `offer.service.ts`; Korisničko sučelje (karta) (djelomično: karta i udaljenost nisu implementirane) | na čekanju |
+| F-009 | UC-08, UC-09 | Ponude i članarine; `offer.service.ts`; Korisničko sučelje (karta) (djelomično: karta i udaljenost nisu implementirane) | na čekanju |
 | F-010 | UC-03 | Rezervacije i preuzimanje; `reservation.service.ts`, `reservation-rules.ts`; Servis za plaćanje (djelomično: plaćanje je simulirano) | na čekanju |
 | F-011 | UC-05 | Rezervacije i preuzimanje; `reservation-rules.ts` (djelomično: otkazivanje nije implementirano, postoji pravilo roka) | na čekanju |
 | F-012 | UC-04 | Rezervacije i preuzimanje; `reservation.service.ts`, `pickup-code.ts` | na čekanju |
-| F-013 | UC-05 | Rezervacije i preuzimanje; `reservation.service.ts` (djelomično: pregled za prodajno mjesto nije implementiran) | na čekanju |
-| F-014 | na čekanju | na čekanju (komponenta za ocjene nije određena u 4.2) | na čekanju |
+| F-013 | UC-10 | Rezervacije i preuzimanje; `reservation.service.ts` (djelomično: pregled za prodajno mjesto nije implementiran) | na čekanju |
+| F-014 | UC-11 | na čekanju (komponenta za ocjene nije određena u 4.2) | na čekanju |
 | F-015 | UC-06 | Donacije i akcije (oblikovano) | na čekanju |
-| F-016 | UC-06 | Donacije i akcije (oblikovano) | na čekanju |
+| F-016 | UC-13 | Donacije i akcije (oblikovano) | na čekanju |
 | F-017 | na čekanju | Donacije i akcije (oblikovano) | na čekanju |
 | F-018 | na čekanju | Donacije i akcije (oblikovano) | na čekanju |
 | F-019 | na čekanju | na čekanju (komponenta za obavijesti nije određena u 4.2) | na čekanju |

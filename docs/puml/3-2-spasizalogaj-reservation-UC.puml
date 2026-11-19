@@ -1,11 +1,11 @@
 ' ==============================================================================
 ' 3-2-spasizalogaj-reservation-UC.puml
 '
-' Svrha:    Obrasci uporabe kupca: pretraga ponuda na karti, rezervacija s
-'           obveznim plaćanjem, pregled rezervacija iz kojeg kupac može
+' Svrha:    Obrasci uporabe kupca: pretraga ponuda na karti s filtriranjem,
+'           rezervacija s plaćanjem, pregled rezervacija iz kojeg kupac može
 '           otkazati rezervaciju ili ocijeniti prodajno mjesto te potvrda
 '           preuzimanja kodom koju provodi zaposlenik prodajnog mjesta.
-' Zahtjevi: UC-03, UC-04, UC-05 (docs/3-Obrasci-uporabe.md);
+' Zahtjevi: UC-03, UC-04, UC-05, UC-08 – UC-11 (docs/3-Obrasci-uporabe.md);
 '           F-009 – F-014 (docs/2-Analiza-zahtjeva.md).
 '
 ' Diagram level: System Requirements
@@ -36,21 +36,15 @@ skinparam rectangle {
 actor "Kupac" as Kupac
 actor "Zaposlenik\nprodajnog mjesta" as Zaposlenik
 
-rectangle "SpasiZalogaj" {
-    ' Pretraga (UC-03, koraci 1–3)
-    usecase "Pretraga ponuda\nna karti" as UCPretraga
-    usecase "Filtriranje ponuda" as UCFilter
-
-    ' Rezervacija i plaćanje (UC-03, koraci 4–8)
+' Prazni redovi u nazivu ostavljaju mjesta na vrhu okvira da veza
+' UC-08 prema kartografskoj usluzi ne prelazi preko naslova i ruba.
+rectangle "SpasiZalogaj\n\n" {
+    usecase "UC-08 Pretraga\nponuda na karti" as UC08
+    usecase "UC-09 Filtriranje\nponuda" as UC09
     usecase "UC-03 Rezervacija\nponude" as UC03
-    usecase "Plaćanje\nrezervacije" as UCPlati
-
-    ' Nakon rezervacije
-    usecase "Pregled\nrezervacija" as UCPregled
+    usecase "UC-10 Pregled\nrezervacija" as UC10
     usecase "UC-05 Otkazivanje\nrezervacije" as UC05
-    usecase "Povrat novca" as UCPovrat
-    usecase "Ocjena prodajnog\nmjesta" as UCOcjena
-
+    usecase "UC-11 Ocjena\nprodajnog mjesta" as UC11
     usecase "UC-04 Potvrda\npreuzimanja kodom" as UC04
 }
 
@@ -58,27 +52,23 @@ actor "Kartografska\nusluga" as Karta <<vanjski sustav>>
 actor "Servis za\nplaćanje" as Placanje <<vanjski sustav>>
 
 ' Pretraga
-Kupac --> UCPretraga
-UCPretraga <.. UCFilter : <<extend>>\n(kupac postavi filtre)
-UCPretraga --> Karta
+Kupac --> UC08
+UC08 <.. UC09 : <<extend>>\n(kupac postavi filtre)
+UC08 --> Karta
 
-' Rezervacija uvijek uključuje plaćanje
+' Rezervacija s plaćanjem
 Kupac --> UC03
-UC03 ..> UCPlati : <<include>>
-UCPlati --> Placanje
+UC03 --> Placanje
 
 ' Pregled rezervacija: otkazivanje ili ocjena
-Kupac --> UCPregled
-UCPregled <.. UC05 : <<extend>>\n(do isteka > 1 h)
-UCPregled <.. UCOcjena : <<extend>>\n(rezervacija preuzeta)
-UC05 ..> UCPovrat : <<include>>
-UCPovrat --> Placanje
+Kupac --> UC10
+UC10 <.. UC05 : <<extend>>\n(do isteka > 1 h)
+UC10 <.. UC11 : <<extend>>\n(rezervacija preuzeta)
+UC05 --> Placanje
 
-' Preuzimanje
-Kupac --> UC04
+' Preuzimanje: kod skenira zaposlenik; kupac ga samo pokazuje (dobio ga je u UC-03)
 Zaposlenik --> UC04
-
-' Poravnanje: kartografska usluga u desnom stupcu uz servis za plaćanje
-UCPovrat -[hidden]-> Karta
+' Poravnanje (skrivena veza samo određuje raspored): kartografska usluga desno
+UC09 -[hidden]-> Karta
 
 @enduml

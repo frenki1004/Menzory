@@ -19,6 +19,8 @@ Obrasci uporabe opisuju glavne interakcije aktera sa sustavom SpasiZalogaj. Teme
 - **Administrator** odobrava profile organizacija (UC-07) i određuje cijene članarine.
 - **Vanjski sustavi** (sekundarni akteri): OAuth pružatelj identiteta (prijava UC-01), servis za plaćanje (rezervacije UC-03, otkazivanja UC-05 i članarine) te kartografska usluga (pretraga ponuda UC-03).
 
+Redoslijed obrazaca uporabe (npr. aktivna članarina prije objave ponude) ne prikazuje se vezom na dijagramu, nego je naveden u preduvjetima specifikacije obrasca (poglavlje 3.2).
+
 ### 3.1.1 Rezervacija i preuzimanje
 
 ![Dijagram obrazaca uporabe za rezervaciju i preuzimanje](./assets/diagrams/3-2-spasizalogaj-reservation-UC.svg)
@@ -27,7 +29,10 @@ Obrasci uporabe opisuju glavne interakcije aktera sa sustavom SpasiZalogaj. Teme
 
 **PlantUML izvor:** [izvor](./puml/3-2-spasizalogaj-reservation-UC.puml)
 
-Dijagram prikazuje osnovni vodoravni tok kupca s lijeva na desno (UC-03, UC-04, UC-05). Kupac pretražuje ponude na karti uz pomoć vanjske kartografske usluge te rezervira ponudu uz plaćanje (UC-03). Iz rezervacije se granaju dva moguća ishoda: uspješan tok preuzimanja hrane gdje zaposlenik prodajnog mjesta potvrđuje preuzimanje kodom (UC-04), nakon čega kupac može opcionalno ocijeniti prodajno mjesto, ili alternativni tok otkazivanja rezervacije (UC-05) najkasnije 1 h prije isteka uz automatski povrat novca preko servisa za plaćanje.
+Dijagram prikazuje obrasce uporabe kupca od pronalaska ponude do preuzimanja hrane (UC-03, UC-04, UC-05):
+- **Pretraga i rezervacija (UC-03).** Kupac pretražuje ponude na karti, koju prikazuje vanjska kartografska usluga, i po želji ih filtrira (`<<extend>>`). Kada odabere ponudu, rezervira je. Rezervacija bez plaćanja nije moguća, pa *Rezervacija ponude* uvijek uključuje (`<<include>>`) *Plaćanje rezervacije* preko vanjskog servisa za plaćanje. Rezervacija se stvara tek nakon što servis potvrdi uplatu.
+- **Pregled rezervacija.** Iz popisa svojih rezervacija kupac može otkazati rezervaciju (UC-05) ako je do isteka vremena preuzimanja ostalo više od jednog sata, a nakon preuzimanja može ocijeniti prodajno mjesto (F-014). Oba su obrasca opcionalna proširenja (`<<extend>>`) pregleda rezervacija. Otkazivanje uvijek uključuje povrat novca preko servisa za plaćanje.
+- **Preuzimanje (UC-04).** Kupac u prodajnom mjestu predočuje kod, a zaposlenik prodajnog mjesta ga provjerava i potvrđuje preuzimanje.
 
 ### 3.1.2 Ponude i donacije
 
@@ -37,9 +42,11 @@ Dijagram prikazuje osnovni vodoravni tok kupca s lijeva na desno (UC-03, UC-04, 
 
 **PlantUML izvor:** [izvor](./puml/3-3-spasizalogaj-offers-donations-UC.puml)
 
-Dijagram prikazuje dva osnovna toka sustava vezana uz ponude i donacije (UC-02, UC-06):
-1. **Tok prodajnog mjesta:** Prodajno mjesto plaća članarinu preko servisa za plaćanje, što je nužan preduvjet (`<<precedes>>`) za objavu ponude viška hrane ili paketa iznenađenja (UC-02, F-005).
-2. **Tok donacija:** Registrirana humanitarna organizacija pregledava ponude i šalje zahtjev za donaciju (UC-06, F-015), nakon čega prodajno mjesto odlučuje o zahtjevu odobravanjem ili odbijanjem (F-016).
+Dijagram prikazuje obrasce uporabe prodajnog mjesta vezane uz ponude (UC-02, F-005 – F-008, F-016):
+- **Članarina.** Prodajno mjesto plaća mjesečnu ili godišnju članarinu. Plaćanje uključuje (`<<include>>`) isti obrazac *Plaćanje preko vanjskog servisa* koji koristi i rezervacija kupca. Aktivna članarina preduvjet je za objavu ponude (UC-02, Preduvjeti), pa se na dijagramu ne prikazuje vezom između obrazaca.
+- **Objava ponude (UC-02).** Osnovni tok je objava pojedinačnog proizvoda sa sniženom cijenom. Objava paketa iznenađenja i objava donacije proširenja su (`<<extend>>`) osnovnog obrasca koja se izvode kada prodajno mjesto odabere paket, odnosno označi da proizvod donira.
+- **Upravljanje ponudama.** Prodajno mjesto uređuje ili povlači svoje objavljene ponude (F-008).
+- **Donacije.** Donacija nastaje kada prodajno mjesto objavi proizvod kao donaciju; takvu ponudu vide samo odobrene humanitarne organizacije. Zahtjev za donaciju je prijava organizacije za određenu količinu takve ponude (UC-06). Na zahtjev reagira prodajno mjesto koje je objavilo donaciju: odobrava ga ili odbija (F-016). Odobrena količina rezervira se za organizaciju. Humanitarna organizacija kao inicijator zahtjeva prikazana je na preglednom dijagramu (slika 3.1), a ovaj dijagram prikazuje samo ono što radi prodajno mjesto.
 
 ## 3.2 Specifikacije obrazaca uporabe
 

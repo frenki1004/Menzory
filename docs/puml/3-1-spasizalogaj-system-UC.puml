@@ -2,8 +2,8 @@
 ' 3-1-spasizalogaj-system-UC.puml
 '
 ' Svrha:    Pregledni dijagram osnovnih funkcija sustava SpasiZalogaj:
-'           sadrži isključivo 7 ključnih obrazaca uporabe (UC-01 do UC-07)
-'           i njihovu izravnu vezu s akterima, bez preklapanja linija.
+'           7 ključnih obrazaca uporabe (UC-01 do UC-07), njihova veza s
+'           akterima te veze <<include>> i <<extend>> između obrazaca.
 ' Zahtjevi: UC-01 do UC-07 (docs/3-Obrasci-uporabe.md).
 '
 ' Diagram level: System Requirements
@@ -44,10 +44,18 @@ Org -up-|> Korisnik
 
 rectangle "SpasiZalogaj" {
     usecase "UC-01 Prijava i\nodabir uloge" as UC01
+
+    usecase "Plaćanje članarine" as UCClan
     usecase "UC-02 Objava ponude\nili paketa iznenađenja" as UC02
-    usecase "UC-03 Pretraga na karti\ni rezervacija s plaćanjem" as UC03
+    usecase "Objava donacije" as UCDonacija
+
+    usecase "UC-03 Pretraga na karti\ni rezervacija" as UC03
+    usecase "Plaćanje preko\nvanjskog servisa" as UCPlati
+
     usecase "UC-04 Potvrda\npreuzimanja kodom" as UC04
     usecase "UC-05 Otkazivanje\nrezervacije" as UC05
+    usecase "Povrat novca" as UCPovrat
+
     usecase "UC-06 Zahtjev\nza donaciju" as UC06
     usecase "UC-07 Odobravanje\nprofila organizacije" as UC07
 }
@@ -56,23 +64,37 @@ actor "OAuth pružatelj\nidentiteta" as OAuth <<vanjski sustav>>
 actor "Kartografska\nusluga" as Karta <<vanjski sustav>>
 actor "Servis za\nplaćanje" as Placanje <<vanjski sustav>>
 
+' Prijava
 Korisnik --> UC01
 UC01 --> OAuth
 
+' Prodajno mjesto: članarina i objava ponude
+Prodavac --> UCClan
 Prodavac --> UC02
+UCClan ..> UCPlati : <<include>>
+UC02 <.. UCDonacija : <<extend>>\n(proizvod se donira)
 
+' Kupac: rezervacija, preuzimanje i otkazivanje
 Kupac --> UC03
 Kupac --> UC04
 Kupac --> UC05
-
+UC03 ..> UCPlati : <<include>>
 UC03 --> Karta
-UC03 --> Placanje
-UC05 --> Placanje
-
+UC05 ..> UCPovrat : <<include>>
 Zaposlenik --> UC04
 
+' Vanjski servis za plaćanje
+UCPlati --> Placanje
+UCPovrat --> Placanje
+
+' Donacije i administracija
 Org --> UC06
 Prodavac --> UC06
-
 Admin --> UC07
+
+' Poravnanje: vanjski akteri u desnom stupcu
+UCPovrat -[hidden]-> OAuth
+UCPovrat -[hidden]-> Karta
+Placanje -[hidden]down- Karta
+Karta -[hidden]down- OAuth
 @enduml

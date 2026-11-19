@@ -9,11 +9,11 @@ Platforma za povezivanje prodajnih mjesta s viškom hrane, kupaca koji žele pov
 SpasiZalogaj rješava problem bacanja hrane omogućavanjem prodajnim mjestima (pekare, restorani, trgovine) da viškove hrane ponude kupcima po sniženim cijenama ili ih doniraju humanitarnim organizacijama. Kupci putem interaktivnog sučelja pronalaze i rezerviraju ponude te ih preuzimaju uz jedinstveni sigurnosni kod.
 
 **Ključne funkcionalnosti:**
-- **Pregled i pretraga ponuda (FZ-17):** Prikaz pojedinačnih proizvoda i paketa iznenađenja s lokacijom, popustom i vremenom preuzimanja.
-- **Objava ponuda (FZ-12, UC-02):** Prodajna mjesta unose detalje viška hrane, redovnu i sniženu cijenu te opciju besplatne donacije.
-- **Atomska rezervacija (FZ-20, UC-03):** Kupac rezervira hranu, a sustav atomski umanjuje dostupnu količinu (F-010).
-- **Verifikacija koda za preuzimanje (FZ-22, UC-04):** Kriptografski siguran jednokratni kod (SHA-256 sažetak u bazi) koji djelatnik provjerava pri preuzimanju.
-- **Prijava putem OAuth 2.0 / OIDC (FZ-01, ADR-03):** Prijava putem Google računa uz dodjelu uloga (Kupac, Prodajno mjesto, Humanitarna organizacija).
+- **Pregled i pretraga ponuda (F-009):** Prikaz pojedinačnih proizvoda i paketa iznenađenja s lokacijom, popustom i vremenom preuzimanja.
+- **Objava ponuda (F-006, UC-02):** Prodajna mjesta unose detalje viška hrane, redovnu i sniženu cijenu te opciju besplatne donacije.
+- **Atomska rezervacija (F-010, UC-03):** Kupac rezervira hranu, a sustav atomski umanjuje dostupnu količinu (F-010).
+- **Verifikacija koda za preuzimanje (F-012, UC-04):** Kriptografski siguran jednokratni kod (SHA-256 sažetak u bazi) koji djelatnik provjerava pri preuzimanju.
+- **Prijava putem OAuth 2.0 / OIDC (F-001, ADR-03):** Prijava putem Google računa uz dodjelu uloga (Kupac, Prodajno mjesto, Humanitarna organizacija).
 
 Za potpuni opseg, zahtjeve, oblikovanje i dokaze ispitivanja pogledajte [projektnu dokumentaciju](docs/Home.md).
 

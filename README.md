@@ -11,7 +11,7 @@ SpasiZalogaj rješava problem bacanja hrane omogućavanjem prodajnim mjestima (p
 **Ključne funkcionalnosti:**
 - **Pregled i pretraga ponuda (FZ-17):** Prikaz pojedinačnih proizvoda i paketa iznenađenja s lokacijom, popustom i vremenom preuzimanja.
 - **Objava ponuda (FZ-12, UC-02):** Prodajna mjesta unose detalje viška hrane, redovnu i sniženu cijenu te opciju besplatne donacije.
-- **Atomska rezervacija (FZ-20, UC-03):** Kupac rezervira hranu, a sustav atomski umanjuje dostupnu količinu (NF-05).
+- **Atomska rezervacija (FZ-20, UC-03):** Kupac rezervira hranu, a sustav atomski umanjuje dostupnu količinu (F-010).
 - **Verifikacija koda za preuzimanje (FZ-22, UC-04):** Kriptografski siguran jednokratni kod (SHA-256 sažetak u bazi) koji djelatnik provjerava pri preuzimanju.
 - **Prijava putem OAuth 2.0 / OIDC (FZ-01, ADR-03):** Prijava putem Google računa uz dodjelu uloga (Kupac, Prodajno mjesto, Humanitarna organizacija).
 
@@ -63,7 +63,7 @@ Aplikacija je dostupna na adresi: `http://localhost:3000`
 | Tehnologija ili alat | Uloga u ovom projektu | Razlog uporabe ili važno ograničenje |
 | --- | --- | --- |
 | **Next.js 15 (App Router)** | Full-stack okvir za web sučelje i poslužiteljske rute (ADR-01) | Jedinstvena aplikacija u TypeScriptu olakšava razvoj i postavljanje na Vercel. |
-| **PostgreSQL (Neon)** | Primarna relacijska baza podataka (ADR-02) | Čuva relacije između ponuda, rezervacija i korisnika uz podršku za ACID transakcije (NF-05). |
+| **PostgreSQL (Neon)** | Primarna relacijska baza podataka (ADR-02) | Čuva relacije između ponuda, rezervacija i korisnika uz podršku za ACID transakcije (F-010). |
 | **Prisma ORM** | Upravljanje shemom baze, migracije i tipizirani upiti | Automatsko generiranje tipova i dosljedno mapiranje 15 entiteta iz ER dijagrama. |
 | **Auth.js (v5)** | Autentifikacija korisnika putem Google OAuth 2.0 / OIDC (ADR-03) | Sigurna prijava bez pohrane korisničkih lozinki; uloge se provjeravaju u bazi (NF-02). |
 | **Tailwind CSS** | Oblikovanje korisničkog sučelja | Brza izrada responzivnog i pristupačnog sučelja za sve uloge. |

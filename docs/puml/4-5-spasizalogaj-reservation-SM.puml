@@ -3,7 +3,7 @@
 '
 ' Svrha:    Životni ciklus rezervacije od privremenog zauzimanja količine
 '           do preuzimanja, otkazivanja, isteka ili neuspjelog plaćanja.
-' Zahtjevi: F-010 – F-013; NF-04 – NF-05; P-04 – P-05.
+' Zahtjevi: F-010 – F-013; NF-04; P-04 – P-05.
 '
 ' Diagram level: Domain Behavior
 ' Diagram type:  State Machine Diagram

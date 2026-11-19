@@ -3,7 +3,7 @@
 '
 ' Svrha:    Redoslijed interakcija pri rezervaciji ponude i plaćanju, uz
 '           grane za nedostupnu količinu i neuspjelo plaćanje.
-' Zahtjevi: UC-03; F-010; NF-03 – NF-05.
+' Zahtjevi: UC-03; F-010; NF-03 – NF-04.
 '
 ' Diagram level: Runtime Behavior
 ' Diagram type:  Sequence Diagram

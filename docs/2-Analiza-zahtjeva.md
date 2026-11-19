@@ -52,11 +52,11 @@
 | --- | --- | --- |
 | A-01 Kupac | Primarni akter: pretražuje ponude, rezervira i plaća, preuzima, ocjenjuje, sudjeluje u akcijama. | F-001, F-009 – F-011, F-013, F-014, F-017 – F-019 |
 | A-02 Prodajno mjesto | Primarni akter: plaća članarinu, objavljuje ponude i donacije, upravlja rezervacijama i zahtjevima. | F-001, F-003, F-005, F-006 – F-008, F-012 – F-014, F-016 – F-019 |
-| A-03 Zaposlenik prodajnog mjesta | Primarni akter: potvrđuje preuzimanje kodom (koristi račun prodajnog mjesta). | F-012, NF-07 |
+| A-03 Zaposlenik prodajnog mjesta | Primarni akter: potvrđuje preuzimanje kodom (koristi račun prodajnog mjesta). | F-012, NF-06 |
 | A-04 Humanitarna organizacija | Primarni akter: pregledava donacijske ponude, šalje zahtjeve, organizira akcije. | F-001 – F-003, F-015 – F-018 |
 | A-05 Administrator | Primarni akter: odobrava profile, upravlja računima, sadržajem, kategorijama i cijenama članarina. | F-002, F-004, F-020 |
 | A-06 OAuth pružatelj identiteta | Vanjski sustav: autentificira korisnike. | F-001, C-01 |
-| A-07 Servis za plaćanje | Vanjski sustav: obrađuje plaćanje članarina i rezervacija. | F-005, F-010, F-011, NF-03, NF-05 |
+| A-07 Servis za plaćanje | Vanjski sustav: obrađuje plaćanje članarina i rezervacija. | F-005, F-010, F-011, NF-03 |
 | A-08 Kartografska usluga | Vanjski sustav: prikazuje lokacije i udaljenosti. | F-009 |
 | D-01 Nastavnici i asistent kolegija | Dionik, nije akter: odobravaju opseg zadatka i pregledavaju rezultat. | Svi zahtjevi s izvorom „Odobreni zadatak” |
 | D-02 Razvojni tim | Dionik, nije akter: razvija, ispituje i održava sustav te uz dogovor s asistenticom odlučuje o tehnologijama i arhitekturi. | Svi zahtjevi s izvorom „Procjena tima” |
@@ -74,7 +74,7 @@
 | C-03 | Ograničenje | Lokacije i udaljenosti prikazuju se vanjskom kartografskom uslugom. | Odobreni zadatak | Integracija s kartografskom uslugom; prodajna mjesta moraju imati koordinate. |
 | AS-01 | Pretpostavka | Prodajna mjesta imaju stvarnu adresu koja se može pretvoriti u koordinate i prikazati na karti. | Pretpostavka o podacima | Provjeriti pri unosu adrese u profil (F-003) i na oglednim podacima; planirati prikaz prodajnog mjesta bez valjanih koordinata. |
 | AS-02 | Pretpostavka | Korisnici imaju račun kod podržanog OAuth pružatelja. | Procjena tima | Provjeriti pri odabiru pružatelja identiteta; bez takvog računa prijava nije moguća (C-01). |
-| AS-03 | Pretpostavka | Zaposlenik prodajnog mjesta koristi račun prodajnog mjesta na mobitelu s kamerom. | Procjena tima | Provjeriti skeniranje koda na mobitelu (NF-07); ako kamera nije dostupna, kod se unosi ručno (UC-04, 2a). |
+| AS-03 | Pretpostavka | Zaposlenik prodajnog mjesta koristi račun prodajnog mjesta na mobitelu s kamerom. | Procjena tima | Provjeriti skeniranje koda na mobitelu (NF-06); ako kamera nije dostupna, kod se unosi ručno (UC-04, 2a). |
 | AS-04 | Pretpostavka | Servis za plaćanje nudi testno (sandbox) okruženje za razvoj i demonstraciju. | Procjena tima | Provjeriti pri odabiru servisa za plaćanje; razvoj i testiranje koriste sandbox. |
 
 ### Otvorena pitanja
@@ -92,7 +92,7 @@ Pitanja koja tim treba razjasniti s asistentom. Dok se ne razriješe, tim radi p
 | P-07 | Obavijesti | Kojim kanalom se šalju obavijesti pretplatnicima? | E-poštom. | F-019 |
 | P-08 | Administracija | Koje uloge trebaju odobrenje administratora? | Samo humanitarne organizacije; prodajno mjesto aktivira se plaćanjem članarine. | F-002 |
 | P-09 | Administracija | Je li popis kategorija hrane fiksan ili ga uređuje administrator? | Administrator uređuje unaprijed definiran početni popis. | F-020 |
-| P-10 | Nefunkcijski zahtjevi | Jesu li prihvatljive brojčane vrijednosti 2 s za pretragu uz 1000 ponuda? | Vrijednosti su prijedlog tima. | NF-06 |
+| P-10 | Nefunkcijski zahtjevi | Jesu li prihvatljive brojčane vrijednosti 2 s za pretragu uz 1000 ponuda? | Vrijednosti su prijedlog tima. | NF-05 |
 
 ---
 

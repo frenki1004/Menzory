@@ -35,13 +35,14 @@
 
 | ID | Opis | Prioritet | Izvor | Način provjere |
 | --- | --- | --- | --- | --- |
-| NF-01 | Komunikacija između korisnika i sustava je sigurna. | Visok | Procjena tima | Pregled konfiguracije: sva komunikacija ide preko HTTPS-a, a HTTP zahtjevi preusmjeravaju se na HTTPS. |
-| NF-02 | Korisnik nema pristup informacijama i funkcijama koje ne bi smio imati (npr. uvid u financijske podatke, tuđe rezervacije ili administraciju). | Visok | Procjena tima | Testni scenarij: zahtjev prema tuđim podacima ili administratorskoj funkciji bez ovlasti sustav odbija. |
-| NF-03 | Sustav ne pohranjuje osjetljive podatke o sredstvima plaćanja. | Visok | Procjena tima | Pregled baze i koda: nijedna tablica ne sadrži podatke platnih kartica. |
-| NF-04 | Kod za preuzimanje je jedinstven, nepredvidiv i jednokratan. | Visok | Procjena tima | Testni scenarij: ponovna uporaba koda je odbijena; pregled koda potvrđuje siguran način generiranja. |
-| NF-05 | Sustav sprječava dvostruku rezervaciju iste ponude. | Visok | Procjena tima | Testni scenariji: istovremena rezervacija posljednjeg komada iz dvaju klijenata (uspijeva samo jedna); neuspjelo plaćanje vraća količinu u ponudu. |
-| NF-06 | Sustav je dovoljno responzivan pri pretrazi ponuda. | Srednji | Procjena tima | Mjerenje: vrijeme odziva pretrage nad 1000 oglednih ponuda iznosi manje od 2 s. Vidi P-10. |
-| NF-07 | Aplikacija je prilagođena za korištenje na mobitelu. | Visok | Procjena tima | Pregled: glavne funkcionalnosti isprobane na mobitelu. |
+| NF-01 | Sva komunikacija između korisnika i sustava odvija se preko HTTPS-a, a 100 % HTTP zahtjeva preusmjerava se na HTTPS. | Visok | Procjena tima | Testni scenarij: zahtjev na `http://` adresu aplikacije preusmjerava se na `https://`; pregled konfiguracije potvrđuje da ne postoji nešifrirani pristup. |
+| NF-02 | Sustav odbija 100 % zahtjeva prema podacima ili funkcijama izvan ovlasti korisnikove uloge (npr. tuđe rezervacije, financijski podaci, administracija). | Visok | Procjena tima | Testni scenarij: za svaku ulogu zahtjevi prema tuđim podacima i funkcijama izvan njezinih ovlasti; sustav odbija svaki takav zahtjev. |
+| NF-03 | Baza podataka i kod sustava ne sadrže nijedan podatak platnih kartica (broj kartice, datum isteka, CVV). | Visok | Procjena tima | Pregled sheme baze i koda: ne postoji nijedno polje ni varijabla za broj kartice, datum isteka ili CVV; plaćanje se obavlja kod vanjskog servisa (C-02). |
+| NF-04 | Kod za preuzimanje generira se kriptografski sigurnim generatorom i može se iskoristiti točno jednom. | Visok | Procjena tima | Testni scenarij: ponovna uporaba već iskorištenog koda je odbijena; pregled koda potvrđuje uporabu kriptografskog generatora. |
+| NF-05 | Pretraga ponuda vraća rezultate za manje od 2 s nad 1000 oglednih ponuda. | Srednji | Procjena tima | Mjerenje: vrijeme odziva pretrage nad 1000 oglednih ponuda iznosi manje od 2 s. Vidi P-10. |
+| NF-06 | Sve glavne funkcionalnosti mogu se koristiti na mobilnom zaslonu širine 360 px bez vodoravnog pomicanja. | Visok | Procjena tima | Pregled: glavne funkcionalnosti isprobane u pregledniku pri širini zaslona od 360 px; nijedna stranica ne zahtijeva vodoravno pomicanje. |
+| NF-07 | Javno postavljena aplikacija dostupna je na stalnoj adresi, a provjera ispravnosti (`/api/health`) vraća uspješan odgovor. | Srednji | Procjena tima | Pregled: otvaranje `/api/health` na javnoj adresi prije svake kontrolne točke vraća status „ok”; CI potvrđuje uspješnu izgradnju aplikacije. |
+| NF-08 | Aplikacija radi ispravno u posljednje dvije verzije preglednika Chrome, Firefox i Safari. | Srednji | Procjena tima | Pregled: glavne funkcionalnosti isprobane u svakom od navedenih preglednika. |
 
 ## 2.3 Dionici i akteri
 

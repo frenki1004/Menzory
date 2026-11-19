@@ -3,9 +3,9 @@
 '
 ' Svrha:    Pregledni dijagram osnovnih funkcija sustava SpasiZalogaj:
 '           glavni obrasci uporabe svakog aktera i vanjski sustavi s kojima
-'           sustav surađuje. Razrada pojedinih područja nalazi se na
-'           dijagramima 3-2 (rezervacija i preuzimanje) i 3-3 (ponude).
-' Zahtjevi: UC-01 – UC-08, UC-10, UC-12, UC-16 (docs/3-Obrasci-uporabe.md).
+'           sustav surađuje. Razrada kupčevih obrazaca nalazi se na
+'           dijagramu 3-2 (rezervacija i preuzimanje).
+' Zahtjevi: UC-01 – UC-08, UC-10, UC-12, UC-13 (docs/3-Obrasci-uporabe.md).
 '
 ' Diagram level: System Requirements
 ' Diagram type:  Use Case Diagram
@@ -49,7 +49,7 @@ rectangle "SpasiZalogaj\n\n" {
     usecase "UC-01 Prijava i\nodabir uloge" as UC01
     usecase "UC-02 Objava\nponude" as UC02
     usecase "UC-12 Plaćanje\nčlanarine" as UC12
-    usecase "UC-16 Odlučivanje o\nzahtjevu za donaciju" as UC16
+    usecase "UC-13 Odlučivanje o\nzahtjevu za donaciju" as UC13
     usecase "UC-06 Zahtjev\nza donaciju" as UC06
     usecase "UC-08 Pretraga\nponuda na karti" as UC08
     usecase "UC-03 Rezervacija\nponude" as UC03
@@ -71,7 +71,7 @@ UC01 --> OAuth
 Prodavac --> UC02
 Prodavac --> UC12
 UC12 --> Placanje
-Prodavac --> UC16
+Prodavac --> UC13
 
 ' Humanitarna organizacija
 Org --> UC06
@@ -92,7 +92,7 @@ Admin --> UC07
 ' Poravnanje (skrivene veze samo određuju raspored, nisu dio modela):
 ' plaćanje članarine uz servis za plaćanje, vanjski akteri desno od
 ' sustava, administrator na dnu.
-UC16 -[hidden]-> UC12
+UC13 -[hidden]-> UC12
 UC05 -[hidden]-> Karta
 UC05 -[hidden]-> OAuth
 UC10 -[hidden]-> Placanje

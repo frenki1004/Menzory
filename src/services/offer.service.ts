@@ -97,7 +97,7 @@ export async function getActiveOffers(filter?: OfferFilter) {
       ...(filter?.storeId ? { storeId: filter.storeId } : {}),
       ...(filter?.isDonation !== undefined ? { isDonation: filter.isDonation } : {}),
       ...(filter?.maxPrice ? { price: { lte: filter.maxPrice } } : {}),
-      // Pretraga po nazivu ponude ili nazivu prodajnog mjesta (FZ-17).
+      // Pretraga po nazivu ponude ili nazivu prodajnog mjesta (F-009).
       ...(q
         ? {
             OR: [

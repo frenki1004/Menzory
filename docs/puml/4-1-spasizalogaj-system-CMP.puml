@@ -3,7 +3,7 @@
 '
 ' Svrha:    Prikaz glavnih logičkih komponenata sustava SpasiZalogaj,
 '           njihove komunikacije i vanjskih integracija.
-' Zahtjevi: F-001 – F-020; NF-01 – NF-07.
+' Zahtjevi: F-001 – F-020; NF-01 – NF-08.
 '
 ' Diagram level: System Architecture
 ' Diagram type:  Component Diagram

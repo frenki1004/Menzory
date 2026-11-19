@@ -193,7 +193,7 @@ export async function createOffer(input: CreateOfferInput): Promise<{ ok: true }
     pickupEnd: parseDate(input.pickupEnd, "Kraj preuzimanja"),
   };
 
-  // Poslovna pravila (FZ-12) provjerava offer.service; greške vraćamo kao INVALID_INPUT.
+  // Poslovna pravila (F-006) provjerava offer.service; greške vraćamo kao INVALID_INPUT.
   const validation = offerService.validateOfferInput(offerInput);
   if (!validation.valid) {
     throw new ApiError("INVALID_INPUT", validation.error ?? "Neispravni podaci ponude.");

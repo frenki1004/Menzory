@@ -41,7 +41,7 @@ Za svaki UML dijagram čuvajte čitljivu sliku i PlantUML izvor, kako je opisano
 | Web-sučelje | Prikazuje stranice za sve uloge, obrasce, kartu i QR kod; Leaflet u pregledniku učitava kartografske pločice OpenStreetMapa. | Korisnička interakcija odvojena je od poslovnih pravila i izravnog pristupa bazi. |
 | Autentifikacija i profili | Provodi prijavu preko Googlea te upravlja korisničkim profilima i ulogama. | Vanjski identitet odvojen je od ovlasti kojima upravlja SpasiZalogaj. |
 | Ponude i članarine | Upravlja ponudama, pretragom, dostupnošću i članarinama prodajnih mjesta. | Povezana pravila ponuda i aktivnog članstva ostaju u istom modulu. |
-| Rezervacije i preuzimanje | Koordinira količinu, plaćanje, otkazivanje, kod i potvrdu preuzimanja. | Plaćanje i promjena dostupne količine moraju biti usklađeni zbog NF-05. |
+| Rezervacije i preuzimanje | Koordinira količinu, plaćanje, otkazivanje, kod i potvrdu preuzimanja. | Plaćanje i promjena dostupne količine moraju biti usklađeni zbog F-010. |
 | Donacije i akcije | Obrađuje zahtjeve za donacije, odluke prodajnih mjesta te akcije prikupljanja hrane i sudjelovanja. | Donacijski tijekovi imaju vlastite uloge i promjene stanja, ali ponovno koriste ponude i korisnike. |
 | Prisma ORM i PostgreSQL | Prisma provodi upite i transakcije nad relacijskom bazom na Neonu. | Svi moduli koriste jedinstven model trajnih podataka i zajedničke transakcijske granice. |
 
@@ -87,7 +87,7 @@ Dijagram prikazuje trenutačnu podjelu odgovornosti. Moduli su ostvareni TypeScr
 
 Servis pristupa bazi izravno preko Prisme. Stvaranje rezervacije uključuje stavku i simulirano dovršeno plaćanje te odmah postavlja status `CONFIRMED`. Zasebni repozitoriji i `PaymentGateway` ostaju moguća daljnja razrada. Vanjsko plaćanje i životni ciklus iz 4.4 predstavljaju plan završne verzije.
 
-**Implementacija ([PR #34](https://github.com/frenki1004/Menzory/pull/34)):** rezervacijski servis povezan je sa sučeljem preko `src/lib/api.ts`. Količina se umanjuje uvjetno (`updateMany` uz `availableQuantity >= quantity`) unutar transakcije, pa dvije istodobne rezervacije ne mogu prodati više od dostupne količine (NF-05).
+**Implementacija ([PR #34](https://github.com/frenki1004/Menzory/pull/34)):** rezervacijski servis povezan je sa sučeljem preko `src/lib/api.ts`. Količina se umanjuje uvjetno (`updateMany` uz `availableQuantity >= quantity`) unutar transakcije, pa dvije istodobne rezervacije ne mogu prodati više od dostupne količine (F-010).
 
 ## 4.4 Ponašanje tijekom izvođenja
 
@@ -105,7 +105,7 @@ Servis pristupa bazi izravno preko Prisme. Stvaranje rezervacije uključuje stav
 
 **PlantUML izvor:** [izvor](./puml/4-4-spasizalogaj-reservation-SD.puml)
 
-Prije preusmjeravanja na servis za plaćanje sustav u jednoj transakciji provjerava i privremeno umanjuje dostupne količine te stvara rezervaciju u stanju `PAYMENT_PENDING`. Time dva istodobna zahtjeva ne mogu oba rezervirati posljednji komad (NF-05). Ako količina nije dostupna, transakcija se odbija prije naplate.
+Prije preusmjeravanja na servis za plaćanje sustav u jednoj transakciji provjerava i privremeno umanjuje dostupne količine te stvara rezervaciju u stanju `PAYMENT_PENDING`. Time dva istodobna zahtjeva ne mogu oba rezervirati posljednji komad (F-010). Ako količina nije dostupna, transakcija se odbija prije naplate.
 
 Vanjski servis obrađuje podatke kartice i SpasiZalogaju vraća samo potpisani rezultat. Uspješan povratni poziv aktivira rezervaciju i stvara jednokratni kod za preuzimanje. Neuspješno plaćanje ili istek pokušaja u transakciji vraća količine i završava privremenu rezervaciju. Povratni poziv mora biti idempotentan kako njegova ponovljena dostava ne bi dvaput promijenila stanje.
 
@@ -144,7 +144,7 @@ Status povrata novca vodi se u platnoj transakciji, a ne kao zasebno stanje reze
 | Polje | Zapis odluke |
 | --- | --- |
 | Kontekst i cilj | Korisnici, profili, ponude, rezervacije, stavke, plaćanja, donacije i članarine imaju brojne veze, a promjena količine i rezervacije mora biti dosljedna. |
-| Kriteriji odluke | Relacijski integritet, podrška za transakcije iz NF-05, upravljana baza dostupna postavljenoj aplikaciji te razumljiv i tipiziran pristup podacima iz TypeScripta. |
+| Kriteriji odluke | Relacijski integritet, podrška za transakcije iz F-010, upravljana baza dostupna postavljenoj aplikaciji te razumljiv i tipiziran pristup podacima iz TypeScripta. |
 | Razmatrane alternative | Dokumentna/NoSQL baza; PostgreSQL uz ručno pisani SQL; PostgreSQL uz ORM. |
 | Odluka i obrazloženje | Koristiti PostgreSQL na Neonu i Prisma ORM. Relacijski model i transakcije odgovaraju domeni, a Prisma daje shemu, migracije i tipizirane upite. Kompromisi su obavezne migracije pri promjeni sheme, pažnja na broj veza s bazom u poslužiteljskom okruženju i mogućnost da se za složen upit ipak upotrijebi SQL. |
 | Status | Prihvaćeno 9. 11. 2026. |
@@ -168,9 +168,9 @@ Status povrata novca vodi se u platnoj transakciji, a ne kao zasebno stanje reze
 | Aspekt | Mehanizam | Pravilo | Mjesto primjene |
 | --- | --- | --- | --- |
 | Sigurnost | Autentifikacija i autorizacija | Auth.js potvrđuje sesiju, ali svaka zaštićena poslužiteljska radnja dodatno provjerava ulogu, status računa i vlasništvo nad traženim podatkom. Skrivanje gumba u sučelju nije zaštita (NF-02). | API rute, Server Actions i aplikacijski moduli prije čitanja ili promjene zaštićenih podataka. |
-| Dosljednost rezervacije | PostgreSQL transakcija i uvjetovana promjena količine | Provjera količine, njezino privremeno umanjenje i stvaranje rezervacije izvode se atomski. Samo jedan od istodobnih zahtjeva može uzeti posljednji komad, a neuspjelo plaćanje količinu vraća (NF-05). | Rezervacijska usluga i Prisma transakcije; obrada povratnog poziva servisa za plaćanje. |
+| Dosljednost rezervacije | PostgreSQL transakcija i uvjetovana promjena količine | Provjera količine, njezino privremeno umanjenje i stvaranje rezervacije izvode se atomski. Samo jedan od istodobnih zahtjeva može uzeti posljednji komad, a neuspjelo plaćanje količinu vraća (F-010). | Rezervacijska usluga i Prisma transakcije; obrada povratnog poziva servisa za plaćanje. |
 | Validacija podataka | Poslužiteljska provjera ulaza i poslovnih pravila | Svaki vanjski ulaz provjerava se prije uporabe: obavezna polja, pozitivne cijene i količine, redoslijed vremena, koordinate, dopušteni statusi te pripadnost ponude istom prodajnom mjestu. | Granica API-ja/Server Actions i odgovarajući aplikacijski modul; ograničenja baze kao dodatna zaštita. |
-| Plaćanje | Vanjski servis i idempotentni povratni pozivi | SpasiZalogaj ne prima ni pohranjuje podatke kartice. Potpis povratnog poziva provjerava se, a ista referenca servisa ne smije dvaput aktivirati rezervaciju, vratiti količinu ili izvršiti povrat (NF-03, NF-05). | Rezervacijski modul, modul članarine i adapter odabranog servisa za plaćanje. |
+| Plaćanje | Vanjski servis i idempotentni povratni pozivi | SpasiZalogaj ne prima ni pohranjuje podatke kartice. Potpis povratnog poziva provjerava se, a ista referenca servisa ne smije dvaput aktivirati rezervaciju, vratiti količinu ili izvršiti povrat (NF-03, F-010). | Rezervacijski modul, modul članarine i adapter odabranog servisa za plaćanje. |
 | Kod za preuzimanje | Kriptografski slučajan kod i pohrana sažetka | Kod mora biti nepredvidiv i jedinstven; u bazi se čuva njegov sažetak. Pri uspješnoj potvrdi kod se uspoređuje na poslužitelju i odmah postaje nevažeći (NF-04). | Generator koda, rezervacijska usluga i radnja potvrde preuzimanja. |
 | Vanjske ovisnosti | Kontrolirana obrada pogrešaka | Nedostupnost karte ne smije spriječiti tekstualni pregled ponuda, a pogreška Googlea, plaćanja ili e-pošte korisniku se prikazuje bez otkrivanja osjetljivih tehničkih detalja. | Web-sučelje i adapteri za OAuth, plaćanje, kartu i e-poštu. |
 
@@ -184,10 +184,10 @@ Status povrata novca vodi se u platnoj transakciji, a ne kao zasebno stanje reze
 | --- | --- | --- |
 | Jedna Next.js aplikacija postavlja se kao cjelina. | Pogreška zajedničke aplikacije ili neuspjela objava može utjecati na sve uloge i funkcionalnosti. | Kompromis je prihvaćen za semestralni projekt. Moduli se logički odvajaju i provjeravaju prije postavljanja, bez tvrdnje da sustav ima automatski failover. |
 | Konačni servis za plaćanje još nije odabran između dostupnih testnih mogućnosti. | Različiti API-ji, vrste plaćanja i povratni pozivi mogu promijeniti detalje implementacije rezervacija i članarina. | Arhitektura koristi granicu `PaymentGateway`; tim mora potvrditi pružatelja i mogućnosti sandboxa prije implementacije plaćanja. |
-| Istodobni zahtjevi i ponovljeni povratni pozivi mogu dvaput promijeniti količinu ili status plaćanja. | Moguća je dvostruka rezervacija, dvostruki povrat ili netočan status. | Planirane su transakcije, uvjetovane promjene količine, jedinstvena referenca plaćanja, idempotentna obrada i konkurentni test iz NF-05. |
+| Istodobni zahtjevi i ponovljeni povratni pozivi mogu dvaput promijeniti količinu ili status plaćanja. | Moguća je dvostruka rezervacija, dvostruki povrat ili netočan status. | Planirane su transakcije, uvjetovane promjene količine, jedinstvena referenca plaćanja, idempotentna obrada i konkurentni test za F-010. |
 | Sustav ovisi o Googleu, servisu za plaćanje, OpenStreetMapu i budućem pružatelju e-pošte. | Dio funkcionalnosti privremeno ne radi kada vanjska usluga nije dostupna. | Za kartu se zadržava tekstualni popis ponuda; ostale pogreške jasno se prikazuju i ne smiju ostaviti djelomične promjene u bazi. Za opseg kolegija ne uvodi se pričuvni pružatelj. |
 | Nije odabrana trajna pohrana logotipa i fotografija ponuda. | Lokalni datotečni sustav Vercela nije prikladan za trajne korisničke datoteke pa bi slike mogle nestati ili biti nedostupne. | Prije implementacije F-003 i F-006 odabrati vanjsku objektnu pohranu; do tada u modelu ostaje samo URL slike. Slike se ne smiju spremati u lokalni datotečni sustav produkcije. |
-| Poslužiteljsko izvođenje i veza s Neonom mogu imati hladna pokretanja ili ograničenje broja veza. | Pretraga i rezervacija mogu biti sporije ili povremeno neuspješne, posebno pod većim opterećenjem. | Koristiti način povezivanja koji preporučuje Neon za poslužiteljsko okruženje, indeksirati polja pretrage i mjeriti NF-06 na dogovorenom skupu podataka. |
+| Poslužiteljsko izvođenje i veza s Neonom mogu imati hladna pokretanja ili ograničenje broja veza. | Pretraga i rezervacija mogu biti sporije ili povremeno neuspješne, posebno pod većim opterećenjem. | Koristiti način povezivanja koji preporučuje Neon za poslužiteljsko okruženje, indeksirati polja pretrage i mjeriti NF-05 na dogovorenom skupu podataka. |
 
 **Poslovni ili domenski rizici, ako su značajni**
 

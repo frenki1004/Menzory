@@ -26,7 +26,7 @@ export async function createReservation(input: CreateReservationInput) {
   const pickupCodeHash = hashPickupCode(pickupCode);
 
   return prisma.$transaction(async (tx) => {
-    // 1. Check offer availability with lock/fresh read (NF-05)
+    // 1. Check offer availability with lock/fresh read (F-010)
     const offer = await tx.offer.findUnique({
       where: { id: input.offerId },
     });
@@ -44,7 +44,7 @@ export async function createReservation(input: CreateReservationInput) {
 
     const totalAmount = calculateTotalAmount(Number(offer.price), input.quantity);
 
-    // 2. Atomsko smanjenje (NF-05): provjera i umanjenje u jednom UPDATE-u,
+    // 2. Atomsko smanjenje (F-010): provjera i umanjenje u jednom UPDATE-u,
     //    pa dvije istovremene rezervacije ne mogu obje uzeti zadnji komad.
     const decremented = await tx.offer.updateMany({
       where: {

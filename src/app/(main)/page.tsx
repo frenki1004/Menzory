@@ -25,11 +25,7 @@ export default function HomePage() {
   return (
     <div className="flex flex-col gap-12">
       <section className="mx-auto max-w-2xl py-8 text-center">
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-accent px-3 py-1 text-xs font-medium text-accent-foreground">
-          <ShieldCheck className="size-3.5" />
-          Kontrolna točka M1
-        </span>
-        <h1 className="mt-5 text-4xl font-bold tracking-tight sm:text-5xl">
+        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
           Smanjimo otpad od hrane zajedno
         </h1>
         <p className="mt-4 text-lg text-muted-foreground">

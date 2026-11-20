@@ -94,6 +94,7 @@ Pitanja koja tim treba razjasniti s asistentom. Dok se ne razriješe, tim radi p
 | 5. 11. 2026. | F-001 – F-020 | Funkcijski zahtjevi preoblikovani u kraći oblik („Sustav omogućuje …” i numerirani kriteriji prihvaćanja); F-004 i F-005 zamijenili su mjesta. | Asistentica, sastanak 5. 11. 2026.; PR #24 |
 | 5. 11. 2026. | NF-01 – NF-07 | Nefunkcijski zahtjevi pročišćeni: uklonjeno ono što je već u ograničenjima, pravila kolegija i neprovjerljive tvrdnje. | Asistentica, sastanak 5. 11. 2026.; PR #24, PR #25 |
 | 19. 11. 2026. | F-001 – F-020, NF-01 – NF-08 | U opise FR-ova dodani akteri; uklonjen NF-05 (dvostruka rezervacija) i NF-ovi prenumerirani; opisi NF-ova preoblikovani u konkretne i mjerljive; dodani NF-07 (raspoloživost) i NF-08 (kompatibilnost s preglednicima). | Asistentica, M1 19. 11. 2026.; PR #40 |
+| 20. 11. 2026. | NF-03 | Opis NF-03 preoblikovan tako da izražava sigurnost plaćanja: plaćanje se obavlja preko sigurnog vanjskog servisa (npr. Stripe), a sustav ne prima ni ne pohranjuje podatke platnih kartica. | Asistentica, pisana povratna informacija nakon M1 (19. 11. 2026.); PR #43 |
 
 ---
 

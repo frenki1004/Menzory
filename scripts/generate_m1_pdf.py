@@ -29,6 +29,7 @@ M1_FILES = [
     "2-Analiza-zahtjeva.md",
     "3-Obrasci-uporabe.md",
     "4-Arhitektura-i-oblikovanje.md",
+    "5-Ispitivanje.md",
     "6-Postavljanje-instalacija-i-konfiguracija.md",
     "A-Pregled-aktivnosti-grupe.md",
 ]

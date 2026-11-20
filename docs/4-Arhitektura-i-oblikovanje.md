@@ -12,8 +12,6 @@
 
 ---
 
-Za svaki UML dijagram čuvajte čitljivu sliku i PlantUML izvor, kako je opisano na stranici [Home](./Home.md). U dovršenoj stranici koristite vlastite projektne odluke i modele.
-
 ## 4.1 Ključne arhitekturne odluke
 
 | Odluka | Razmatrana alternativa | Projektno specifično obrazloženje i kompromis |

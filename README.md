@@ -73,13 +73,13 @@ Aplikacija je dostupna na adresi: `http://localhost:3000`
 
 | Član | Uloga i doprinos |
 | --- | --- |
-| **Frane Andrić** | Voditelj tima, arhitektura, analiza zahtjeva, koordinacija repozitorija |
+| **Frane Andrić** | Voditelj tima, koordinacija repozitorija, analiza zahtjeva, konfiguracija baze podataka (Neon) |
 | **Fabijan Pitlović** | Full-stack kostur (Next.js/Prisma/Auth.js), domenski servisi ponuda i rezervacija, CI pipeline |
 | **David Kokorović** | Arhitektura sustava, UML modeliranje, PlantUML dijagrami |
-| **Borna Mužina** | Analiza nefunkcijskih zahtjeva, dokumentacija, ispitivanje |
-| **Enzo Kutić** | Obrasci uporabe, analiza dionika, dokumentacija |
-| **Lovro Blagić** | Obrasci uporabe, UC dijagrami, specifikacija tokova |
-| **Luka Taslak** | Vođenje zapisnika sastanaka, UC dijagrami, pregled zahtjeva |
+| **Borna Mužina Momčilović** | Analiza zahtjeva (nefunkcijski zahtjevi, sljedivost), ispitivanje, demonstracijski podaci, priprema predaje |
+| **Enzo Kutić** | Korisničko sučelje (Next.js, Tailwind CSS, shadcn/ui), obrasci uporabe, dokumentacija |
+| **Lovro Blagić** | Funkcijski zahtjevi, obrasci uporabe i UC dijagrami, evidencija aktivnosti, jedinična ispitivanja pravila rezervacije |
+| **Luka Taslak** | UC dijagrami, povezivanje rezervacija i provjere koda s bazom podataka, pregled zahtjeva |
 
 <a id="ai-usage"></a>
 ## Uporaba umjetne inteligencije [![AI Usage: Disclosed](https://img.shields.io/badge/AI%20Usage-Disclosed-blue.svg)](https://www.fer.unizg.hr/_download/repository/Policy%20on%20the%20appropriate%20use%20of%20artificial%20intelligence%20at%20the%20faculty%20of%20electrical%20engineering%20and%20computing%5B1%5D.pdf)

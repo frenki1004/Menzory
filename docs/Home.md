@@ -96,7 +96,7 @@ Stranice i artefakti koji nisu navedeni iznad izrađeni su bez pomoći generativ
 | Provjera | Kako je provedena | Dokaz |
 | --- | --- | --- |
 | Usklađenost sa zadatkom | Obrasci uporabe i opseg uspoređeni su s tekstom zadatka G07 | Zadatak G07 (Iva Sović) |
-| Dosljednost sa zahtjevima | Svaki obrazac uporabe poziva se samo na postojeće FZ oznake iz analize zahtjeva | `docs/2-Analiza-zahtjeva.md`, `docs/3-Obrasci-uporabe.md` |
+| Dosljednost sa zahtjevima | Svaki obrazac uporabe poziva se samo na postojeće F oznake iz analize zahtjeva | `docs/2-Analiza-zahtjeva.md`, `docs/3-Obrasci-uporabe.md` |
 | Izvori dijagrama | PlantUML izvor iscrtan je i pregledan | `.puml` datoteka i izrađena slika |
 | Povjerljivi sadržaj | U alat nisu uneseni pristupni podaci ni osobni podaci | – |
 

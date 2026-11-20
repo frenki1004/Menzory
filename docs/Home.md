@@ -54,8 +54,6 @@ README repozitorija sadrži projektnu [izjavu o uporabi umjetne inteligencije](.
 
 ## Izjava o uporabi umjetne inteligencije
 
-<!-- UPUTA: Ovo je detaljan zapis uporabe umjetne inteligencije; README sadrži kratak sažetak i poveznicu na ovaj odjeljak. Unesite samo ono što se stvarno dogodilo i uklonite neupotrijebljene retke. Ako nije korišten nijedan alat generativne umjetne inteligencije, zamijenite cijeli odjeljak jednom rečenicom koja to jasno navodi. Svaki redak mora upućivati na stranicu, datoteku, zahtjev za uključivanje promjena (PR) ili zadatak. Nikada ne unosite pristupne podatke, osobne podatke ni tuđi zaštićeni sadržaj u alate umjetne inteligencije. -->
-
 Kratak sažetak: [README – Uporaba umjetne inteligencije](../README.md#ai-usage). Ovaj odjeljak bilježi koji su alati korišteni, za koju dokumentaciju ili kod te kako je tim provjerio rezultat. Slijedi FER-ova [pravila o primjerenoj uporabi umjetne inteligencije](https://www.fer.unizg.hr/_download/repository/Policy%20on%20the%20appropriate%20use%20of%20artificial%20intelligence%20at%20the%20faculty%20of%20electrical%20engineering%20and%20computing%5B1%5D.pdf).
 
 ### Korišteni alati
@@ -107,7 +105,3 @@ Stranice i artefakti koji nisu navedeni iznad izrađeni su bez pomoći generativ
 | Problem | Kako je pronađen | Rješenje |
 | --- | --- | --- |
 | Nisu utvrđene | – | – |
-
-### Otvoreno pitanje za asistenticu
-
-Uporabu alata umjetne inteligencije pri planiranju zadataka (GitHub Issues) i strukturiranju dokumentacije provjerit ćemo s asistenticom kako bismo bili sigurni da je u skladu s pravilima kolegija. Ovaj odjeljak ažurirat ćemo prema njezinu odgovoru.

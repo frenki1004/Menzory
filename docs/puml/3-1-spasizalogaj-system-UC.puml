@@ -75,6 +75,8 @@ Prodavac --> UC13
 
 ' Humanitarna organizacija
 Org --> UC06
+' Zahtjev za donaciju uvijek završava odlukom prodajnog mjesta (UC-06, Posljedice).
+UC06 ..> UC13 : <<include>>
 
 ' Kupac
 Kupac --> UC08

@@ -135,20 +135,20 @@ async function seedCharity() {
   });
 }
 
+/** Koliko dana demo ponude ostaju aktivne nakon seedanja. */
+const DEMO_OFFER_DAYS = 30;
+
 /**
- * Preuzimanje danas od 17:00 do 20:00. Ako je do 20:00 ostalo manje od sat
- * vremena, koristi se sutrašnji dan, tako da se demo rezervacija još može
- * i otkazati (pravilo od 1 h, F-011).
+ * Preuzimanje od danas u 17:00 do 20:00 za DEMO_OFFER_DAYS dana. Dulji rok
+ * omogućuje da demo ponude ostanu vidljive tijekom pregleda i ocjenjivanja
+ * (aplikacija skriva ponude kojima je prošao kraj preuzimanja), a demo
+ * rezervacija se i dalje može otkazati (pravilo od 1 h, F-011).
  */
 function pickupWindow() {
-  const now = new Date();
-  const end = new Date(now);
-  end.setHours(20, 0, 0, 0);
-  if (end.getTime() - now.getTime() < 60 * 60 * 1000) {
-    end.setDate(end.getDate() + 1);
-  }
-  const start = new Date(end);
+  const start = new Date();
   start.setHours(17, 0, 0, 0);
+  const end = new Date(start.getTime() + DEMO_OFFER_DAYS * DAY_MS);
+  end.setHours(20, 0, 0, 0);
   return { pickupStart: start, pickupEnd: end, expiresAt: end };
 }
 

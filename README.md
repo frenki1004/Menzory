@@ -86,7 +86,7 @@ Aplikacija je dostupna na adresi: `http://localhost:3000`
 
 Ovaj projekt slijedi FER-ova [pravila o primjerenoj uporabi umjetne inteligencije](https://www.fer.unizg.hr/_download/repository/Policy%20on%20the%20appropriate%20use%20of%20artificial%20intelligence%20at%20the%20faculty%20of%20electrical%20engineering%20and%20computing%5B1%5D.pdf).
 
-**Izjava:** Alati umjetne inteligencije (Gemini, Claude) korišteni su kao pomoć pri jezičnom i formatnom oblikovanju dokumentacije, generiranju kostura koda i provjeri rubnih slučajeva testova. Sve arhitekturne odluke, zahtjeve, relacijski model podataka i poslovna pravila osmislio je i neovisno verificirao studentski tim.
+**Izjava:** Alati umjetne inteligencije (Claude, Claude Code, OpenAI Codex, OpenCode) korišteni su kao pomoć pri učenju, oblikovanju dokumentacije i dijagrama te izradi nacrta koda i ispitivanja. Sve arhitekturne odluke, zahtjeve, relacijski model podataka i poslovna pravila osmislio je i neovisno verificirao studentski tim. Pojedinosti po članovima: [docs/Home.md](docs/Home.md#izjava-o-uporabi-umjetne-inteligencije).
 
 <a id="code-of-conduct-and-support"></a>
 ## Kodeks ponašanja i podrška [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)

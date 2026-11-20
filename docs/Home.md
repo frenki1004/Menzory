@@ -63,6 +63,12 @@ Kratak sažetak: [README – Uporaba umjetne inteligencije](../README.md#ai-usag
 | Alat | Inačica ili model | Koristio/la | Glavna svrha |
 | --- | --- | --- | --- |
 | Claude (Anthropic) | Claude | Fabijan Pitlović | Pomoć pri planiranju zadataka (GitHub Issues), strukturiranju dokumentacije i izradi nacrta PlantUML dijagrama |
+| Claude (Anthropic), Claude Code | Claude | Lovro Blagić | Oblikovanje i jezično uređivanje dokumentacije, nacrti specifikacija i ispitnih slučajeva, ispravci UML dijagrama |
+| OpenAI Codex | – | David Kokorović | Učenje arhitekture i UML modeliranja, nacrti dokumentacije i dijagrama |
+| OpenAI Codex, OpenCode | – | Enzo Kutić | Učenje frontend tehnologija, projektiranje ispitivanja i izrada dijagrama |
+| Claude (Anthropic) | Claude | Luka Taslak | Učenje, izrada UML dijagrama i povezivanje s bazom podataka |
+| Claude Code (Anthropic) | Claude Opus | Frane Andrić | Dorada zahtjeva i dijagrama obrazaca uporabe, evidencija aktivnosti, konfiguracija baze podataka i priprema PDF-a predaje |
+| Claude Code (Anthropic) | Claude Opus | Borna Mužina Momčilović | Nacrti dokumentacije i koda, provjera usklađenosti s uputama kolegija, rad s Gitom i pull requestovima |
 
 ### Opseg doprinosa umjetne inteligencije
 

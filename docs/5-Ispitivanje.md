@@ -34,3 +34,27 @@ Automatizirana ispitivanja u pregledniku (Selenium) još nisu izrađena (vidi 5.
 | ST-05 | Potvrda preuzimanja kodom (F-012) | Račun prodajnog mjesta, kod iz ST-04 | Rezervacija prelazi u status „preuzeto” | – | Nije pokrenuto | 1. Prijaviti se računom prodajnog mjesta.<br>2. Otvoriti stranicu za preuzimanje i unijeti kod.<br>3. Provjeriti potvrdu preuzimanja. |
 | ST-06 | Preusmjeravanje na HTTPS (NF-01) | Zahtjev na `http://spasizalogaj.vercel.app/` | Odgovor preusmjerava na `https://` adresu | Odgovor 308 s preusmjeravanjem na `https://spasizalogaj.vercel.app/` | Prošlo | `curl -I http://spasizalogaj.vercel.app/` |
 | ST-07 | Provjera ispravnosti aplikacije (NF-07) | Zahtjev na `/api/health` javne aplikacije | Uspješan odgovor sa statusom `ok` | `{"status":"ok","app":"SpasiZalogaj","environment":"production",…}` | Prošlo | `curl https://spasizalogaj.vercel.app/api/health` |
+
+## 5.3 Provedena ispitivanja i rezultati
+
+**Najnovije izvođenje:** 20. 11. 2026.; revizija `e8c5b85` (main).
+
+| Izvođenje | Okruženje | Rezultat | Dokaz |
+| --- | --- | --- | --- |
+| Jedinična ispitivanja (UT-01 – UT-08) | Lokalno, Node.js 24, `npm test`; CI (GitHub Actions, ubuntu-latest) | 28 ispitivanja, 28 prošlo, 0 palo | [CI izvođenje](https://github.com/frenki1004/Menzory/actions/runs/44780815400) |
+| Ručna ispitivanja ST-06 i ST-07 | Javna aplikacija (Vercel, produkcija) | Prošlo | Odgovori navedeni u 5.2 |
+| Ručno ispitivanje ST-01 | Javna aplikacija, preglednik | Prošlo | Provjera člana tima |
+| Ručna ispitivanja ST-02 – ST-04 | Javna aplikacija nakon ponovnog pokretanja seeda (PR [#44](https://github.com/frenki1004/Menzory/pull/44)) | ST-02 i ST-04 prošlo; ST-03 nije prošlo zbog prikaza vremena | Popis ponuda, stranica detalja ponude i „Moje rezervacije” na javnoj adresi |
+
+## 5.4 Poznati nedostaci i ograničenja ispitivanja
+
+| Problem ili ograničenje | Korisniku vidljiv učinak ili neprovjereno ponašanje | Dokaz ili poveznica na zadatak |
+| --- | --- | --- |
+| Odabir uloge pri prvoj prijavi nije implementiran | Novi korisnik dobiva ulogu kupca; uloga prodajnog mjesta dodjeljuje se izravno u bazi | F-001 u 2.6; `setInitialRole` u `src/lib/api.ts` |
+| Otkazivanje rezervacije nije implementirano na poslužitelju | Gumb „Otkaži rezervaciju” je prikazan, ali otkazivanje nije provedeno (`cancelReservation` u `src/lib/api.ts`); pravilo roka od 1 h ispitano je samo jedinično (UT-07) | F-011 u 2.6 |
+| Karta i udaljenost nisu implementirane | Ponude se prikazuju samo kao popis | F-009 u 2.6 |
+| Plaćanje je simulirano | Rezervacija se potvrđuje bez stvarnog plaćanja preko vanjskog servisa | F-010 u 2.6; NF-03 |
+| Vrijeme se prikazuje i sprema bez vremenske zone | Na javnoj aplikaciji (poslužitelj u UTC-u) vrijeme preuzimanja prikazuje se sat ranije (ljeti dva); vrijeme koje prodajno mjesto upiše u obrazac sprema se sat kasnije. Popravak se planira nakon predaje M1. | ST-03; `src/lib/format.ts`, `parseDate` u `src/lib/api.ts` |
+| Demo ponude istječu | Ponude iz seeda vidljive su 30 dana od posljednjeg pokretanja seeda | PR [#44](https://github.com/frenki1004/Menzory/pull/44) |
+| Ispitivanja u pregledniku (Selenium) nisu izrađena | Glavni tokovi provjeravaju se samo ručno | `tests/selenium/` |
+| `tests/health.test.js` ne poziva stvarni endpoint | Ispravnost `/api/health` provjerava se ručno (ST-07) | `tests/health.test.js` |

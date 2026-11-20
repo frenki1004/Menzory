@@ -1,1 +1,3 @@
-Various scripts for building or deploying the app. For example, scripts for Docker, CI/CD, or deployment processes.
+# PlantUML izvori
+
+PlantUML izvori dijagrama iz dokumentacije. SVG slike u `docs/assets/diagrams/` generira GitHub Action (`generate-puml-diagrams.yaml`) pri pushu na main; ne uređuju se ručno.

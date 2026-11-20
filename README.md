@@ -73,20 +73,20 @@ Aplikacija je dostupna na adresi: `http://localhost:3000`
 
 | Član | Uloga i doprinos |
 | --- | --- |
-| **Frane Andrić** | Voditelj tima, arhitektura, analiza zahtjeva, koordinacija repozitorija |
+| **Frane Andrić** | Voditelj tima, koordinacija repozitorija, analiza zahtjeva, konfiguracija baze podataka (Neon) |
 | **Fabijan Pitlović** | Full-stack kostur (Next.js/Prisma/Auth.js), domenski servisi ponuda i rezervacija, CI pipeline |
 | **David Kokorović** | Arhitektura sustava, UML modeliranje, PlantUML dijagrami |
-| **Borna Mužina** | Analiza nefunkcijskih zahtjeva, dokumentacija, ispitivanje |
-| **Enzo Kutić** | Obrasci uporabe, analiza dionika, dokumentacija |
-| **Lovro Blagić** | Obrasci uporabe, UC dijagrami, specifikacija tokova |
-| **Luka Taslak** | Vođenje zapisnika sastanaka, UC dijagrami, pregled zahtjeva |
+| **Borna Mužina Momčilović** | Analiza zahtjeva (nefunkcijski zahtjevi, sljedivost), ispitivanje, demonstracijski podaci, priprema predaje |
+| **Enzo Kutić** | Korisničko sučelje (Next.js, Tailwind CSS, shadcn/ui), obrasci uporabe, dokumentacija |
+| **Lovro Blagić** | Funkcijski zahtjevi, obrasci uporabe i UC dijagrami, evidencija aktivnosti, jedinična ispitivanja pravila rezervacije |
+| **Luka Taslak** | UC dijagrami, povezivanje rezervacija i provjere koda s bazom podataka, pregled zahtjeva |
 
 <a id="ai-usage"></a>
 ## Uporaba umjetne inteligencije [![AI Usage: Disclosed](https://img.shields.io/badge/AI%20Usage-Disclosed-blue.svg)](https://www.fer.unizg.hr/_download/repository/Policy%20on%20the%20appropriate%20use%20of%20artificial%20intelligence%20at%20the%20faculty%20of%20electrical%20engineering%20and%20computing%5B1%5D.pdf)
 
 Ovaj projekt slijedi FER-ova [pravila o primjerenoj uporabi umjetne inteligencije](https://www.fer.unizg.hr/_download/repository/Policy%20on%20the%20appropriate%20use%20of%20artificial%20intelligence%20at%20the%20faculty%20of%20electrical%20engineering%20and%20computing%5B1%5D.pdf).
 
-**Izjava:** Alati umjetne inteligencije (Gemini, Claude) korišteni su kao pomoć pri jezičnom i formatnom oblikovanju dokumentacije, generiranju kostura koda i provjeri rubnih slučajeva testova. Sve arhitekturne odluke, zahtjeve, relacijski model podataka i poslovna pravila osmislio je i neovisno verificirao studentski tim.
+**Izjava:** Alati umjetne inteligencije (Claude, Claude Code, OpenAI Codex, OpenCode) korišteni su kao pomoć pri učenju, oblikovanju dokumentacije i dijagrama te izradi nacrta koda i ispitivanja. Sve arhitekturne odluke, zahtjeve, relacijski model podataka i poslovna pravila osmislio je i neovisno verificirao studentski tim. Pojedinosti po članovima: [docs/Home.md](docs/Home.md#izjava-o-uporabi-umjetne-inteligencije).
 
 <a id="code-of-conduct-and-support"></a>
 ## Kodeks ponašanja i podrška [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)

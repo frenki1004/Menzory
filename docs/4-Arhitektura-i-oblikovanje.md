@@ -1,7 +1,5 @@
 # 4. Arhitektura i oblikovanje
 
-**Cilj:** Definirati arhitekturni stil, dekompoziciju programa na podsustave i module, organizaciju podataka te dinamičko ponašanje tijekom izvođenja. Arhitektura predstavlja temelj za implementaciju i ažurira se pri svakoj važnijoj promjeni projektnih odluka.
-
 | Arhitekturni pogled | Ključno inženjersko pitanje | Primijenjeni model ili dijagram |
 | :--- | :--- | :--- |
 | **Strategija rješenja** | Koji stil i temeljne odluke određuju program? | Tablica odluka (odjeljak 4.1) |
@@ -18,8 +16,6 @@ Za svaki UML dijagram čuvajte čitljivu sliku i PlantUML izvor, kako je opisano
 
 ## 4.1 Ključne arhitekturne odluke
 
-**Cilj:** Objasniti nekoliko arhitekturnih odluka koje najviše utječu na rješenje i navesti njihove projektno specifične razloge.
-
 | Odluka | Razmatrana alternativa | Projektno specifično obrazloženje i kompromis |
 | --- | --- | --- |
 | Jedna full-stack aplikacija u Next.jsu i TypeScriptu (ADR-01) | Odvojeni frontend i backend ili više zasebno postavljenih usluga | Jedna aplikacija pojednostavljuje razvoj, povezivanje dijelova sustava i postavljanje na Vercel u okviru semestralnog projekta. Komponente i dalje imaju odvojene odgovornosti, ali se aplikacija postavlja kao cjelina pa kvar ili nova objava mogu utjecati na cijeli sustav. |
@@ -27,8 +23,6 @@ Za svaki UML dijagram čuvajte čitljivu sliku i PlantUML izvor, kako je opisano
 | Auth.js i Google OAuth 2.0/OIDC za prijavu (ADR-03) | Vlastita prijava e-poštom i lozinkom | Google potvrđuje identitet korisnika, dok SpasiZalogaj u vlastitoj bazi čuva profil i ulogu. Sustav zato ne mora pohranjivati korisničke lozinke, ali prijava ovisi o dostupnosti Googlea i korisnik mora imati podržani račun. |
 
 ## 4.2 Gradivni blokovi i UML dijagram komponenata
-
-**Cilj:** Prikazati logičku podjelu programa na komponente, njihova sučelja i vanjske integracije. Dijagram komponenata prikazuje logičku organizaciju, dok dijagram razmještaja prikazuje fizičko izvođenje. Ovaj prikaz ažurirajte kako sustav poprima konačan oblik.
 
 ![Dijagram komponenata sustava SpasiZalogaj](./assets/diagrams/4-1-spasizalogaj-system-CMP.svg)
 
@@ -49,11 +43,7 @@ Pravokutnici unutar sustava predstavljaju logičke odgovornosti jedne Next.js ap
 
 ## 4.3 Model podataka i oblikovanje razreda
 
-**Cilj:** Objasniti važne informacije koje aplikacija pohranjuje i jedno reprezentativno područje oblikovanja na razini razreda. Model podataka i UML dijagram razreda odgovaraju na različita pitanja; jedno ne zamjenjuje drugo.
-
 ### 4.3.1 ER dijagram i model podataka
-
-**Cilj:** Prikazati važne pohranjene entitete, njihove identifikatore i veze te dovoljno atributa za razumijevanje podataka aplikacije. ER dijagram odvojen je od reprezentativnog UML dijagrama razreda u nastavku.
 
 ![ER dijagram podataka sustava SpasiZalogaj](./assets/diagrams/4-2-spasizalogaj-data-ERD.svg)
 
@@ -73,8 +63,6 @@ Platna transakcija ima opcionalnu vezu na rezervaciju i na članarinu. Poslovno 
 
 ### 4.3.2 Reprezentativni UML dijagram razreda
 
-**Cilj:** Prije implementacije reprezentativnog dijela sustava modelirati i prikazati razrede ili sučelja potrebna za dodjelu odgovornosti, operacija i veza. Oblikovanje ažurirajte kada se te odluke promijene.
-
 ![Dijagram razreda za obradu rezervacije](./assets/diagrams/4-3-spasizalogaj-domain-CD.svg)
 
 **Slika 4.3. Reprezentativni dijagram razreda za obradu rezervacije**
@@ -91,11 +79,7 @@ Servis pristupa bazi izravno preko Prisme. Stvaranje rezervacije uključuje stav
 
 ## 4.4 Ponašanje tijekom izvođenja
 
-**Cilj:** Objasniti jednu važnu interakciju među dijelovima koji se izvode i životni ciklus jednog smislenog objekta. Odaberite primjere koji otkrivaju odluke ili neuspješne putove umjesto izrade dijagrama za svaku CRUD radnju.
-
 ### 4.4.1 Reprezentativni UML sekvencijski dijagram
-
-**Cilj:** Prikazati redoslijed poruka za jedan reprezentativni scenarij i odgovore na važnu alternativu.
 
 **Scenarij:** UC-03 – rezervacija ponude i plaćanje.
 
@@ -111,8 +95,6 @@ Vanjski servis obrađuje podatke kartice i SpasiZalogaju vraća samo potpisani r
 
 ### 4.4.2 Reprezentativni UML dijagram stanja
 
-**Cilj:** Prikazati važna stanja jednog domenskog objekta ili eksplicitno upravljanog načina rada sustava te događaje ili uvjete koji ih mijenjaju.
-
 **Vlasnik stanja i razlog odabira:** vlasnik je `Rezervacija`, a trenutačno stanje pohranjuje se u atributu `status`. Rezervacija je odabrana jer njezini prijelazi istodobno utječu na plaćanje, dostupnu količinu i valjanost koda za preuzimanje.
 
 ![Dijagram stanja rezervacije](./assets/diagrams/4-5-spasizalogaj-reservation-SM.svg)
@@ -126,8 +108,6 @@ Vanjski servis obrađuje podatke kartice i SpasiZalogaju vraća samo potpisani r
 Status povrata novca vodi se u platnoj transakciji, a ne kao zasebno stanje rezervacije: rezervacija ostaje otkazana čak i ako servis za plaćanje zahtijeva ponovni pokušaj povrata. Nakon implementacije prijelazi će se ponovno usporediti sa stvarnim kodom i razriješenim otvorenim pitanjima P-04 i P-05.
 
 ## 4.5 Zapisi arhitekturnih odluka
-
-**Cilj:** Sačuvati razloge i obrazložiti odabrane važne arhitekturne odluke kada tablica u odjelku 4.1 nije dovoljna za očuvanje konteksta, razmatranih alternativa i prihvaćenih kompromisa.
 
 ### ADR-01: Jedna modularna full-stack aplikacija u Next.jsu
 
@@ -161,8 +141,6 @@ Status povrata novca vodi se u platnoj transakciji, a ne kao zasebno stanje reze
 
 ## 4.6 Zajednička pravila oblikovanja (engl. Cross-cutting concerns)
 
-**Cilj:** Prepoznati i opisati globalna pravila i mehanizme oblikovanja koji se primjenjuju u više dijelova aplikacije, navesti gdje se planira primijeniti i ažurirati objašnjenje kako implementacija poprima konačan oblik. Uključite samo pravila koja su važna za ovaj projekt.
-
 **Planirani mehanizmi (provjeriti i ažurirati tijekom implementacije):**
 
 | Aspekt | Mehanizam | Pravilo | Mjesto primjene |
@@ -175,8 +153,6 @@ Status povrata novca vodi se u platnoj transakciji, a ne kao zasebno stanje reze
 | Vanjske ovisnosti | Kontrolirana obrada pogrešaka | Nedostupnost karte ne smije spriječiti tekstualni pregled ponuda, a pogreška Googlea, plaćanja ili e-pošte korisniku se prikazuje bez otkrivanja osjetljivih tehničkih detalja. | Web-sučelje i adapteri za OAuth, plaćanje, kartu i e-poštu. |
 
 ## 4.7 Arhitekturni rizici i tehnički dug
-
-**Cilj:** Navesti stvarne tehničke ili domenske rizike i svjesno prihvaćene kompromise oblikovanja, njihove posljedice i način na koji ih tim obrađuje.
 
 **Tehnički rizici i dug**
 
@@ -196,8 +172,3 @@ Status povrata novca vodi se u platnoj transakciji, a ne kao zasebno stanje reze
 | Otvorena pitanja P-03 – P-06 mogu promijeniti pravila rezervacije, povrata, isteka i preuzimanja donacije. | Model podataka, prijelazi stanja ili korisnički tok mogu postati nedosljedni s konačnim dogovorom. | Trenutačni modeli izričito koriste zapisane radne pretpostavke. Nakon odgovora asistentice zajedno se ažuriraju zahtjevi, dijagrami i implementacija. |
 | Prodajno mjesto unosi rok upotrebe, količinu i opis hrane. | Netočan ili zastario podatak može kupca navesti na pogrešnu odluku. | Poslužiteljska validacija odbija očito neispravne vrijednosti, a sučelje jasno prikazuje prodajno mjesto, vrijeme preuzimanja i rok; odgovornost za točnost podataka mora biti navedena u pravilima korištenja. |
 | Kriteriji kojima administrator potvrđuje humanitarnu organizaciju nisu detaljno određeni. | Različiti administratori mogu profile odobravati nedosljedno. | Za prvu verziju čuvaju se status i razlog odluke; tim prije implementacije UC-07 treba dogovoriti obavezne podatke i kriterije pregleda. |
-
----
-
-
->**Završna provjera:** Usporedite dijagrame komponenata, podataka, razreda, sekvencijski dijagram i dijagram stanja s implementiranim kodom, ponašanjem aplikacije i stvarnim razmještajem. Ažurirajte zastarjele opise oblikovanja i objasnite svaku važnu razliku koja ostaje; poveznice na odgovarajući kod ili ispitivanja korisne su kada odgovaraju na konkretno pitanje.

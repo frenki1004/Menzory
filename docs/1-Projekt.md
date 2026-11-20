@@ -49,7 +49,3 @@ Prioriteti pojedinih funkcionalnosti (visok, srednji, nizak) navedeni su u [anal
 ## 1.4 Postojeći pristupi i opravdanost projekta
 
 Danas prodajna mjesta višak hrane najčešće snižavaju na samoj polici pred kraj dana, što kupac vidi samo ako je slučajno u trgovini, ili hranu dogovorno predaju pojedinoj humanitarnoj organizaciji. Postoje i komercijalne aplikacije za prodaju viška hrane po sniženoj cijeni, poput Too Good To Go (https://www.toogoodtogo.com), koje se usredotočuju na prodaju paketa kupcima. SpasiZalogaj u jednom sustavu povezuje prodaju viška kupcima s doniranjem humanitarnim organizacijama i organizacijom akcija prikupljanja hrane, što je potreba opisana u projektnom zadatku.
-
----
-
-> **Završna provjera:** opis problema, cilj, korisnici i dionici, granice opsega i postojeći pristupi usklađeni su s projektnim zadatkom G07 (SpasiZalogaj) i s [analizom zahtjeva](2-Analiza-zahtjeva.md).

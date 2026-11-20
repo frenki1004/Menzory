@@ -1,10 +1,6 @@
 # 2. Analiza zahtjeva
 
-**Cilj:** Iz odobrenog opsega projekta izvesti prepoznatljive, prioritetizirane i provjerljive zahtjeve. Zahtjevi se mogu mijenjati; pri završnoj predaji moraju odražavati dogovorenu aplikaciju.
-
 ## 2.1 Funkcijski zahtjevi
-
-**Cilj:** Navesti što aplikacija mora omogućiti korisnicima, odakle pojedina mogućnost proizlazi i koji se opažljivi rezultat smatra prihvaćanjem.
 
 | ID | Opis | Prioritet | Izvor | Kriteriji prihvaćanja |
 | --- | --- | --- | --- | --- |
@@ -31,8 +27,6 @@
 
 ## 2.2 Nefunkcijski zahtjevi
 
-**Cilj:** Odrediti važna svojstva kvalitete i uvjete rada odobrene aplikacije na način koji tim može razumno provjeriti.
-
 | ID | Opis | Prioritet | Izvor | Način provjere |
 | --- | --- | --- | --- | --- |
 | NF-01 | Sva komunikacija između korisnika i sustava odvija se preko HTTPS-a, a 100 % HTTP zahtjeva preusmjerava se na HTTPS. | Visok | Procjena tima | Testni scenarij: zahtjev na `http://` adresu aplikacije preusmjerava se na `https://`; pregled konfiguracije potvrđuje da ne postoji nešifrirani pristup. |
@@ -45,8 +39,6 @@
 | NF-08 | Aplikacija radi ispravno u posljednje dvije verzije preglednika Chrome, Firefox i Safari. | Srednji | Procjena tima | Pregled: glavne funkcionalnosti isprobane u svakom od navedenih preglednika. |
 
 ## 2.3 Dionici i akteri
-
-**Cilj:** Utvrditi uloge koje utječu na zahtjeve i razlikovati dionike od aktera koji komuniciraju s aplikacijom.
 
 | ID uloge ili aktera | Odnos prema sustavu | Relevantni zahtjevi |
 | --- | --- | --- |
@@ -64,8 +56,6 @@
 ---
 
 ## 2.4 Ograničenja i pretpostavke
-
-**Cilj:** Zabilježiti projektno specifične granice i pretpostavke koje utječu na zahtjeve ili oblikovanje, zajedno s njihovim izvorom i praktičnom posljedicom. Ovo je njihovo mjerodavno mjesto u dokumentaciji.
 
 | ID | Tip | Opis ograničenja ili pretpostavke | Izvor | Inženjerska posljedica / Provjera |
 | --- | --- | --- | --- | --- |
@@ -98,8 +88,6 @@ Pitanja koja tim treba razjasniti s asistentom. Dok se ne razriješe, tim radi p
 
 ## 2.5 Značajne promjene zahtjeva
 
-**Cilj:** Sačuvati razlog promjena koje mijenjaju dogovoreni opseg, prioritet ili kriterije prihvaćanja, uz istodobno održavanje prethodnih zahtjeva ažurnima.
-
 | Datum | ID zahtjeva | Promjena i razlog | Dogovoreno s / dokaz |
 | --- | --- | --- | --- |
 | 4. 11. 2026. | F-001 – F-020, NF | Nakon povratne informacije na M0 (29. 10. 2026.) funkcijski zahtjevi smanjeni s 50 na 20 spajanjem povezanih i uklanjanjem prijedloga niskog prioriteta; nefunkcijski s 14 na 10; opisi preoblikovani u oblik „Sustav omogućuje …”. | Asistentica, M0 29. 10. 2026.; PR #22, PR #23 |
@@ -110,8 +98,6 @@ Pitanja koja tim treba razjasniti s asistentom. Dok se ne razriješe, tim radi p
 ---
 
 ## 2.6 Sljedivost zahtjeva
-
-**Cilj:** Osigurati dvosmjernu sljedivost — povezati zahtjeve s opisanim ponašanjem, dijelovima sustava koji ih ostvaruju te ispitivanjem ili drugom provjerom. 
 
 | ID zahtjeva | Obrazac uporabe / modul | Arhitekturna realizacija | Ispitivanje ili provjera |
 | --- | --- | --- | --- |
@@ -140,16 +126,9 @@ Pitanja koja tim treba razjasniti s asistentom. Dok se ne razriješe, tim radi p
 
 ## 2.7 Pregled zahtjeva
 
-**Cilj:** Zabilježiti važne povratne informacije o zahtjevima i odluke koje iz njih proizlaze na dvije formalne kontrolne točke projekta, u 7. i 14. tjednu.
-
 | Kontrolna točka | Povratna informacija ili nalaz | Odluka o zahtjevu ili opsegu |
 | --- | --- | --- |
 | M0 (29. 10. 2026., 4. tjedan) | Nakon prikaza početnih zahtjeva i osnovnog dijagrama asistentica je zatražila kraće funkcijske zahtjeve i razrađenije dijagrame obrazaca uporabe. | Povezane zahtjeve spojiti, prijedloge niskog prioriteta ukloniti (50 → 20), opise oblikovati kao „Sustav omogućuje …” i razraditi dijagrame (PR #22, PR #23). |
 | Iteracija 1 (M1, 19. 11. 2026., 7. tjedan) | Asistentica je tražila da opisi funkcijskih zahtjeva navode aktere, da opisi nefunkcijskih zahtjeva budu konkretni i mjerljivi te da NF-05 (dvostruka rezervacija) nije svojstvo kvalitete. U naknadnoj pisanoj povratnoj informaciji zatražila je da NF-03 izrazi sigurnost plaćanja, da dijagram obrazaca uporabe prikaže odnos nakon UC-06 i da se uklone preostale upute iz predloška. | U opise F-001 – F-020 dodani akteri, NF-ovi preoblikovani, NF-05 uklonjen te dodani NF-07 i NF-08 (PR #40). Obrasci uporabe numerirani i specificirani (PR #41). NF-03 preoblikovan, dodan odnos UC-06 → UC-13 i uklonjene upute iz predloška (PR #42). |
 | Demo 2 | na čekanju | na čekanju |
 | Završni pregled | na čekanju | na čekanju |
-
----
-
->**Završna provjera:** Zahtjevi su aktualni, provjerljivi i povezani. Svaki važan zahtjev moguće je pratiti od njegova opisa i ponašanja preko mjesta realizacije u sustavu do odgovarajućeg ispitivanja ili druge provjere. Poveznice koriste stvarne identifikatore i nazive iz projektne dokumentacije.
-

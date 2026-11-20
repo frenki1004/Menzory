@@ -1,12 +1,8 @@
 # 6. Postavljanje, instalacija i konfiguracija
 
-**Cilj:** Detaljno dokumentirati topologiju izvođenja, postupak lokalne instalacije i konfiguracije iz izvornog koda te način javnog postavljanja i administracije sustava **SpasiZalogaj**. [README](../README.md) navodi javnu adresu i sažeti postupak lokalnog pokretanja; ova stranica donosi potpun inženjerski postupak koji osigurava točnu ponovljivost na drugom računalu.
-
 ---
 
 ## 6.1 Prikaz razmještaja
-
-**Cilj:** Prikazati okruženja izvođenja, raspodijeljene dijelove programa, spremište podataka i relevantne vanjske usluge. Njihovu komunikaciju i mrežne protokole prikazuje UML dijagram razmještaja u nastavku. Dok dijagram komponenata iz Poglavlja 4 prikazuje logičke odgovornosti, dijagram razmještaja pokazuje gdje se izvršni artefakti fizički ili virtualno izvode.
 
 **Dijagram razmještaja:** ![UML dijagram razmještaja sustava SpasiZalogaj](./assets/diagrams/6-1-spasizalogaj-deployment-DD.svg)  
 **Slika 6.1. UML dijagram razmještaja sustava SpasiZalogaj**  
@@ -39,8 +35,6 @@
 ---
 
 ## 6.2 Lokalna instalacija i konfiguracija
-
-**Cilj:** Omogućiti novom članu tima ili ocjenjivaču da iz čiste radne kopije repozitorija instalira i lokalno pokrene cijeli programski sustav, uključujući bazu podataka i domenske funkcionalnosti.
 
 ### 1. Preduvjeti i preuzimanje izvornog koda
 
@@ -160,8 +154,6 @@ Nakon pokretanja potvrdite ispravnost sustava kroz sljedeće korake:
 
 ## 6.3 Javno postavljanje i administracija
 
-**Cilj:** Dokumentirati korake za ponovljivo postavljanje cjelovitog programskog sustava na produkcijsku infrastrukturu u oblaku, uključujući bazu podataka i automatiziranu isporuku.
-
 | **Podsustav** | **Infrastruktura i izvor koda** | **Naredbe izgradnje i pokretanja** | **Konfiguracijske varijable** |
 | --- | --- | --- | --- |
 | **Fullstack aplikacija** | Vercel (regija Frankfurt / `fra1`), grana `main` | Izgradnja: `npm run build`<br>Izlaz: `.next` | `DATABASE_URL`, `AUTH_SECRET`, `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET`, `NEXTAUTH_URL` |
@@ -184,7 +176,3 @@ Projekt koristi automatizirani CI cjevovod na platformi **GitHub Actions** defin
 - **Nadzor i zapisi pogrešaka (Logs):** Ovlašteni članovi tima pristupaju poslužiteljskim zapisima u stvarnom vremenu kroz Vercel Dashboard (kartica *Logs & Analytics*). Zapisi bilježe HTTP statuse, vrijeme odziva i neobrađene iznimke.
 - **Upravljanje bazom podataka:** Stanje tablica, indeksi i podaci prate se putem Neon konzole i lokalnog alata Prisma Studio (`npx prisma studio`), koji pruža vizualno sučelje za sigurno pregledavanje podataka tijekom razvoja.
 - **Postupak ažuriranja:** Svaka izmjena prolazi kroz recenziju koda (*Pull Request*), provjeru u GitHub Actions cjevovodu te se tek nakon odobrenja spaja u `main`.
-
----
-
->**Završna provjera:** Upute za lokalno pokretanje omogućuju podizanje cjelokupnog sustava iz čiste kopije repozitorija bez neprenosivih lokalnih staza. Dijagram razmještaja prikazuje samo stvarno produkcijsko okruženje, njegove čvorove i protokole. Poveznica na javnu aplikaciju provjerena je i usklađena s `README.md`. Administracijske upute opisuju mogućnosti koje tim stvarno pruža. Nijedna datoteka dokumentacije ne sadrži stvarne pristupne podatke, privatne tokene ili lozinke.

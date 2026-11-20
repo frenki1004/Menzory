@@ -92,22 +92,3 @@ Stranice i artefakti koji nisu navedeni iznad izrađeni su bez pomoći generativ
 ### Otvoreno pitanje za asistenticu
 
 Uporabu alata umjetne inteligencije pri planiranju zadataka (GitHub Issues) i strukturiranju dokumentacije provjerit ćemo s asistenticom kako bismo bili sigurni da je u skladu s pravilima kolegija. Ovaj odjeljak ažurirat ćemo prema njezinu odgovoru.
-
-<details>
-<summary><strong>Primjer zapisa uporabe umjetne inteligencije</strong></summary>
-
-**Primjer — CrisisMap:**
-
-| Stranica ili artefakt | Vrsta pomoći | Što je alat proizveo | Što je tim zadao i promijenio | Lokacija |
-| --- | --- | --- | --- | --- |
-| 3. Obrasci uporabe, UC-002 | Izrada nacrta | Prvu inačicu glavnog i alternativnih tijekova | Tim je zadao stvarna polja obrasca i uklonio granu prijave u sustav koja u aplikaciji ne postoji | Primjer PR #31 |
-| Sekvencijski dijagram, podnošenje prijave | Izvor dijagrama | Nacrt PlantUML-a | Tim je uskladio nazive sudionika s komponentama i uklonio korak slanja obavijesti koji nije implementiran | `diagrams/report-submission.puml` (primjer) |
-
-| Problem | Kako je pronađen | Rješenje |
-| --- | --- | --- |
-| U tekstu je stajalo da se obavijesti dostavljaju unutar jedne minute | Usporedba s Ispitivanjem (5.4): dostava nikada nije ispitana | Tvrdnja je uklonjena; obavijesti su navedene pod Budućim radom |
-| Nacrt je kopirao primjer zahtjeva F-005 iz predloška kao projektni zahtjev | Usporedba s vlastitim popisom zahtjeva tima | Zamijenjeno stvarnim zahtjevom tima |
-
-**Analiza primjera:** Svaki redak navodi stranicu ili datoteku, ono što je alat generirao i ono što je tim promijenio. Pogreške su tipične za generiranu dokumentaciju: funkcionalnost koja ne postoji i tekst predloška prikazan kao činjenica o projektu. Tvrdnje poput „AI je korišten svugdje” ili „sav tekst je pregledan” nije moguće provjeriti. Ovo je nastavni scenarij, a ne opis objavljenog projekta.
-
-</details>

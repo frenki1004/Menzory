@@ -77,6 +77,19 @@ Kratak sažetak: [README – Uporaba umjetne inteligencije](../README.md#ai-usag
 | GitHub Issues #1–#17, milestones M0 i M1 | Planiranje zadataka | Prijedlog popisa zadataka prema planu rada kolegija | Fabijan je odabrao zadatke, skratio opise i dodijelio zadatke za M0; ostale zadatke preuzimaju članovi tima | [Issues](https://github.com/frenki1004/Menzory/issues) |
 | 1. Opseg projekta | Strukturiranje i jezično uređivanje | Nacrt odjeljaka 1.1 do 1.4 prema zadatku G07 | Opseg i granice uskladio je Fabijan s projektnim zadatkom i zahtjevima tima | `docs/1-Projekt.md` |
 | 3. Obrasci uporabe, UC-01 do UC-07 | Izrada nacrta | Nacrt glavnih i alternativnih tokova te izvor dijagrama | Odabir obrazaca, veza sa zahtjevima (FZ, autor Lovro) i pregled tokova: Fabijan | `docs/3-Obrasci-uporabe.md`, `docs/puml/3-1-spasizalogaj-system-UC.puml` |
+| 2. Analiza zahtjeva, A. Pregled aktivnosti grupe | Oblikovanje i jezično uređivanje | Nacrte i jezične ispravke | Sadržaj zahtjeva i evidencije: Lovro | PR #18, #21, #23, #31 |
+| Jedinična ispitivanja pravila rezervacije | Nacrt ispitnih slučajeva | Nacrt testova pravila rezervacije i otkazivanja | Odabir pravila i rubnih slučajeva: Lovro | PR #32 |
+| 3. Obrasci uporabe, 2.6 Sljedivost | Ispravci dijagrama | Izmjene PlantUML izvora | Ispravke prema povratnoj informaciji asistentice: Lovro | PR #41 |
+| 4. Arhitektura i UML dijagrami | Učenje, nacrt dokumentacije i dijagrama | Objašnjenja i nacrte | Arhitekturne odluke i usklađivanje s implementacijom: David | PR #26, #35 |
+| Korisničko sučelje (frontend) | Učenje tehnologija | Objašnjenja Tailwinda v4, shadcn/ui i Next.js App Routera | Strukturu stranica i ugovor između sučelja i poslužitelja (`src/lib/api.ts`) osmislio je Enzo | PR #33, #42 |
+| Ispitivanja | Projektiranje ispitivanja | Prijedloge ispitnih scenarija | Odabir scenarija: Enzo | – |
+| 3. Obrasci uporabe, dijagrami | Nacrt dijagrama | Nacrte dodatnih dijagrama obrazaca uporabe | Sažimanje zahtjeva i odabir obrazaca: Enzo | PR #22 |
+| 3. Obrasci uporabe, UML dijagrami | Učenje, nacrt dijagrama | Objašnjenja UML notacije i nacrte PlantUML izvora | Pojednostavljenje dijagrama i veze među obrascima prema povratnoj informaciji asistentice: Luka | PR #27 |
+| Rezervacije i provjera koda s bazom | Učenje, pomoć pri povezivanju s bazom | Objašnjenja rada s Prismom i nacrte upita | Povezivanje rezervacija i provjere koda s Prisma bazom: Luka | PR #34 |
+| Zahtjevi, dijagrami obrazaca uporabe, evidencija aktivnosti, konfiguracija baze, PDF predaje | Nacrt teksta, dijagrama i konfiguracije | Nacrte izmjena | Usklađivanje s povratnom informacijom asistentice i priprema predaje: Frane | PR #25, #27, #31; commitovi 5962d07, 8c8ee13, fd624d9 |
+| 2. Analiza zahtjeva (2.1 – 2.7) | Nacrt teksta, provjera prema uputama kolegija | Nacrte tablica i formulacija | Sadržaj i formulacije zahtjeva odabrao je Borna; svaka izmjena pregledana prije commita | PR #24, #25, #40, #43 |
+| Demonstracijski podaci (`prisma/seed.ts`) | Generiranje koda | Seed skriptu | Odabir podataka i pravila, lokalno ispitivanje: Borna | PR #36, #44 |
+| 5. Ispitivanje, skripta za PDF, uklanjanje ostataka predloška | Nacrt teksta i koda | Tekst poglavlja i ispravak skripte | Ručna ispitivanja ST-01 i ST-04 izveo je Borna; odobrio je svaku izmjenu | PR #45 – #48 |
 
 Stranice i artefakti koji nisu navedeni iznad izrađeni su bez pomoći generativne umjetne inteligencije.
 

@@ -29,6 +29,7 @@ M1_FILES = [
     "2-Analiza-zahtjeva.md",
     "3-Obrasci-uporabe.md",
     "4-Arhitektura-i-oblikovanje.md",
+    "5-Ispitivanje.md",
     "6-Postavljanje-instalacija-i-konfiguracija.md",
     "A-Pregled-aktivnosti-grupe.md",
 ]
@@ -145,6 +146,9 @@ def render_markdown_table(table_lines: List[str]) -> str:
 
 def inline_markdown(text: str) -> str:
     """Parse basic inline markdown: bold, italic, code, links."""
+    # UML stereotipi (<<include>>, <<extend>>, <<device>>) inače bi se u HTML-u
+    # protumačili kao oznake i nestali; prikazuju se kao «include».
+    text = text.replace("<<", "&laquo;").replace(">>", "&raquo;")
     text = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", text)
     text = re.sub(r"\*([^*]+)\*", r"<em>\1</em>", text)
     text = re.sub(r"`([^`]+)`", r"<code>\1</code>", text)
